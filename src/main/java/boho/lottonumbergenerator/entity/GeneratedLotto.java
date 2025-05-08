@@ -3,6 +3,8 @@ package boho.lottonumbergenerator.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,7 @@ public class GeneratedLotto {
 	@Column(name = "generated_lotto_id")
 	private Long id;
 
+	@CreationTimestamp
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
 
@@ -50,7 +53,6 @@ public class GeneratedLotto {
 
 	public static GeneratedLotto from(List<Integer> numbers) {
 		return GeneratedLotto.builder()
-			.createdAt(LocalDateTime.now())
 			.firstNumber(numbers.getFirst())
 			.secondNumber(numbers.get(1))
 			.thirdNumber(numbers.get(2))
