@@ -33,7 +33,7 @@
     <td th:text="${lotto.totalSalesAmount == 0} ? '0원' : ${#numbers.formatInteger(lotto.totalSalesAmount, 3, 'COMMA')} + '원'"></td>
     <td th:text="${lotto.firstPrizeWinnerCount} + '명'"></td>
     <td th:text="${lotto.firstPrizeAmount == 0} ? '0원' : ${#numbers.formatInteger(lotto.firstPrizeAmount, 3, 'COMMA')} + '원'"></td>
-    <td th:text="${lotto.firstPrizeTotalAmount == 0} ? '0원' : ${#numbers.formatInteger(lotto.firstPrizeTotalAmount, 3, 'COMMA')} + '원'"></td>
+    <td th:text="${lotto.totalFirstPrizeAmount == 0} ? '0원' : ${#numbers.formatInteger(lotto.totalFirstPrizeAmount, 3, 'COMMA')} + '원'"></td>
     <td>
       <span th:text="${lotto.firstNumber}"></span>,
       <span th:text="${lotto.secondNumber}"></span>,

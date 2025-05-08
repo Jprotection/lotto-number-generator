@@ -20,14 +20,14 @@ public record LottoApiResponse(
 	@JsonProperty("totSellamnt") // 총 판매 금액
 	Long totalSalesAmount,
 
-	@JsonProperty("firstPrzwnerCo") // 1등 당첨 인원 수
+	@JsonProperty("firstPrzwnerCo") // 1등 당첨 수
 	Integer firstPrizeWinnerCount,
 
-	@JsonProperty("firstWinamnt") // 1등 1인당 당첨 금액
+	@JsonProperty("firstWinamnt") // 1등 당첨 금액
 	Long firstPrizeAmount,
 
-	@JsonProperty("firstAccumamnt") // 1등 누적금
-	Long firstPrizeTotalAmount,
+	@JsonProperty("firstAccumamnt") // 1등 총 당첨 금액
+	Long totalFirstPrizeAmount,
 
 	@JsonProperty("drwtNo1") // 1번 번호
 	Integer firstNumber,
@@ -47,7 +47,7 @@ public record LottoApiResponse(
 	@JsonProperty("drwtNo6") // 6번 번호
 	Integer sixthNumber,
 
-	@JsonProperty("bnusNo") // 보너스 번호
+	@JsonProperty("bnusNo") // 2등 보너스 번호
 	Integer bonusNumber
 ) {
 }

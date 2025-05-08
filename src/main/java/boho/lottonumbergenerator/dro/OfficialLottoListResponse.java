@@ -12,7 +12,7 @@ public record OfficialLottoListResponse(
 	Long totalSalesAmount,
 	Integer firstPrizeWinnerCount,
 	Long firstPrizeAmount,
-	Long firstPrizeTotalAmount,
+	Long totalFirstPrizeAmount,
 	Integer firstNumber,
 	Integer secondNumber,
 	Integer thirdNumber,
@@ -29,7 +29,7 @@ public record OfficialLottoListResponse(
 			.totalSalesAmount(lotto.getTotalSalesAmount())
 			.firstPrizeWinnerCount(lotto.getFirstPrizeWinnerCount())
 			.firstPrizeAmount(lotto.getFirstPrizeAmount())
-			.firstPrizeTotalAmount(lotto.getFirstPrizeTotalAmount())
+			.totalFirstPrizeAmount(lotto.getTotalFirstPrizeAmount())
 			.firstNumber(lotto.getFirstNumber())
 			.secondNumber(lotto.getSecondNumber())
 			.thirdNumber(lotto.getThirdNumber())

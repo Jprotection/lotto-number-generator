@@ -30,13 +30,13 @@ public class OfficialLotto {
 	private Long totalSalesAmount; // 총 판매 금액
 
 	@Column(nullable = false)
-	private Integer firstPrizeWinnerCount; // 1등 당첨 인원 수
+	private Integer firstPrizeWinnerCount; // 1등 당첨 수
 
 	@Column(nullable = false)
-	private Long firstPrizeAmount; // 1등 1인당 당첨 금액
+	private Long firstPrizeAmount; // 1등 당첨 금액
 
 	@Column(nullable = false)
-	private Long firstPrizeTotalAmount; // 1등 누적금
+	private Long totalFirstPrizeAmount; // 1등 총 당첨 금액
 
 	@Column(nullable = false)
 	private Integer firstNumber; // 1번 번호
@@ -57,7 +57,7 @@ public class OfficialLotto {
 	private Integer sixthNumber; // 6번 번호
 
 	@Column(nullable = false)
-	private Integer bonusNumber; // 보너스 번호
+	private Integer bonusNumber; // 2등 보너스 번호
 
 	public static OfficialLotto from(LottoApiResponse response) {
 		return OfficialLotto.builder()
@@ -66,7 +66,7 @@ public class OfficialLotto {
 			.totalSalesAmount(response.totalSalesAmount())
 			.firstPrizeWinnerCount(response.firstPrizeWinnerCount())
 			.firstPrizeAmount(response.firstPrizeAmount())
-			.firstPrizeTotalAmount(response.firstPrizeTotalAmount())
+			.totalFirstPrizeAmount(response.totalFirstPrizeAmount())
 			.firstNumber(response.firstNumber())
 			.secondNumber(response.secondNumber())
 			.thirdNumber(response.thirdNumber())
