@@ -3,14 +3,17 @@ package boho.lottonumbergenerator.entity;
 import java.time.LocalDate;
 
 import boho.lottonumbergenerator.dro.LottoApiResponse;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "official_lottos")
 @Getter
 @Builder
 @NoArgsConstructor
@@ -18,49 +21,58 @@ import lombok.NoArgsConstructor;
 public class OfficialLotto {
 
 	@Id
-	private Integer drawNumber; // 회차 번호
+	private Long drawNumber; // 회차 번호
 
-	private boolean resultStatus;
-
+	@Column(nullable = false)
 	private LocalDate drawDate; // 추첨일 (yyyy-MM-dd)
 
+	@Column(nullable = false)
 	private Long totalSalesAmount; // 총 판매 금액
 
+	@Column(nullable = false)
 	private Integer firstPrizeWinnerCount; // 1등 당첨 인원 수
 
+	@Column(nullable = false)
 	private Long firstPrizeAmount; // 1등 1인당 당첨 금액
 
+	@Column(nullable = false)
 	private Long firstPrizeTotalAmount; // 1등 누적금
 
-	private Integer number1; // 1번 번호
+	@Column(nullable = false)
+	private Integer firstNumber; // 1번 번호
 
-	private Integer number2; // 2번 번호
+	@Column(nullable = false)
+	private Integer secondNumber; // 2번 번호
 
-	private Integer number3; // 3번 번호
+	@Column(nullable = false)
+	private Integer thirdNumber; // 3번 번호
 
-	private Integer number4; // 4번 번호
+	@Column(nullable = false)
+	private Integer fourthNumber; // 4번 번호
 
-	private Integer number5; // 5번 번호
+	@Column(nullable = false)
+	private Integer fifthNumber; // 5번 번호
 
-	private Integer number6; // 6번 번호
+	@Column(nullable = false)
+	private Integer sixthNumber; // 6번 번호
 
+	@Column(nullable = false)
 	private Integer bonusNumber; // 보너스 번호
 
 	public static OfficialLotto from(LottoApiResponse response) {
 		return OfficialLotto.builder()
 			.drawNumber(response.drawNumber())
-			.resultStatus(Boolean.parseBoolean(response.resultStatus()))
 			.drawDate(response.drawDate())
 			.totalSalesAmount(response.totalSalesAmount())
 			.firstPrizeWinnerCount(response.firstPrizeWinnerCount())
 			.firstPrizeAmount(response.firstPrizeAmount())
 			.firstPrizeTotalAmount(response.firstPrizeTotalAmount())
-			.number1(response.number1())
-			.number2(response.number2())
-			.number3(response.number3())
-			.number4(response.number4())
-			.number5(response.number5())
-			.number6(response.number6())
+			.firstNumber(response.firstNumber())
+			.secondNumber(response.secondNumber())
+			.thirdNumber(response.thirdNumber())
+			.fourthNumber(response.fourthNumber())
+			.fifthNumber(response.fifthNumber())
+			.sixthNumber(response.sixthNumber())
 			.bonusNumber(response.bonusNumber())
 			.build();
 	}

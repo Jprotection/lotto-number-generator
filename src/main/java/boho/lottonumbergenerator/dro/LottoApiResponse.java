@@ -9,11 +9,9 @@ import lombok.Builder;
 
 @Builder
 public record LottoApiResponse(
-	@JsonProperty("returnValue") // 요청 결과 (success / fail)
-	String resultStatus,
 
 	@JsonProperty("drwNo") // 회차 번호
-	Integer drawNumber,
+	Long drawNumber,
 
 	@JsonProperty("drwNoDate") // 추첨일 (yyyy-MM-dd)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -32,22 +30,22 @@ public record LottoApiResponse(
 	Long firstPrizeTotalAmount,
 
 	@JsonProperty("drwtNo1") // 1번 번호
-	Integer number1,
+	Integer firstNumber,
 
 	@JsonProperty("drwtNo2") // 2번 번호
-	Integer number2,
+	Integer secondNumber,
 
 	@JsonProperty("drwtNo3") // 3번 번호
-	Integer number3,
+	Integer thirdNumber,
 
 	@JsonProperty("drwtNo4") // 4번 번호
-	Integer number4,
+	Integer fourthNumber,
 
 	@JsonProperty("drwtNo5") // 5번 번호
-	Integer number5,
+	Integer fifthNumber,
 
 	@JsonProperty("drwtNo6") // 6번 번호
-	Integer number6,
+	Integer sixthNumber,
 
 	@JsonProperty("bnusNo") // 보너스 번호
 	Integer bonusNumber
