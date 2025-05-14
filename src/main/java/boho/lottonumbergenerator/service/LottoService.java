@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import boho.lottonumbergenerator.dro.LottoGenerateResponse;
@@ -51,6 +52,7 @@ public class LottoService {
 			.toList();
 	}
 
+	@Cacheable(cacheNames = "winning_lotto")
 	public List<WinningLottoListResponse> getAllWinningLotto() {
 		return generatedLottoRepository.findByCreatedAtBetween(
 				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 두 번째로 최신의 로또
