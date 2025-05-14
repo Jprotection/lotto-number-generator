@@ -9,21 +9,15 @@ import boho.lottonumbergenerator.service.LottoService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping
+@RequestMapping("/")
 @RequiredArgsConstructor
-public class LottoController {
+public class HomeController {
 
 	private final LottoService lottoService;
 
-	@GetMapping("/lotto")
-	public String generateLotto(Model model) {
-		model.addAttribute("lotto", lottoService.generateLotto());
-		return "lotto";
-	}
-
-	@GetMapping("/lottos")
-	public String getAllLotto(Model model) {
-		model.addAttribute("lotto", lottoService.getAllLotto());
-		return "lotto";
+	@GetMapping
+	public String findWinningLotto(Model model) {
+		model.addAttribute("winningLotto", lottoService.getAllWinningLotto());
+		return "home";
 	}
 }

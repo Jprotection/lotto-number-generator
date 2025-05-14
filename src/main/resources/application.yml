@@ -20,3 +20,7 @@ logging:
 
 lotto:
   cron: "0 30 21 ? * SAT" # 토요일 21:30
+  draw:
+    hour: 21
+    minute: 0
+    second: 0

@@ -3,21 +3,35 @@ package boho.lottonumbergenerator.service;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import boho.lottonumbergenerator.dro.LottoGenerateResponse;
 import boho.lottonumbergenerator.dro.LottoListResponse;
+import boho.lottonumbergenerator.dro.WinningLottoListResponse;
 import boho.lottonumbergenerator.entity.GeneratedLotto;
+import boho.lottonumbergenerator.entity.OfficialLotto;
 import boho.lottonumbergenerator.repository.GeneratedLottoRepository;
+import boho.lottonumbergenerator.repository.OfficialLottoRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class LottoService {
 
-	private final GeneratedLottoRepository generatedLottoRepository;
+	@Value("${lotto.draw.hour}")
+	private Integer drawHour;
 
-	public LottoGenerateResponse generate() {
+	@Value("${lotto.draw.minute}")
+	private Integer drawMinute;
+
+	@Value("${lotto.draw.second}")
+	private Integer drawSecond;
+
+	private final GeneratedLottoRepository generatedLottoRepository;
+	private final OfficialLottoRepository officialLottoRepository;
+
+	public LottoGenerateResponse generateLotto() {
 		List<Integer> numbers = new Random().ints()
 			.map(i -> new Random(i).nextInt(45) + 1)
 			.distinct()
@@ -37,5 +51,30 @@ public class LottoService {
 			.toList();
 	}
 
+	public List<WinningLottoListResponse> getAllWinningLotto() {
+		return generatedLottoRepository.findByCreatedAtBetween(
+				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 두 번째로 최신의 로또
+					.get(1)
+					.getDrawDate()
+					.atTime(drawHour, drawMinute, drawSecond),
+				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 가장 최신의 로또
+					.getFirst()
+					.getDrawDate()
+					.atTime(drawHour, drawMinute, drawSecond)
+			)
+			.stream()
+			.filter(generatedLotto -> isLottoWinning(
+				generatedLotto, officialLottoRepository.findTop2ByOrderByDrawDateDesc().getFirst()))
+			.map(WinningLottoListResponse::of)
+			.toList();
+	}
 
+	private boolean isLottoWinning(GeneratedLotto generatedLotto, OfficialLotto officialLotto) {
+		return (generatedLotto.getFirstNumber().equals(officialLotto.getFirstNumber()) &&
+			generatedLotto.getSecondNumber().equals(officialLotto.getSecondNumber()) &&
+			generatedLotto.getThirdNumber().equals(officialLotto.getThirdNumber()) &&
+			generatedLotto.getFourthNumber().equals(officialLotto.getFourthNumber()) &&
+			generatedLotto.getFifthNumber().equals(officialLotto.getFifthNumber()) &&
+			generatedLotto.getSixthNumber().equals(officialLotto.getSixthNumber()));
+	}
 }
