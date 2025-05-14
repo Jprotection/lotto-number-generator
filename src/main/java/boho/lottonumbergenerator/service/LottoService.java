@@ -6,6 +6,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import boho.lottonumbergenerator.dro.LottoGenerateResponse;
 import boho.lottonumbergenerator.dro.LottoListResponse;
@@ -15,7 +16,9 @@ import boho.lottonumbergenerator.entity.OfficialLotto;
 import boho.lottonumbergenerator.repository.GeneratedLottoRepository;
 import boho.lottonumbergenerator.repository.OfficialLottoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LottoService {
@@ -32,6 +35,7 @@ public class LottoService {
 	private final GeneratedLottoRepository generatedLottoRepository;
 	private final OfficialLottoRepository officialLottoRepository;
 
+	@Transactional
 	public LottoGenerateResponse generateLotto() {
 		List<Integer> numbers = new Random().ints()
 			.map(i -> new Random(i).nextInt(45) + 1)
@@ -54,6 +58,7 @@ public class LottoService {
 
 	@Cacheable(cacheNames = "winning_lotto")
 	public List<WinningLottoListResponse> getAllWinningLotto() {
+
 		return generatedLottoRepository.findByCreatedAtBetween(
 				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 두 번째로 최신의 로또
 					.get(1)

@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import boho.lottonumbergenerator.service.LottoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor

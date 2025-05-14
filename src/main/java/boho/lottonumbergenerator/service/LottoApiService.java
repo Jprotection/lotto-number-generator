@@ -5,8 +5,8 @@ import java.util.stream.IntStream;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,7 +29,7 @@ public class LottoApiService {
 	private final OfficialLottoRepository officialLottoRepository;
 
 	@EventListener(ApplicationReadyEvent.class)
-	public void getOfficialLottoInfo() {
+	public void fetchAllOfficialLotto() {
 
 		List<LottoApiResponse> responses = IntStream.iterate(1, i -> i + 1)
 			.mapToObj(this::getOfficialLottoWithApi)
@@ -51,7 +51,13 @@ public class LottoApiService {
 		log.info("{}회차까지 저장 완료", officialLottoList.size());
 	}
 
-	@Scheduled(cron = "${lotto.cron}")
+	public List<OfficialLottoListResponse> getAllOfficialLotto() {
+		return officialLottoRepository.findAll()
+			.stream()
+			.map(OfficialLottoListResponse::of)
+			.toList();
+	}
+
 	public void fetchLatestOfficialLotto() {
 
 		try {
@@ -63,13 +69,6 @@ public class LottoApiService {
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public List<OfficialLottoListResponse> getAllOfficialLotto() {
-		return officialLottoRepository.findAll()
-			.stream()
-			.map(OfficialLottoListResponse::of)
-			.toList();
 	}
 
 	private String getOfficialLottoWithApi(Number number) {
