@@ -1,5 +1,6 @@
 package boho.lottonumbergenerator.service;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
 
@@ -23,14 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class LottoService {
 
-	@Value("${lotto.draw.hour}")
-	private Integer drawHour;
-
-	@Value("${lotto.draw.minute}")
-	private Integer drawMinute;
-
-	@Value("${lotto.draw.second}")
-	private Integer drawSecond;
+	@Value("${lotto.draw.time}")
+	private LocalTime drawTime;
 
 	private final GeneratedLottoRepository generatedLottoRepository;
 	private final OfficialLottoRepository officialLottoRepository;
@@ -63,11 +58,11 @@ public class LottoService {
 				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 두 번째로 최신의 로또
 					.get(1)
 					.getDrawDate()
-					.atTime(drawHour, drawMinute, drawSecond),
+					.atTime(drawTime),
 				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 가장 최신의 로또
 					.getFirst()
 					.getDrawDate()
-					.atTime(drawHour, drawMinute, drawSecond)
+					.atTime(drawTime)
 			)
 			.stream()
 			.filter(generatedLotto -> isLottoWinning(
