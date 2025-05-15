@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,7 +29,9 @@ public class LottoApiService {
 	private final ObjectMapper objectMapper;
 	private final OfficialLottoRepository officialLottoRepository;
 
+	@Async
 	@EventListener(ApplicationReadyEvent.class)
+	@CacheEvict(cacheNames = "winning_lotto", allEntries = true)
 	public void fetchAllOfficialLotto() {
 
 		List<LottoApiResponse> responses = IntStream.iterate(1, i -> i + 1)
