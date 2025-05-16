@@ -9,4 +9,6 @@ import boho.lottonumbergenerator.entity.GeneratedLotto;
 
 public interface GeneratedLottoRepository extends JpaRepository<GeneratedLotto, Long> {
 	List<GeneratedLotto> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
+
+	List<GeneratedLotto> findByPrizeRank(Integer prizeRank);
 }

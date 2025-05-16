@@ -27,8 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class LottoService {
 
-	@Value("${lotto.draw.time}")
-	private LocalTime drawTime;
+	@Value("${lotto.purchase.cutoff-time}")
+	private LocalTime cutoffTime;
 
 	private final GeneratedLottoRepository generatedLottoRepository;
 	private final OfficialLottoRepository officialLottoRepository;
@@ -120,6 +120,7 @@ public class LottoService {
 	}
 
 	// predicate에 따라 각 등수에 당첨된 로또를 탐색
+	// consumer에 따라 각 등수에 맞게 GeneratedLotto의 prizeRank 업데이트
 	private List<WinningLottoListResponse> findWinningLotto(Predicate<GeneratedLotto> predicate,
 		Consumer<GeneratedLotto> consumer) {
 		if (!isOfficialLottoLoaded()) {
@@ -131,11 +132,11 @@ public class LottoService {
 				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 두 번째로 최신의 로또
 					.get(1)
 					.getDrawDate()
-					.atTime(drawTime),
+					.atTime(cutoffTime),
 				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 가장 최신의 로또
 					.getFirst()
 					.getDrawDate()
-					.atTime(drawTime)
+					.atTime(cutoffTime)
 			)
 			.stream()
 			.filter(predicate)

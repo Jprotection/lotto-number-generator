@@ -19,6 +19,8 @@ logging:
     org.springframework.jdbc: debug
 
 lotto:
-  cron: "0 30 21 ? * SAT" # 토요일 21:30
-  draw:
-    time: "21:00:00"
+  schedule:
+    update-time: "0 30 21 ? * SAT" # 토요일 21:30
+    delete-time: "0 0 0 1 * ?" # 매월 1일 자정
+  purchase:
+    cutoff-time: "20:00:00"
