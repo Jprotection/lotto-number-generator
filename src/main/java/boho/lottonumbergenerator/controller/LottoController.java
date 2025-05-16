@@ -23,7 +23,7 @@ public class LottoController {
 
 	@GetMapping("/lottos")
 	public String getAllLotto(Model model) {
-		model.addAttribute("lotto", lottoService.getAllLotto());
+		model.addAttribute("lotto", lottoService.getAllGeneratedLotto());
 		return "lotto";
 	}
 }

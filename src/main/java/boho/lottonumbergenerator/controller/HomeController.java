@@ -29,13 +29,25 @@ public class HomeController {
 
 		List<WinningLottoListResponse> firstPrizeLotto = lottoService.findAllFirstPrizeLotto();
 		List<WinningLottoListResponse> secondPrizeLotto = lottoService.findAllSecondPrizeLotto();
+		List<WinningLottoListResponse> thirdPrizeLotto = lottoService.findAllThirdPrizeLotto();
+		List<WinningLottoListResponse> fourthPrizeLotto = lottoService.findAllFourthPrizeLotto();
+		List<WinningLottoListResponse> fifthPrizeLotto = lottoService.findAllFifthPrizeLotto();
 
-		if (lottoService.isOfficialLottoLoaded() && firstPrizeLotto.isEmpty() && secondPrizeLotto.isEmpty()) {
+		if (lottoService.isOfficialLottoLoaded()
+			&& firstPrizeLotto.isEmpty()
+			&& secondPrizeLotto.isEmpty()
+			&& thirdPrizeLotto.isEmpty()
+			&& fourthPrizeLotto.isEmpty()
+			&& fifthPrizeLotto.isEmpty()) {
 			model.addAttribute("message", "최신 회차의 당첨자가 없습니다.");
 		}
 
 		model.addAttribute("firstPrizeLotto", firstPrizeLotto);
 		model.addAttribute("secondPrizeLotto", secondPrizeLotto);
+		model.addAttribute("thirdPrizeLotto", thirdPrizeLotto);
+		model.addAttribute("fourthPrizeLotto", fourthPrizeLotto);
+		model.addAttribute("fifthPrizeLotto", fifthPrizeLotto);
+
 		return "home";
 	}
 }

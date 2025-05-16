@@ -1,6 +1,7 @@
 package boho.lottonumbergenerator.entity;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import boho.lottonumbergenerator.dro.LottoApiResponse;
 import jakarta.persistence.Column;
@@ -75,5 +76,16 @@ public class OfficialLotto {
 			.sixthNumber(response.sixthNumber())
 			.bonusNumber(response.bonusNumber())
 			.build();
+	}
+
+	public Set<Integer> toNumberSet() {
+		return Set.of(
+			firstNumber,
+			secondNumber,
+			thirdNumber,
+			fourthNumber,
+			fifthNumber,
+			sixthNumber
+		);
 	}
 }

@@ -33,6 +33,9 @@ public class GeneratedLotto {
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
 
+	@Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
+	private Integer prizeRank = 0;
+
 	@Column(nullable = false)
 	private Integer firstNumber;
 
@@ -60,5 +63,20 @@ public class GeneratedLotto {
 			.fifthNumber(numbers.get(4))
 			.sixthNumber(numbers.get(5))
 			.build();
+	}
+
+	public List<Integer> toNumberList() {
+		return List.of(
+			firstNumber,
+			secondNumber,
+			thirdNumber,
+			fourthNumber,
+			fifthNumber,
+			sixthNumber
+		);
+	}
+
+	public void updatePrizeRank(Integer prizeRank) {
+		this.prizeRank = prizeRank;
 	}
 }
