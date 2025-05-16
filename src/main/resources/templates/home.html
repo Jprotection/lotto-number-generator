@@ -11,7 +11,8 @@
 <div>
     <p th:text="${message} ?: '최신 회차의 당첨자 목록입니다.'">최신 회차의 당첨자 목록입니다.</p>
 </div>
-<div th:if="${!#lists.isEmpty(winningLotto)}">
+<div th:if="${!#lists.isEmpty(firstPrizeLotto)}">
+    <p>1등 당첨자 목록입니다.</p>
     <table>
         <thead>
         <tr>
@@ -25,7 +26,35 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="lotto : ${winningLotto}">
+        <tr th:each="lotto : ${firstPrizeLotto}">
+            <td th:text="${lotto.createdAt}">Created At</td>
+            <td th:text="${lotto.firstNumber}">First Number</td>
+            <td th:text="${lotto.secondNumber}">Second Number</td>
+            <td th:text="${lotto.thirdNumber}">Third Number</td>
+            <td th:text="${lotto.fourthNumber}">Fourth Number</td>
+            <td th:text="${lotto.fifthNumber}">Fifth Number</td>
+            <td th:text="${lotto.sixthNumber}">Sixth Number</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:if="${!#lists.isEmpty(secondPrizeLotto)}">
+    <p>2등 당첨자 목록입니다.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Created At</th>
+            <th>First Number</th>
+            <th>Second Number</th>
+            <th>Third Number</th>
+            <th>Fourth Number</th>
+            <th>Fifth Number</th>
+            <th>Sixth Number</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="lotto : ${secondPrizeLotto}">
             <td th:text="${lotto.createdAt}">Created At</td>
             <td th:text="${lotto.firstNumber}">First Number</td>
             <td th:text="${lotto.secondNumber}">Second Number</td>

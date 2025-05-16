@@ -27,13 +27,15 @@ public class HomeController {
 			return "home";
 		}
 
-		List<WinningLottoListResponse> winningLotto = lottoService.getAllWinningLotto();
+		List<WinningLottoListResponse> firstPrizeLotto = lottoService.findAllFirstPrizeLotto();
+		List<WinningLottoListResponse> secondPrizeLotto = lottoService.findAllSecondPrizeLotto();
 
-		if (lottoService.isOfficialLottoLoaded() && winningLotto.isEmpty()) {
+		if (lottoService.isOfficialLottoLoaded() && firstPrizeLotto.isEmpty() && secondPrizeLotto.isEmpty()) {
 			model.addAttribute("message", "최신 회차의 당첨자가 없습니다.");
 		}
 
-		model.addAttribute("winningLotto", winningLotto);
+		model.addAttribute("firstPrizeLotto", firstPrizeLotto);
+		model.addAttribute("secondPrizeLotto", secondPrizeLotto);
 		return "home";
 	}
 }
