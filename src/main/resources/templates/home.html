@@ -8,8 +8,8 @@
 <body>
 <h1>Winning Lotto Numbers</h1>
 
-<div th:if="${#lists.isEmpty(winningLotto)}">
-    <p>No winning lotto numbers found.</p>
+<div>
+    <p th:text="${message} ?: '최신 회차의 당첨자 목록입니다.'">최신 회차의 당첨자 목록입니다.</p>
 </div>
 <div th:if="${!#lists.isEmpty(winningLotto)}">
     <table>

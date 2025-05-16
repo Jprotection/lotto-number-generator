@@ -4,14 +4,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 @ControllerAdvice
 public class Advice {
 
-	@ExceptionHandler(JsonProcessingException.class)
-	public String handleJsonProcessingException(JsonProcessingException e, Model model) {
-
-		return "error";
+	@ExceptionHandler(RuntimeException.class)
+	public String handleJsonProcessingException(RuntimeException e, Model model) {
+		model.addAttribute("message", e.getMessage());
+		return "error/500";
 	}
 }

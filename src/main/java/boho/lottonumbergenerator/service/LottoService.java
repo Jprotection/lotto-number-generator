@@ -54,6 +54,11 @@ public class LottoService {
 	@Cacheable(cacheNames = "winning_lotto")
 	public List<WinningLottoListResponse> getAllWinningLotto() {
 
+		if (!isOfficialLottoLoaded()) {
+			log.warn("공식 로또 데이터가 존재하지 않습니다.");
+			return List.of();
+		}
+
 		return generatedLottoRepository.findByCreatedAtBetween(
 				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 두 번째로 최신의 로또
 					.get(1)
@@ -69,6 +74,10 @@ public class LottoService {
 				generatedLotto, officialLottoRepository.findTop2ByOrderByDrawDateDesc().getFirst()))
 			.map(WinningLottoListResponse::of)
 			.toList();
+	}
+
+	public boolean isOfficialLottoLoaded() {
+		return officialLottoRepository.existsByDrawNumberIsNotNull();
 	}
 
 	private boolean isLottoWinning(GeneratedLotto generatedLotto, OfficialLotto officialLotto) {

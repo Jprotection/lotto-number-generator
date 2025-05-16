@@ -1,10 +1,13 @@
 package boho.lottonumbergenerator.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import boho.lottonumbergenerator.dro.WinningLottoListResponse;
 import boho.lottonumbergenerator.service.LottoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +22,18 @@ public class HomeController {
 
 	@GetMapping
 	public String findWinningLotto(Model model) {
-		model.addAttribute("winningLotto", lottoService.getAllWinningLotto());
+		if (!lottoService.isOfficialLottoLoaded()) {
+			model.addAttribute("message", "로또 데이터를 로딩 중입니다.");
+			return "home";
+		}
+
+		List<WinningLottoListResponse> winningLotto = lottoService.getAllWinningLotto();
+
+		if (lottoService.isOfficialLottoLoaded() && winningLotto.isEmpty()) {
+			model.addAttribute("message", "최신 회차의 당첨자가 없습니다.");
+		}
+
+		model.addAttribute("winningLotto", winningLotto);
 		return "home";
 	}
 }
