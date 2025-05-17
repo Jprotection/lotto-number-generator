@@ -1,7 +1,5 @@
 package boho.lottonumbergenerator.config.cache;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import lombok.Getter;
 
 @Getter

@@ -2,7 +2,7 @@ package boho.lottonumbergenerator.dro;
 
 import java.time.LocalDate;
 
-import boho.lottonumbergenerator.entity.OfficialLotto;
+import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
 import lombok.Builder;
 
 @Builder

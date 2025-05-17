@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.entity;
+package boho.lottonumbergenerator.entity.lotto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,7 +31,7 @@ public class GeneratedLotto extends BaseLottoEntity {
 	private Long id;
 
 	@CreationTimestamp
-	@Column(nullable = false, columnDefinition = "TIMESTAMP(6)")
+	@Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP(6)")
 	private LocalDateTime createdAt;
 
 	@Builder.Default

@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.entity;
+package boho.lottonumbergenerator.entity.lotto;
 
 import java.time.LocalDate;
 import java.util.Set;

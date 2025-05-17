@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.entity;
+package boho.lottonumbergenerator.entity.lotto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

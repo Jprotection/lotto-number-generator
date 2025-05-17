@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import boho.lottonumbergenerator.dro.LottoApiResponse;
 import boho.lottonumbergenerator.dro.OfficialLottoListResponse;
-import boho.lottonumbergenerator.entity.OfficialLotto;
+import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
 import boho.lottonumbergenerator.repository.OfficialLottoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
