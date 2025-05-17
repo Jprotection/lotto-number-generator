@@ -30,9 +30,10 @@ public class GeneratedLotto {
 	private Long id;
 
 	@CreationTimestamp
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "TIMESTAMP(6)")
 	private LocalDateTime createdAt;
 
+	@Builder.Default
 	@Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
 	private Integer prizeRank = 0;
 

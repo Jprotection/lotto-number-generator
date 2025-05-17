@@ -24,3 +24,24 @@ lotto:
     delete-time: "0 0 0 1 * ?" # 매월 1일 자정
   purchase:
     cutoff-time: "20:00:00"
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(PvJDzo6ZcjV/V3CU4IWo0cjj+08778NPWIsgCZepI8pzUpw6uqOI3m/WdllZiPKxoKwR61R1fgQ6/sGGtRtRa8/IXR9HSNiHHQsVfLEIqg9ZZnqnMU9+6RdUFo6F+MKWQmBz++E89NA=)
+    username: ENC(cFNJIUUsYnyT4axw8Pm6pdMhBGXOTpZH)
+    password: ENC(5EI1GOI/OdcBq5m+1ughvkfUMQ6LpIZx)
+
+  jpa:
+    # 이 설정 안하면 spring Error executing DDL "alter table faq drop foreign key if exists" 오류 발생
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
