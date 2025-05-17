@@ -15,14 +15,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "generated_lottos")
 @Getter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GeneratedLotto {
+public class GeneratedLotto extends BaseLottoEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,24 +37,6 @@ public class GeneratedLotto {
 	@Builder.Default
 	@Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
 	private Integer prizeRank = 0;
-
-	@Column(nullable = false)
-	private Integer firstNumber;
-
-	@Column(nullable = false)
-	private Integer secondNumber;
-
-	@Column(nullable = false)
-	private Integer thirdNumber;
-
-	@Column(nullable = false)
-	private Integer fourthNumber;
-
-	@Column(nullable = false)
-	private Integer fifthNumber;
-
-	@Column(nullable = false)
-	private Integer sixthNumber;
 
 	public static GeneratedLotto from(List<Integer> numbers) {
 		return GeneratedLotto.builder()

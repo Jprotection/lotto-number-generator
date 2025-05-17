@@ -9,17 +9,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "official_lottos")
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OfficialLotto {
+public class OfficialLotto extends BaseLottoEntity {
 
 	@Id
 	private Long drawNumber; // 회차 번호
@@ -38,24 +38,6 @@ public class OfficialLotto {
 
 	@Column(nullable = false)
 	private Long totalFirstPrizeAmount; // 1등 총 당첨 금액
-
-	@Column(nullable = false)
-	private Integer firstNumber; // 1번 번호
-
-	@Column(nullable = false)
-	private Integer secondNumber; // 2번 번호
-
-	@Column(nullable = false)
-	private Integer thirdNumber; // 3번 번호
-
-	@Column(nullable = false)
-	private Integer fourthNumber; // 4번 번호
-
-	@Column(nullable = false)
-	private Integer fifthNumber; // 5번 번호
-
-	@Column(nullable = false)
-	private Integer sixthNumber; // 6번 번호
 
 	@Column(nullable = false)
 	private Integer bonusNumber; // 2등 보너스 번호
