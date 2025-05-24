@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,9 +31,14 @@ public class LottoApiService {
 	private final OfficialLottoRepository officialLottoRepository;
 
 	@Async
+	@Transactional
 	@EventListener(ApplicationReadyEvent.class)
 	@CacheEvict(cacheNames = "winning_lotto", allEntries = true)
 	public void fetchAllOfficialLotto() {
+
+		if (officialLottoRepository.existsByDrawNumberIsNotNull()) {
+			return;
+		}
 
 		List<LottoApiResponse> responses = IntStream.iterate(1, i -> i + 1)
 			.mapToObj(this::getOfficialLottoWithApi)
@@ -61,6 +67,7 @@ public class LottoApiService {
 			.toList();
 	}
 
+	@Transactional
 	public void fetchLatestOfficialLotto() {
 
 		try {
