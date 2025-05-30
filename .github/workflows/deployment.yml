@@ -38,7 +38,7 @@ jobs:
         run: docker build -t lotto-number-generator-prod .
 
       - name: Docker 이미지에 Tag 붙이기
-        run: docker tag instagram-server ${{ steps.login-ecr.outputs.registry }}/lotto-number-generator-prod:latest
+        run: docker tag lotto-number-generator-prod:latest ${{ steps.login-ecr.outputs.registry }}/lotto-number-generator-prod:latest
 
       - name: ECR에 Docker 이미지 Push하기
         run: docker push ${{ steps.login-ecr.outputs.registry }}/lotto-number-generator-prod:latest
