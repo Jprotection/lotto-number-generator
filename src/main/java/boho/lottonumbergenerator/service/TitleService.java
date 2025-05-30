@@ -23,7 +23,7 @@ public class TitleService {
 
 		if (!titleRepository.existsByIdIsNotNull()) {
 			titleRepository.save(new Title("로또 탐구자"));
-			log.info("기본 칭호 추가: 로또 탐구자");
+			log.info("Default title added: 로또 탐구자");
 		}
 	}
 }

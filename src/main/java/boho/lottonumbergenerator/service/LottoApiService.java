@@ -37,6 +37,7 @@ public class LottoApiService {
 	public void fetchAllOfficialLotto() {
 
 		if (officialLottoRepository.existsByDrawNumberIsNotNull()) {
+			log.info("Official lotto results already exist. Skipping initialization.");
 			return;
 		}
 
@@ -57,7 +58,7 @@ public class LottoApiService {
 			.toList();
 
 		officialLottoRepository.saveAll(officialLottoList);
-		log.info("{}회차까지 저장 완료", officialLottoList.size());
+		log.info("Official lotto results saved up to draw number {}", officialLottoList.size());
 	}
 
 	public List<OfficialLottoListResponse> getAllOfficialLotto() {
