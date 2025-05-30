@@ -38,3 +38,8 @@ out/
 
 ### log file ###
 log
+
+### docker compose ###
+compose.yml
+.env
+mysql_data
