@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  lotto-number-generator deploy:
+  lotto-number-generator-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Github Repository 불러오기
