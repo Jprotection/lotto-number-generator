@@ -25,5 +25,9 @@ public class TitleService {
 			titleRepository.save(new Title("로또 탐구자"));
 			log.info("Default title added: 로또 탐구자");
 		}
+
+		log.info("Title list: {}", titleRepository.findAll().stream()
+			.map(Title::getName)
+			.toList());
 	}
 }
