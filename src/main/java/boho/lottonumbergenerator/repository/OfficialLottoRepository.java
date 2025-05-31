@@ -9,5 +9,7 @@ import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
 public interface OfficialLottoRepository extends JpaRepository<OfficialLotto, Long> {
 	List<OfficialLotto> findTop2ByOrderByDrawDateDesc();
 
+	OfficialLotto findTopByOrderByDrawDateDesc();
+
 	boolean existsByDrawNumberIsNotNull();
 }

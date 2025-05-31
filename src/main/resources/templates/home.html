@@ -6,6 +6,12 @@
     <title>Winning Lotto</title>
 </head>
 <body>
+<div th:if="${latestLotto}">
+    <h1 th:text="|${latestLotto.drawDate} ${latestLotto.drawNumber}회차 결과|"></h1>
+    <span th:text="|${latestLotto.firstNumber} ${latestLotto.secondNumber} ${latestLotto.thirdNumber}
+    ${latestLotto.fourthNumber} ${latestLotto.fifthNumber} ${latestLotto.sixthNumber} + ${latestLotto.bonusNumber}|"></span>
+</div>
+
 <h1>Winning Lotto Numbers</h1>
 
 <div>
@@ -151,5 +157,204 @@
     </table>
 </div>
 
+<form th:action="@{/lotto}" method="post">
+    <fieldset>
+        <legend>포함할 번호 (최대 5개)</legend>
+        <div>
+            <div>
+                <label for="firstIncludeNumber">포함할 번호 1</label>
+                <select id="firstIncludeNumber" name="firstIncludeNumber" class="include-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="secondIncludeNumber">포함할 번호 2</label>
+                <select id="secondIncludeNumber" name="secondIncludeNumber" class="include-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="thirdIncludeNumber">포함할 번호 3</label>
+                <select id="thirdIncludeNumber" name="thirdIncludeNumber" class="include-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="fourthIncludeNumber">포함할 번호 4</label>
+                <select id="fourthIncludeNumber" name="fourthIncludeNumber" class="include-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="fifthIncludeNumber">포함할 번호 5</label>
+                <select id="fifthIncludeNumber" name="fifthIncludeNumber" class="include-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>제외할 번호 (최대 10개)</legend>
+        <div>
+            <div>
+                <label for="firstExcludeNumber">제외할 번호 1</label>
+                <select id="firstExcludeNumber" name="firstExcludeNumber" class="exclude-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="secondExcludeNumber">제외할 번호 2</label>
+                <select id="secondExcludeNumber" name="secondExcludeNumber" class="exclude-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="thirdExcludeNumber">제외할 번호 3</label>
+                <select id="thirdExcludeNumber" name="thirdExcludeNumber" class="exclude-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="fourthExcludeNumber">제외할 번호 4</label>
+                <select id="fourthExcludeNumber" name="fourthExcludeNumber" class="exclude-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="fifthExcludeNumber">제외할 번호 5</label>
+                <select id="fifthExcludeNumber" name="fifthExcludeNumber" class="exclude-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="sixthExcludeNumber">제외할 번호 6</label>
+                <select id="sixthExcludeNumber" name="sixthExcludeNumber" class="exclude-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="seventhExcludeNumber">제외할 번호 7</label>
+                <select id="seventhExcludeNumber" name="seventhExcludeNumber" class="exclude-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="eighthExcludeNumber">제외할 번호 8</label>
+                <select id="eighthExcludeNumber" name="eighthExcludeNumber" class="exclude-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="ninthExcludeNumber">제외할 번호 9</label>
+                <select id="ninthExcludeNumber" name="ninthExcludeNumber" class="exclude-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="tenthExcludeNumber">제외할 번호 10</label>
+                <select id="tenthExcludeNumber" name="tenthExcludeNumber" class="exclude-number">
+                    <option value="">선택 안함</option>
+                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </div>
+        </div>
+    </fieldset>
+
+    <button type="submit">로또 번호 생성</button>
+</form>
+
+<script>
+    function updateExcludeOptions() {
+        const includeSelects = document.querySelectorAll('.include-number');
+        const excludeSelects = document.querySelectorAll('.exclude-number');
+
+        // 포함된 값들 수집 (선택된 값만)
+        const includedValues = Array.from(includeSelects)
+            .map(select => select.value)
+            .filter(val => val !== ""); // 빈 값은 제외
+
+        excludeSelects.forEach(select => {
+            const currentValue = select.value;
+
+            // 모든 옵션 초기화
+            Array.from(select.options).forEach(option => {
+                option.disabled = false; // 일단 모두 활성화
+                if (includedValues.includes(option.value) && option.value !== "") {
+                    option.disabled = true; // 포함된 번호는 비활성화
+                }
+            });
+
+            // 선택된 값이 비활성화되면 초기화
+            if (includedValues.includes(currentValue)) {
+                select.value = "";
+            }
+        });
+    }
+
+    // 모든 포함 select에 이벤트 리스너 추가
+    document.querySelectorAll('.include-number').forEach(select => {
+        select.addEventListener('change', updateExcludeOptions);
+    });
+</script>
 </body>
 </html>

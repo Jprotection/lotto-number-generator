@@ -6,14 +6,19 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import boho.lottonumbergenerator.dro.ExcludeNumberRequest;
+import boho.lottonumbergenerator.dro.IncludeNumberRequest;
 import boho.lottonumbergenerator.dro.LottoGenerateResponse;
 import boho.lottonumbergenerator.dro.LottoListResponse;
+import boho.lottonumbergenerator.dro.OfficialLottoResponse;
 import boho.lottonumbergenerator.dro.WinningLottoListResponse;
 import boho.lottonumbergenerator.entity.lotto.GeneratedLotto;
 import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
@@ -35,17 +40,33 @@ public class LottoService {
 
 	// 6개의 번호로 된 랜덤 로또 조합 생성
 	@Transactional
-	public LottoGenerateResponse generateLotto() {
-		List<Integer> numbers = new Random().ints()
+	public LottoGenerateResponse generateLotto(
+		IncludeNumberRequest includeNumberRequest, ExcludeNumberRequest excludeNumberRequest) {
+
+		Set<Integer> includeNumberSet = includeNumberRequest.toIncludeNumberSet();
+		Set<Integer> excludeNumberSet = excludeNumberRequest.toExcludeNumberSet();
+
+		Set<Integer> generatedNumbers = new Random().ints()
 			.map(i -> new Random(i).nextInt(45) + 1)
+			.filter(i -> !excludeNumberSet.contains(i))
+			.filter(i -> !includeNumberSet.contains(i))
 			.distinct()
-			.limit(6)
-			.sorted()
+			.limit(6 - includeNumberSet.size())
 			.boxed()
+			.collect(Collectors.toSet());
+
+		List<Integer> numbers = Stream.concat(
+				includeNumberSet.stream(),
+				generatedNumbers.stream()
+			)
+			.sorted()
 			.toList();
 
 		GeneratedLotto generatedLotto = GeneratedLotto.from(numbers);
-		log.info("New lotto numbers generated: {}", generatedLotto.toNumberList());
+		log.info("New lotto numbers generated: {} | Include numbers: {} | Exclude numbers: {}",
+			generatedLotto.toNumberList(),
+			includeNumberRequest.toIncludeNumberList(),
+			excludeNumberRequest.toExcludeNumberList());
 
 		return LottoGenerateResponse.of(generatedLottoRepository.save(generatedLotto));
 	}
@@ -118,6 +139,11 @@ public class LottoService {
 
 	public boolean isOfficialLottoLoaded() {
 		return officialLottoRepository.existsByDrawNumberIsNotNull();
+	}
+
+	@Cacheable(cacheNames = "winning_lotto", key = "#root.methodName")
+	public OfficialLottoResponse findLatestOfficialLotto() {
+		return OfficialLottoResponse.of(officialLottoRepository.findTopByOrderByDrawDateDesc()) ;
 	}
 
 	// predicate에 따라 각 등수에 당첨된 로또를 탐색
