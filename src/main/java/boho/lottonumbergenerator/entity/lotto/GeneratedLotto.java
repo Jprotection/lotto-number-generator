@@ -11,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,6 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "generated_lottos")
 @Getter
 @SuperBuilder
-@AllArgsConstructor
 @NoArgsConstructor
 public class GeneratedLotto extends BaseLottoEntity {
 
@@ -32,7 +30,7 @@ public class GeneratedLotto extends BaseLottoEntity {
 
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP(6)")
-	private LocalDateTime createdAt;
+	private LocalDateTime createDate;
 
 	@Builder.Default
 	@Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")

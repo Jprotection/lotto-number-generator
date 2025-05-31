@@ -1,5 +1,5 @@
 -- H2
-INSERT INTO generated_lottos (created_at, first_number, second_number, third_number, fourth_number, fifth_number, sixth_number)
+INSERT INTO generated_lottos (create_date, first_number, second_number, third_number, fourth_number, fifth_number, sixth_number)
 VALUES
     (DATEADD(DAY, -9, CURRENT_TIMESTAMP), 3, 6, 7, 11, 12, 17),
     (DATEADD(DAY, -9, CURRENT_TIMESTAMP), 3, 6, 7, 11, 12, 19),
@@ -49,7 +49,7 @@ VALUES
 
 
 -- Mysql
-INSERT INTO generated_lottos (created_at, first_number, second_number, third_number, fourth_number, fifth_number, sixth_number)
+INSERT INTO generated_lottos (create_date, first_number, second_number, third_number, fourth_number, fifth_number, sixth_number)
 VALUES
     (DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 9 DAY), 3, 6, 7, 11, 12, 17),
     (DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 9 DAY), 3, 6, 7, 11, 12, 19),

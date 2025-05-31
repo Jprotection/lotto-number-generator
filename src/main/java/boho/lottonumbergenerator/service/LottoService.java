@@ -45,6 +45,7 @@ public class LottoService {
 			.toList();
 
 		GeneratedLotto generatedLotto = GeneratedLotto.from(numbers);
+		log.info("New lotto numbers generated: {}", generatedLotto.toNumberList());
 
 		return LottoGenerateResponse.of(generatedLottoRepository.save(generatedLotto));
 	}
@@ -128,7 +129,7 @@ public class LottoService {
 			return List.of();
 		}
 
-		return generatedLottoRepository.findByCreatedAtBetween(
+		return generatedLottoRepository.findByCreateDateBetween(
 				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 두 번째로 최신의 로또
 					.get(1)
 					.getDrawDate()

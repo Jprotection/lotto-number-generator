@@ -10,31 +10,30 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "members_and_titles")
+@Table(name = "posts")
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
-public class MemberTitle {
+public class Post extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "member_and_title_id")
+	@Column(name = "post_id")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", nullable = false,
-		foreignKey = @ForeignKey(name = "fk-members_and_titles-members"))
+		foreignKey = @ForeignKey(name = "fk-posts-members"))
 	private Member member;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "title_id", nullable = false,
-		foreignKey = @ForeignKey(name = "fk-members_and_titles-titles"))
-	private Title title;
+	@Column(nullable = false, columnDefinition = "VARCHAR(100)")
+	private String title;
+
+	@Column(nullable = false, columnDefinition = "TEXT")
+	private String content;
 }

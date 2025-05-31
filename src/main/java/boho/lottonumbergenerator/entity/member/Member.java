@@ -52,11 +52,11 @@ public class Member {
 
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP(6)")
-	private LocalDateTime createdAt;
+	private LocalDateTime createDate;
 
 	@Column(columnDefinition = "TIMESTAMP(6)")
-	private LocalDateTime lastLoginAt;
+	private LocalDateTime lastLoginDate;
 
 	@Column(columnDefinition = "TIMESTAMP(6)")
-	private LocalDateTime withdrawnAt;
+	private LocalDateTime withdrawDate;
 }

@@ -8,7 +8,7 @@ import lombok.Builder;
 @Builder
 public record WinningLottoListResponse(
 	Long id,
-	LocalDateTime createdAt,
+	LocalDateTime createDate,
 	Integer firstNumber,
 	Integer secondNumber,
 	Integer thirdNumber,
@@ -19,7 +19,7 @@ public record WinningLottoListResponse(
 	public static WinningLottoListResponse of(GeneratedLotto generatedLotto) {
 		return WinningLottoListResponse.builder()
 			.id(generatedLotto.getId())
-			.createdAt(generatedLotto.getCreatedAt())
+			.createDate(generatedLotto.getCreateDate())
 			.firstNumber(generatedLotto.getFirstNumber())
 			.secondNumber(generatedLotto.getSecondNumber())
 			.thirdNumber(generatedLotto.getThirdNumber())
