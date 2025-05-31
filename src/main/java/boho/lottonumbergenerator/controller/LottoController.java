@@ -26,6 +26,8 @@ public class LottoController {
 		@ModelAttribute @Validated ExcludeNumberRequest excludeNumberRequest) {
 		model.addAttribute("lotto",
 			lottoService.generateLotto(includeNumberRequest, excludeNumberRequest));
+		model.addAttribute("includeList", includeNumberRequest.toIncludeNumberList());
+		model.addAttribute("excludeList", excludeNumberRequest.toExcludeNumberList());
 		return "lotto";
 	}
 

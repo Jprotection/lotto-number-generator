@@ -47,6 +47,7 @@ public class HomeController {
 		model.addAttribute("thirdPrizeLotto", thirdPrizeLotto);
 		model.addAttribute("fourthPrizeLotto", fourthPrizeLotto);
 		model.addAttribute("fifthPrizeLotto", fifthPrizeLotto);
+		model.addAttribute("latestLotto", lottoService.findLatestOfficialLotto());
 
 		return "home";
 	}

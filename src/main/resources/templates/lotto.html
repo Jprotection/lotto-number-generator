@@ -15,7 +15,7 @@
         .lotto-grid {
             display: flex;
             flex-direction: column; /* 수직 정렬 */
-            align-items: center;     /* 가운데 정렬 */
+            align-items: center; /* 가운데 정렬 */
             gap: 1.5rem;
         }
 
@@ -48,6 +48,17 @@
             font-size: 0.9rem;
             color: #666;
         }
+
+        .home-button {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -65,12 +76,25 @@
             <span class="lotto-number" th:text="${lotto.sixthNumber}">6</span>
         </div>
 
+        <div>
+            <span th:text="${includeList != null and !includeList.isEmpty() ? '포함된 숫자: [' + #strings.arrayJoin(includeList, ', ') + ']' : '포함된 숫자: 없음'}"></span>
+        </div>
+
+        <div>
+            <span th:text="${excludeList != null and !excludeList.isEmpty() ? '제외된 숫자: [' + #strings.arrayJoin(excludeList, ', ') + ']' : '제외된 숫자: 없음'}"></span>
+        </div>
+
         <div class="info">
             <p>ID: <span th:text="${lotto.id}">123</span></p>
-            <p>생성일: <span th:text="${#temporals.format(lotto.createDate, 'yyyy-MM-dd HH:mm:ss')}">2025-04-12 15:00</span>
+            <p>생성일: <span
+                    th:text="${#temporals.format(lotto.createDate, 'yyyy-MM-dd HH:mm:ss')}">2025-04-12 15:00</span>
             </p>
         </div>
     </div>
+</div>
+
+<div>
+    <a href="/" class="home-button">🏠 홈으로</a>
 </div>
 
 </body>

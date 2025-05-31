@@ -18,6 +18,7 @@ import boho.lottonumbergenerator.dro.ExcludeNumberRequest;
 import boho.lottonumbergenerator.dro.IncludeNumberRequest;
 import boho.lottonumbergenerator.dro.LottoGenerateResponse;
 import boho.lottonumbergenerator.dro.LottoListResponse;
+import boho.lottonumbergenerator.dro.OfficialLottoResponse;
 import boho.lottonumbergenerator.dro.WinningLottoListResponse;
 import boho.lottonumbergenerator.entity.lotto.GeneratedLotto;
 import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
@@ -62,7 +63,10 @@ public class LottoService {
 			.toList();
 
 		GeneratedLotto generatedLotto = GeneratedLotto.from(numbers);
-		log.info("New lotto numbers generated: {}", generatedLotto.toNumberList());
+		log.info("New lotto numbers generated: {} | Include numbers: {} | Exclude numbers: {}",
+			generatedLotto.toNumberList(),
+			includeNumberRequest.toIncludeNumberList(),
+			excludeNumberRequest.toExcludeNumberList());
 
 		return LottoGenerateResponse.of(generatedLottoRepository.save(generatedLotto));
 	}
@@ -135,6 +139,11 @@ public class LottoService {
 
 	public boolean isOfficialLottoLoaded() {
 		return officialLottoRepository.existsByDrawNumberIsNotNull();
+	}
+
+	@Cacheable(cacheNames = "winning_lotto", key = "#root.methodName")
+	public OfficialLottoResponse findLatestOfficialLotto() {
+		return OfficialLottoResponse.of(officialLottoRepository.findTopByOrderByDrawDateDesc()) ;
 	}
 
 	// predicate에 따라 각 등수에 당첨된 로또를 탐색

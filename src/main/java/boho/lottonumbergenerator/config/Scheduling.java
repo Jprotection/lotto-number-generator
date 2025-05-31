@@ -6,12 +6,14 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import boho.lottonumbergenerator.config.cache.CacheType;
 import boho.lottonumbergenerator.repository.GeneratedLottoRepository;
 import boho.lottonumbergenerator.service.LottoApiService;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @EnableScheduling
 @RequiredArgsConstructor
 public class Scheduling {

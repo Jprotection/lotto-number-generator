@@ -1,5 +1,6 @@
 package boho.lottonumbergenerator.dro;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,5 +36,12 @@ public record IncludeNumberRequest(
 			)
 			.filter(Objects::nonNull)
 			.collect(Collectors.toSet());
+	}
+
+	public List<Integer> toIncludeNumberList() {
+		return toIncludeNumberSet()
+			.stream()
+			.sorted()
+			.toList();
 	}
 }
