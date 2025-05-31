@@ -9,8 +9,8 @@
 - 언어: Java 21 LTS
 - 빌드 툴: Gradle
 - 개발
-  - Spring Framework: 5.3
-  - Spring Boot: 3.3.18
+  - Spring Framework: 6.2.5
+  - Spring Boot: 3.4.4
   - Spring Data
     - Spring Data JPA
   - JPA
