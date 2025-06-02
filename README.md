@@ -1,6 +1,7 @@
 ## 프로젝트 소개
 
 - 로또 조합 생성기
+- 배포 URL : [boholotto.store](https://boholotto.store)
 
 <br>
 
@@ -32,7 +33,7 @@
 <br>
 
 ## System Architecture
-![시스템 아키텍터 version 01](https://github.com/user-attachments/assets/dcba0a05-d0d1-4c48-8d7c-af496fadf487)
+![시스템 아키텍터 version 02 drawio](https://github.com/user-attachments/assets/bf3ea40c-eb24-4501-9efb-89a5865c0fba)
 
 <br>
 
