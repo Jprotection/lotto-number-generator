@@ -14,6 +14,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
 @EnableCaching
 @EnableScheduling
@@ -22,6 +25,8 @@ public class CacheConfig {
 	@Bean
 	public CacheManager cacheManager() {
 		List<CaffeineCache> caches = Arrays.stream(CacheType.values())
+			.peek(cacheType -> log.info("Cache name: {} | TTL: {}days | size: {}",
+				cacheType.getCacheName(), cacheType.getExpireAfterWrite(), cacheType.getMaximumSize()))
 			.map(cacheType -> new CaffeineCache(cacheType.getCacheName(),
 					Caffeine.newBuilder().recordStats()
 						.expireAfterWrite(cacheType.getExpireAfterWrite(), TimeUnit.DAYS)

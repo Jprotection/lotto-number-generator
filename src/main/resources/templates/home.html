@@ -320,6 +320,16 @@
         </div>
     </fieldset>
 
+    <div>
+        <label for="count">생성할 로또 개수</label>
+        <select id="count" name="count">
+            <option th:each="i : ${#numbers.sequence(1, 10)}"
+                    th:value="${i}"
+                    th:text="${i}">
+            </option>
+        </select>
+    </div>
+
     <button type="submit">로또 번호 생성</button>
 </form>
 

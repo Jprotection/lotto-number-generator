@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum CacheType {
 
-	WINNING_LOTTO("winning_lotto", 7, 1);
+	WINNING_LOTTO("winning_lotto", 7, 50);
 
 	private final String cacheName;
 	private final int expireAfterWrite;

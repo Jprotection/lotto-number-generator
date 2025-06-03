@@ -1,6 +1,7 @@
 package boho.lottonumbergenerator.service;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -40,35 +41,42 @@ public class LottoService {
 
 	// 6개의 번호로 된 랜덤 로또 조합 생성
 	@Transactional
-	public LottoGenerateResponse generateLotto(
-		IncludeNumberRequest includeNumberRequest, ExcludeNumberRequest excludeNumberRequest) {
+	public List<LottoGenerateResponse> generateLotto(
+		Integer count, IncludeNumberRequest includeNumberRequest, ExcludeNumberRequest excludeNumberRequest) {
 
 		Set<Integer> includeNumberSet = includeNumberRequest.toIncludeNumberSet();
 		Set<Integer> excludeNumberSet = excludeNumberRequest.toExcludeNumberSet();
 
-		Set<Integer> generatedNumbers = new Random().ints()
-			.map(i -> new Random(i).nextInt(45) + 1)
-			.filter(i -> !excludeNumberSet.contains(i))
-			.filter(i -> !includeNumberSet.contains(i))
-			.distinct()
-			.limit(6 - includeNumberSet.size())
-			.boxed()
-			.collect(Collectors.toSet());
+		List<LottoGenerateResponse> lottos = new ArrayList<>();
 
-		List<Integer> numbers = Stream.concat(
-				includeNumberSet.stream(),
-				generatedNumbers.stream()
-			)
-			.sorted()
-			.toList();
+		for (int i = 0; i < count; i++) {
+			Set<Integer> generatedNumbers = new Random().ints()
+				.map(n -> new Random(n).nextInt(45) + 1)
+				.filter(n -> !excludeNumberSet.contains(n))
+				.filter(n -> !includeNumberSet.contains(n))
+				.distinct()
+				.limit(6 - includeNumberSet.size())
+				.boxed()
+				.collect(Collectors.toSet());
 
-		GeneratedLotto generatedLotto = GeneratedLotto.from(numbers);
-		log.info("New lotto numbers generated: {} | Include numbers: {} | Exclude numbers: {}",
-			generatedLotto.toNumberList(),
-			includeNumberRequest.toIncludeNumberList(),
-			excludeNumberRequest.toExcludeNumberList());
+			List<Integer> numbers = Stream.concat(
+					includeNumberSet.stream(),
+					generatedNumbers.stream()
+				)
+				.sorted()
+				.toList();
 
-		return LottoGenerateResponse.of(generatedLottoRepository.save(generatedLotto));
+			GeneratedLotto generatedLotto = GeneratedLotto.from(numbers);
+			lottos.add(LottoGenerateResponse.of(generatedLottoRepository.save(generatedLotto)));
+
+			log.info("New lotto numbers generated: {} | ID: [{}] | Include numbers: {} | Exclude numbers: {}",
+				generatedLotto.toNumberList(),
+				generatedLotto.getId(),
+				includeNumberRequest.toIncludeNumberList(),
+				excludeNumberRequest.toExcludeNumberList());
+		}
+
+		return lottos;
 	}
 
 	public List<LottoListResponse> getAllGeneratedLotto() {

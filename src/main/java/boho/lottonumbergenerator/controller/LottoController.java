@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import boho.lottonumbergenerator.dro.ExcludeNumberRequest;
 import boho.lottonumbergenerator.dro.IncludeNumberRequest;
 import boho.lottonumbergenerator.service.LottoService;
+import jakarta.validation.constraints.Max;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -22,10 +24,11 @@ public class LottoController {
 
 	@PostMapping("/lotto")
 	public String generateLotto(Model model,
+		@RequestParam(defaultValue = "1") @Max(10) Integer count,
 		@ModelAttribute @Validated IncludeNumberRequest includeNumberRequest,
 		@ModelAttribute @Validated ExcludeNumberRequest excludeNumberRequest) {
 		model.addAttribute("lotto",
-			lottoService.generateLotto(includeNumberRequest, excludeNumberRequest));
+			lottoService.generateLotto(count, includeNumberRequest, excludeNumberRequest));
 		model.addAttribute("includeList", includeNumberRequest.toIncludeNumberList());
 		model.addAttribute("excludeList", excludeNumberRequest.toExcludeNumberList());
 		return "lotto";
