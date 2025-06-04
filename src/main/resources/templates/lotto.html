@@ -64,7 +64,7 @@
 <body>
 
 <div class="lotto-grid">
-    <div class="lotto-box" th:each="lotto : ${lotto}">
+    <div class="lotto-box" th:each="lotto : ${lotto}" th:with="includeList=${lotto.includeNumbers}, excludeList=${lotto.excludeNumbers}">
         <h1>🎲 로또 번호 생성기</h1>
 
         <div class="lotto-numbers">
@@ -95,6 +95,7 @@
 
 <div>
     <a href="/" class="home-button">🏠 홈으로</a>
+    <a href="/lottos" class="home-button">생성된 번호 모두 보기</a>
 </div>
 
 </body>

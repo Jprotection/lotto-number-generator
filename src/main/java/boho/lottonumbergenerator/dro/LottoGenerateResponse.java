@@ -1,6 +1,7 @@
 package boho.lottonumbergenerator.dro;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import boho.lottonumbergenerator.entity.lotto.GeneratedLotto;
 import lombok.Builder;
@@ -15,7 +16,9 @@ public record LottoGenerateResponse(
 	Integer thirdNumber,
 	Integer fourthNumber,
 	Integer fifthNumber,
-	Integer sixthNumber) {
+	Integer sixthNumber,
+	List<Integer> includeNumbers,
+	List<Integer> excludeNumbers) {
 
 	public static LottoGenerateResponse of(GeneratedLotto generatedLotto) {
 		return LottoGenerateResponse.builder()
@@ -27,6 +30,8 @@ public record LottoGenerateResponse(
 			.fourthNumber(generatedLotto.getFourthNumber())
 			.fifthNumber(generatedLotto.getFifthNumber())
 			.sixthNumber(generatedLotto.getSixthNumber())
+			.includeNumbers(generatedLotto.getIncludeNumbers())
+			.excludeNumbers(generatedLotto.getExcludeNumbers())
 			.build();
 	}
 }
