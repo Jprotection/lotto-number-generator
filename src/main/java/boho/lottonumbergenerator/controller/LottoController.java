@@ -27,10 +27,10 @@ public class LottoController {
 		@RequestParam(defaultValue = "1") @Max(10) Integer count,
 		@ModelAttribute @Validated IncludeNumberRequest includeNumberRequest,
 		@ModelAttribute @Validated ExcludeNumberRequest excludeNumberRequest) {
+
 		model.addAttribute("lotto",
 			lottoService.generateLotto(count, includeNumberRequest, excludeNumberRequest));
-		model.addAttribute("includeList", includeNumberRequest.toIncludeNumberList());
-		model.addAttribute("excludeList", excludeNumberRequest.toExcludeNumberList());
+
 		return "lotto";
 	}
 

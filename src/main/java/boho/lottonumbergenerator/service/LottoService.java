@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -44,36 +43,33 @@ public class LottoService {
 	public List<LottoGenerateResponse> generateLotto(
 		Integer count, IncludeNumberRequest includeNumberRequest, ExcludeNumberRequest excludeNumberRequest) {
 
-		Set<Integer> includeNumberSet = includeNumberRequest.toIncludeNumberSet();
-		Set<Integer> excludeNumberSet = excludeNumberRequest.toExcludeNumberSet();
+		List<Integer> includeNumbers = includeNumberRequest.toIncludeNumberList();
+		List<Integer> excludeNumbers = excludeNumberRequest.toExcludeNumberList();
 
 		List<LottoGenerateResponse> lottos = new ArrayList<>();
 
 		for (int i = 0; i < count; i++) {
-			Set<Integer> generatedNumbers = new Random().ints()
+			List<Integer> generatedNumbers = new Random().ints()
 				.map(n -> new Random(n).nextInt(45) + 1)
-				.filter(n -> !excludeNumberSet.contains(n))
-				.filter(n -> !includeNumberSet.contains(n))
+				.filter(n -> !excludeNumbers.contains(n))
+				.filter(n -> !includeNumbers.contains(n))
 				.distinct()
-				.limit(6 - includeNumberSet.size())
+				.limit(6 - includeNumbers.size())
 				.boxed()
-				.collect(Collectors.toSet());
+				.toList();
 
 			List<Integer> numbers = Stream.concat(
-					includeNumberSet.stream(),
+					includeNumbers.stream(),
 					generatedNumbers.stream()
 				)
 				.sorted()
 				.toList();
 
-			GeneratedLotto generatedLotto = GeneratedLotto.from(numbers);
+			GeneratedLotto generatedLotto = GeneratedLotto.from(numbers, includeNumbers, excludeNumbers);
 			lottos.add(LottoGenerateResponse.of(generatedLottoRepository.save(generatedLotto)));
 
 			log.info("New lotto numbers generated: {} | ID: [{}] | Include numbers: {} | Exclude numbers: {}",
-				generatedLotto.toNumberList(),
-				generatedLotto.getId(),
-				includeNumberRequest.toIncludeNumberList(),
-				excludeNumberRequest.toExcludeNumberList());
+				generatedLotto.toNumberList(), generatedLotto.getId(), includeNumbers, excludeNumbers);
 		}
 
 		return lottos;
@@ -151,7 +147,7 @@ public class LottoService {
 
 	@Cacheable(cacheNames = "winning_lotto", key = "#root.methodName")
 	public OfficialLottoResponse findLatestOfficialLotto() {
-		return OfficialLottoResponse.of(officialLottoRepository.findTopByOrderByDrawDateDesc()) ;
+		return OfficialLottoResponse.of(officialLottoRepository.findTopByOrderByDrawDateDesc());
 	}
 
 	// predicate에 따라 각 등수에 당첨된 로또를 탐색

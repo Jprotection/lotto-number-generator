@@ -5,11 +5,15 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,7 +40,19 @@ public class GeneratedLotto extends BaseLottoEntity {
 	@Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
 	private Integer prizeRank = 0;
 
-	public static GeneratedLotto from(List<Integer> numbers) {
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "include_numbers", joinColumns = @JoinColumn(name = "generated_lotto_id"))
+	@Column(name = "include_number")
+	private List<Integer> includeNumbers;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "exclude_numbers", joinColumns = @JoinColumn(name = "generated_lotto_id"))
+	@Column(name = "exclude_number")
+	private List<Integer> excludeNumbers;
+
+	public static GeneratedLotto from(
+		List<Integer> numbers, List<Integer> includeNumbers, List<Integer> excludeNumbers) {
+
 		return GeneratedLotto.builder()
 			.firstNumber(numbers.getFirst())
 			.secondNumber(numbers.get(1))
@@ -44,6 +60,8 @@ public class GeneratedLotto extends BaseLottoEntity {
 			.fourthNumber(numbers.get(3))
 			.fifthNumber(numbers.get(4))
 			.sixthNumber(numbers.get(5))
+			.includeNumbers(includeNumbers)
+			.excludeNumbers(excludeNumbers)
 			.build();
 	}
 
