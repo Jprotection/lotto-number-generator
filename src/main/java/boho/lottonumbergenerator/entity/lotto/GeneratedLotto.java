@@ -10,6 +10,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,12 +42,14 @@ public class GeneratedLotto extends BaseLottoEntity {
 	private Integer prizeRank = 0;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "include_numbers", joinColumns = @JoinColumn(name = "generated_lotto_id"))
+	@CollectionTable(name = "include_numbers", joinColumns = @JoinColumn(name = "generated_lotto_id"),
+		foreignKey = @ForeignKey(name = "fk-generated_lottos-include_numbers"))
 	@Column(name = "include_number")
 	private List<Integer> includeNumbers;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "exclude_numbers", joinColumns = @JoinColumn(name = "generated_lotto_id"))
+	@CollectionTable(name = "exclude_numbers", joinColumns = @JoinColumn(name = "generated_lotto_id"),
+		foreignKey = @ForeignKey(name = "fk-generated_lottos-exclude_numbers"))
 	@Column(name = "exclude_number")
 	private List<Integer> excludeNumbers;
 
