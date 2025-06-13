@@ -1,0 +1,31 @@
+.header {
+    padding: 0 40px;
+    background-color: silver;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: white;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.header__items {
+    display: inline-flex;
+    gap: 1.7em;
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 0 20px;
+        background-color: silver;
+        height: 60px;
+
+        font-size: 1em;
+    }
+}
+
+@media (min-width: 769px) {
+
+}

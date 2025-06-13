@@ -1,102 +1,47 @@
-<!-- src/main/resources/templates/lotto.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layouts/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="UTF-8">
-    <title>Lotto Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5fa;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .lotto-grid {
-            display: flex;
-            flex-direction: column; /* 수직 정렬 */
-            align-items: center; /* 가운데 정렬 */
-            gap: 1.5rem;
-        }
-
-        .lotto-box {
-            display: inline-block;
-            padding: 1.5rem;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .lotto-numbers {
-            font-size: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .lotto-number {
-            display: inline-block;
-            margin: 0.3rem;
-            padding: 0.6rem 1rem;
-            border-radius: 50%;
-            background-color: #ffc107;
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .info {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .home-button {
-            display: inline-block;
-            margin-bottom: 2rem;
-            padding: 0.5rem 1rem;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-    </style>
+    <title>로또 조합 생성</title>
+    <link rel="stylesheet" href='/css/generated-lotto.css'>
+    <link rel="stylesheet" href='/css/lotto.css'>
 </head>
 <body>
+    <section layout:fragment="content">
+        <div class="lotto__box__container">
+            <div class="lotto__box" th:each="lotto : ${lotto}" th:with="includeList=${lotto.includeNumbers}, excludeList=${lotto.excludeNumbers}">
+                <h1 class="lotto__box__title">🏆 생성된 조합 🏆</h1>
+                <div class="lotto__balls">
+                    <div class="lotto__ball _1" th:text="${lotto.firstNumber}"></div>
+                    <div class="lotto__ball _2" th:text="${lotto.secondNumber}"></div>
+                    <div class="lotto__ball _3" th:text="${lotto.thirdNumber}"></div>
+                    <div class="lotto__ball _4" th:text="${lotto.fourthNumber}"></div>
+                    <div class="lotto__ball _5" th:text="${lotto.fifthNumber}"></div>
+                    <div class="lotto__ball _6" th:text="${lotto.sixthNumber}"></div>
+                </div>
 
-<div class="lotto-grid">
-    <div class="lotto-box" th:each="lotto : ${lotto}" th:with="includeList=${lotto.includeNumbers}, excludeList=${lotto.excludeNumbers}">
-        <h1>🎲 로또 번호 생성기</h1>
+                <div class="include__exclude__container">
+                    <div class="include__exclude__title">포함된 숫자 :</div>
+                    <div class="include__exclude__title" th:if="${#lists.isEmpty(includeList)}">없음</div>
+                    <div th:each="num : ${includeList}" class="include__exclude__number__ball" th:text="${num}"></div>
+                </div>
 
-        <div class="lotto-numbers">
-            <span class="lotto-number" th:text="${lotto.firstNumber}">1</span>
-            <span class="lotto-number" th:text="${lotto.secondNumber}">2</span>
-            <span class="lotto-number" th:text="${lotto.thirdNumber}">3</span>
-            <span class="lotto-number" th:text="${lotto.fourthNumber}">4</span>
-            <span class="lotto-number" th:text="${lotto.fifthNumber}">5</span>
-            <span class="lotto-number" th:text="${lotto.sixthNumber}">6</span>
+                <div class="include__exclude__container">
+                    <div class="include__exclude__title">제외된 숫자 :</div>
+                    <div class="include__exclude__title" th:if="${#lists.isEmpty(excludeList)}">없음</div>
+                    <div th:each="num : ${excludeList}" class="include__exclude__number__ball" th:text="${num}"></div>
+                </div>
+
+                <div class="info">
+                    <p th:text="|ID : ${lotto.id}|"></p>
+                    <p th:text="|생성일 : ${#temporals.format(lotto.createDate, 'yyyy-MM-dd HH:mm:ss')}|"></p>
+                </div>
+            </div>
+
+            <div>
+                <a href="/" class="home-button">🏠 홈으로</a>
+                <!--            <a href="/lottos" class="home-button">생성된 번호 모두 보기</a>-->
+            </div>
         </div>
-
-        <div>
-            <span th:text="${includeList != null and !includeList.isEmpty() ? '포함된 숫자: [' + #strings.arrayJoin(includeList, ', ') + ']' : '포함된 숫자: 없음'}"></span>
-        </div>
-
-        <div>
-            <span th:text="${excludeList != null and !excludeList.isEmpty() ? '제외된 숫자: [' + #strings.arrayJoin(excludeList, ', ') + ']' : '제외된 숫자: 없음'}"></span>
-        </div>
-
-        <div class="info">
-            <p>ID: <span th:text="${lotto.id}">123</span></p>
-            <p>생성일: <span
-                    th:text="${#temporals.format(lotto.createDate, 'yyyy-MM-dd HH:mm:ss')}">2025-04-12 15:00</span>
-            </p>
-        </div>
-    </div>
-</div>
-
-<div>
-    <a href="/" class="home-button">🏠 홈으로</a>
-    <a href="/lottos" class="home-button">생성된 번호 모두 보기</a>
-</div>
-
+    </section>
 </body>
 </html>

@@ -1,375 +1,308 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html layout:decorate="~{layouts/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>보호의 로또 생성기</title>
-
-    <meta property="og:title" content="보호의 로또 생성기">
-    <meta property="og:description" content="로또 당첨 어렵지 않습니다! 당첨 확률을 높여주는 최신 알고리즘 적용!!(예정)">
-    <meta property="og:image" content="https://boholotto.store/open-graph-image.png">
+    <link rel="stylesheet" href='/css/lotto.css'>
+    <link rel="stylesheet" href='/css/lotto-generator.css'>
 </head>
 <body>
-<div th:if="${latestLotto}">
-    <h1 th:text="|${latestLotto.drawDate} ${latestLotto.drawNumber}회차 결과|"></h1>
-    <span th:text="|${latestLotto.firstNumber} ${latestLotto.secondNumber} ${latestLotto.thirdNumber}
-    ${latestLotto.fourthNumber} ${latestLotto.fifthNumber} ${latestLotto.sixthNumber} + ${latestLotto.bonusNumber}|"></span>
-</div>
+    <section layout:fragment="content">
+        <div class="lotto">
+            <div th:if="${latestLotto}">
+                <h1 th:text="|${latestLotto.drawDate} ${latestLotto.drawNumber}회차 결과|"></h1>
+                <div class="lotto__balls">
+                    <!-- 일반 번호 6개 -->
+                    <div class="lotto__ball _1" th:text="${latestLotto.firstNumber}"></div>
+                    <div class="lotto__ball _2" th:text="${latestLotto.secondNumber}"></div>
+                    <div class="lotto__ball _3" th:text="${latestLotto.thirdNumber}"></div>
+                    <div class="lotto__ball _4" th:text="${latestLotto.fourthNumber}"></div>
+                    <div class="lotto__ball _5" th:text="${latestLotto.fifthNumber}"></div>
+                    <div class="lotto__ball _6" th:text="${latestLotto.sixthNumber}"></div>
 
-<h1>Winning Lotto Numbers</h1>
+                    <p class="plus"> + </p>
 
-<div>
-    <p th:text="${message} ?: '최신 회차의 당첨자 목록입니다.'">최신 회차의 당첨자 목록입니다.</p>
-</div>
-<div th:if="${!#lists.isEmpty(firstPrizeLotto)}">
-    <p>1등 당첨자 목록입니다.</p>
-    <table>
-        <thead>
-        <tr>
-            <th>Created At</th>
-            <th>First Number</th>
-            <th>Second Number</th>
-            <th>Third Number</th>
-            <th>Fourth Number</th>
-            <th>Fifth Number</th>
-            <th>Sixth Number</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="lotto : ${firstPrizeLotto}">
-            <td th:text="${lotto.createDate}">Created At</td>
-            <td th:text="${lotto.firstNumber}">First Number</td>
-            <td th:text="${lotto.secondNumber}">Second Number</td>
-            <td th:text="${lotto.thirdNumber}">Third Number</td>
-            <td th:text="${lotto.fourthNumber}">Fourth Number</td>
-            <td th:text="${lotto.fifthNumber}">Fifth Number</td>
-            <td th:text="${lotto.sixthNumber}">Sixth Number</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+                    <!-- 보너스 번호 -->
+                    <div class="lotto__ball _bonus" th:text="${latestLotto.bonusNumber}"></div>
+                </div>
+            </div>
 
-<div th:if="${!#lists.isEmpty(secondPrizeLotto)}">
-    <p>2등 당첨자 목록입니다.</p>
-    <table>
-        <thead>
-        <tr>
-            <th>Created At</th>
-            <th>First Number</th>
-            <th>Second Number</th>
-            <th>Third Number</th>
-            <th>Fourth Number</th>
-            <th>Fifth Number</th>
-            <th>Sixth Number</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="lotto : ${secondPrizeLotto}">
-            <td th:text="${lotto.createDate}">Created At</td>
-            <td th:text="${lotto.firstNumber}">First Number</td>
-            <td th:text="${lotto.secondNumber}">Second Number</td>
-            <td th:text="${lotto.thirdNumber}">Third Number</td>
-            <td th:text="${lotto.fourthNumber}">Fourth Number</td>
-            <td th:text="${lotto.fifthNumber}">Fifth Number</td>
-            <td th:text="${lotto.sixthNumber}">Sixth Number</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+            <div>
+                <h1 th:text="${message} ?: '최신 회차의 당첨 조합 목록'">최신 회차의 당첨 조합 목록</h1>
+            </div>
 
-<div th:if="${!#lists.isEmpty(thirdPrizeLotto)}">
-    <p>3등 당첨자 목록입니다.</p>
-    <table>
-        <thead>
-        <tr>
-            <th>Created At</th>
-            <th>First Number</th>
-            <th>Second Number</th>
-            <th>Third Number</th>
-            <th>Fourth Number</th>
-            <th>Fifth Number</th>
-            <th>Sixth Number</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="lotto : ${thirdPrizeLotto}">
-            <td th:text="${lotto.createDate}">Created At</td>
-            <td th:text="${lotto.firstNumber}">First Number</td>
-            <td th:text="${lotto.secondNumber}">Second Number</td>
-            <td th:text="${lotto.thirdNumber}">Third Number</td>
-            <td th:text="${lotto.fourthNumber}">Fourth Number</td>
-            <td th:text="${lotto.fifthNumber}">Fifth Number</td>
-            <td th:text="${lotto.sixthNumber}">Sixth Number</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+            <div th:if="${!#lists.isEmpty(firstPrizeLotto)}">
+                <h2>1등 당첨</h2>
+                <div class="lotto__balls" th:each="lotto : ${firstPrizeLotto}">
+                    <div class="lotto__ball _1" th:text="${lotto.firstNumber}"></div>
+                    <div class="lotto__ball _2" th:text="${lotto.secondNumber}"></div>
+                    <div class="lotto__ball _3" th:text="${lotto.thirdNumber}"></div>
+                    <div class="lotto__ball _4" th:text="${lotto.fourthNumber}"></div>
+                    <div class="lotto__ball _5" th:text="${lotto.fifthNumber}"></div>
+                    <div class="lotto__ball _6" th:text="${lotto.sixthNumber}"></div>
+                </div>
+            </div>
 
-<div th:if="${!#lists.isEmpty(fourthPrizeLotto)}">
-    <p>4등 당첨자 목록입니다.</p>
-    <table>
-        <thead>
-        <tr>
-            <th>Created At</th>
-            <th>First Number</th>
-            <th>Second Number</th>
-            <th>Third Number</th>
-            <th>Fourth Number</th>
-            <th>Fifth Number</th>
-            <th>Sixth Number</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="lotto : ${fourthPrizeLotto}">
-            <td th:text="${lotto.createDate}">Created At</td>
-            <td th:text="${lotto.firstNumber}">First Number</td>
-            <td th:text="${lotto.secondNumber}">Second Number</td>
-            <td th:text="${lotto.thirdNumber}">Third Number</td>
-            <td th:text="${lotto.fourthNumber}">Fourth Number</td>
-            <td th:text="${lotto.fifthNumber}">Fifth Number</td>
-            <td th:text="${lotto.sixthNumber}">Sixth Number</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+            <div th:if="${!#lists.isEmpty(secondPrizeLotto)}">
+                <h2>2등 당첨</h2>
+                <div class="lotto__balls" th:each="lotto : ${secondPrizeLotto}">
+                    <div class="lotto__ball _1" th:text="${lotto.firstNumber}"></div>
+                    <div class="lotto__ball _2" th:text="${lotto.secondNumber}"></div>
+                    <div class="lotto__ball _3" th:text="${lotto.thirdNumber}"></div>
+                    <div class="lotto__ball _4" th:text="${lotto.fourthNumber}"></div>
+                    <div class="lotto__ball _5" th:text="${lotto.fifthNumber}"></div>
+                    <div class="lotto__ball _6" th:text="${lotto.sixthNumber}"></div>
+                </div>
+            </div>
 
-<div th:if="${!#lists.isEmpty(fifthPrizeLotto)}">
-    <p>5등 당첨자 목록입니다.</p>
-    <table>
-        <thead>
-        <tr>
-            <th>Created At</th>
-            <th>First Number</th>
-            <th>Second Number</th>
-            <th>Third Number</th>
-            <th>Fourth Number</th>
-            <th>Fifth Number</th>
-            <th>Sixth Number</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="lotto : ${fifthPrizeLotto}">
-            <td th:text="${lotto.createDate}">Created At</td>
-            <td th:text="${lotto.firstNumber}">First Number</td>
-            <td th:text="${lotto.secondNumber}">Second Number</td>
-            <td th:text="${lotto.thirdNumber}">Third Number</td>
-            <td th:text="${lotto.fourthNumber}">Fourth Number</td>
-            <td th:text="${lotto.fifthNumber}">Fifth Number</td>
-            <td th:text="${lotto.sixthNumber}">Sixth Number</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+            <div th:if="${!#lists.isEmpty(thirdPrizeLotto)}">
+                <h2>3등 당첨</h2>
+                <div class="lotto__balls" th:each="lotto : ${thirdPrizeLotto}">
+                    <div class="lotto__ball _1" th:text="${lotto.firstNumber}"></div>
+                    <div class="lotto__ball _2" th:text="${lotto.secondNumber}"></div>
+                    <div class="lotto__ball _3" th:text="${lotto.thirdNumber}"></div>
+                    <div class="lotto__ball _4" th:text="${lotto.fourthNumber}"></div>
+                    <div class="lotto__ball _5" th:text="${lotto.fifthNumber}"></div>
+                    <div class="lotto__ball _6" th:text="${lotto.sixthNumber}"></div>
+                </div>
+            </div>
 
-<form th:action="@{/lotto}" method="post">
-    <fieldset>
-        <legend>포함할 번호 (최대 5개)</legend>
-        <div>
-            <div>
-                <label for="firstIncludeNumber">포함할 번호 1</label>
-                <select id="firstIncludeNumber" name="firstIncludeNumber" class="include-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
+            <div th:if="${!#lists.isEmpty(fourthPrizeLotto)}">
+                <h2>4등 당첨</h2>
+                <div class="lotto__balls" th:each="lotto : ${fourthPrizeLotto}">
+                    <div class="lotto__ball _1" th:text="${lotto.firstNumber}"></div>
+                    <div class="lotto__ball _2" th:text="${lotto.secondNumber}"></div>
+                    <div class="lotto__ball _3" th:text="${lotto.thirdNumber}"></div>
+                    <div class="lotto__ball _4" th:text="${lotto.fourthNumber}"></div>
+                    <div class="lotto__ball _5" th:text="${lotto.fifthNumber}"></div>
+                    <div class="lotto__ball _6" th:text="${lotto.sixthNumber}"></div>
+                </div>
             </div>
-            <div>
-                <label for="secondIncludeNumber">포함할 번호 2</label>
-                <select id="secondIncludeNumber" name="secondIncludeNumber" class="include-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="thirdIncludeNumber">포함할 번호 3</label>
-                <select id="thirdIncludeNumber" name="thirdIncludeNumber" class="include-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="fourthIncludeNumber">포함할 번호 4</label>
-                <select id="fourthIncludeNumber" name="fourthIncludeNumber" class="include-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="fifthIncludeNumber">포함할 번호 5</label>
-                <select id="fifthIncludeNumber" name="fifthIncludeNumber" class="include-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-        </div>
-    </fieldset>
 
-    <fieldset>
-        <legend>제외할 번호 (최대 10개)</legend>
-        <div>
-            <div>
-                <label for="firstExcludeNumber">제외할 번호 1</label>
-                <select id="firstExcludeNumber" name="firstExcludeNumber" class="exclude-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
+            <div th:if="${!#lists.isEmpty(fifthPrizeLotto)}">
+                <h2>5등 당첨</h2>
+                <div class="lotto__balls" th:each="lotto : ${fifthPrizeLotto}">
+                    <div class="lotto__ball _1" th:text="${lotto.firstNumber}"></div>
+                    <div class="lotto__ball _2" th:text="${lotto.secondNumber}"></div>
+                    <div class="lotto__ball _3" th:text="${lotto.thirdNumber}"></div>
+                    <div class="lotto__ball _4" th:text="${lotto.fourthNumber}"></div>
+                    <div class="lotto__ball _5" th:text="${lotto.fifthNumber}"></div>
+                    <div class="lotto__ball _6" th:text="${lotto.sixthNumber}"></div>
+                </div>
             </div>
-            <div>
-                <label for="secondExcludeNumber">제외할 번호 2</label>
-                <select id="secondExcludeNumber" name="secondExcludeNumber" class="exclude-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="thirdExcludeNumber">제외할 번호 3</label>
-                <select id="thirdExcludeNumber" name="thirdExcludeNumber" class="exclude-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="fourthExcludeNumber">제외할 번호 4</label>
-                <select id="fourthExcludeNumber" name="fourthExcludeNumber" class="exclude-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="fifthExcludeNumber">제외할 번호 5</label>
-                <select id="fifthExcludeNumber" name="fifthExcludeNumber" class="exclude-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="sixthExcludeNumber">제외할 번호 6</label>
-                <select id="sixthExcludeNumber" name="sixthExcludeNumber" class="exclude-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="seventhExcludeNumber">제외할 번호 7</label>
-                <select id="seventhExcludeNumber" name="seventhExcludeNumber" class="exclude-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="eighthExcludeNumber">제외할 번호 8</label>
-                <select id="eighthExcludeNumber" name="eighthExcludeNumber" class="exclude-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="ninthExcludeNumber">제외할 번호 9</label>
-                <select id="ninthExcludeNumber" name="ninthExcludeNumber" class="exclude-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="tenthExcludeNumber">제외할 번호 10</label>
-                <select id="tenthExcludeNumber" name="tenthExcludeNumber" class="exclude-number">
-                    <option value="">선택 안함</option>
-                    <option th:each="i : ${#numbers.sequence(1, 45)}"
-                            th:value="${i}"
-                            th:text="${i}">
-                    </option>
-                </select>
+
+            <div class="lotto__generator">
+                <div class="lotto__generator__title">조합 생성기</div>
+                <form th:action="@{/lotto}" method="post">
+                    <fieldset>
+                        <legend>포함할 번호 (최대 5개)</legend>
+                        <div class="include__set">
+                            <div>
+                                <label for="firstIncludeNumber">포함할 번호</label>
+                                <select id="firstIncludeNumber" name="firstIncludeNumber" class="include-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="secondIncludeNumber">포함할 번호</label>
+                                <select id="secondIncludeNumber" name="secondIncludeNumber" class="include-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="thirdIncludeNumber">포함할 번호</label>
+                                <select id="thirdIncludeNumber" name="thirdIncludeNumber" class="include-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="fourthIncludeNumber">포함할 번호</label>
+                                <select id="fourthIncludeNumber" name="fourthIncludeNumber" class="include-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="fifthIncludeNumber">포함할 번호</label>
+                                <select id="fifthIncludeNumber" name="fifthIncludeNumber" class="include-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>제외할 번호 (최대 10개)</legend>
+                        <div class="exclude__set">
+                            <div>
+                                <label for="firstExcludeNumber">제외할 번호</label>
+                                <select id="firstExcludeNumber" name="firstExcludeNumber" class="exclude-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="secondExcludeNumber">제외할 번호</label>
+                                <select id="secondExcludeNumber" name="secondExcludeNumber" class="exclude-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="thirdExcludeNumber">제외할 번호</label>
+                                <select id="thirdExcludeNumber" name="thirdExcludeNumber" class="exclude-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="fourthExcludeNumber">제외할 번호</label>
+                                <select id="fourthExcludeNumber" name="fourthExcludeNumber" class="exclude-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="fifthExcludeNumber">제외할 번호</label>
+                                <select id="fifthExcludeNumber" name="fifthExcludeNumber" class="exclude-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="sixthExcludeNumber">제외할 번호</label>
+                                <select id="sixthExcludeNumber" name="sixthExcludeNumber" class="exclude-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="seventhExcludeNumber">제외할 번호</label>
+                                <select id="seventhExcludeNumber" name="seventhExcludeNumber" class="exclude-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="eighthExcludeNumber">제외할 번호</label>
+                                <select id="eighthExcludeNumber" name="eighthExcludeNumber" class="exclude-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="ninthExcludeNumber">제외할 번호</label>
+                                <select id="ninthExcludeNumber" name="ninthExcludeNumber" class="exclude-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="tenthExcludeNumber">제외할 번호</label>
+                                <select id="tenthExcludeNumber" name="tenthExcludeNumber" class="exclude-number">
+                                    <option value="">선택 안함</option>
+                                    <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                            th:value="${i}"
+                                            th:text="${i}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="count__field">
+                        <label for="count">생성할 로또 조합 수</label>
+                        <select id="count" name="count">
+                            <option th:each="i : ${#numbers.sequence(2, 10)}"
+                                    th:value="${i}"
+                                    th:text="${i}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <button type="submit">로또 조합 생성</button>
+                </form>
             </div>
         </div>
-    </fieldset>
 
-    <div>
-        <label for="count">생성할 로또 개수</label>
-        <select id="count" name="count">
-            <option th:each="i : ${#numbers.sequence(1, 10)}"
-                    th:value="${i}"
-                    th:text="${i}">
-            </option>
-        </select>
-    </div>
+        <script>
+            function updateExcludeOptions() {
+                const includeSelects = document.querySelectorAll('.include-number');
+                const excludeSelects = document.querySelectorAll('.exclude-number');
 
-    <button type="submit">로또 번호 생성</button>
-</form>
+                // 포함된 값들 수집 (선택된 값만)
+                const includedValues = Array.from(includeSelects)
+                    .map(select => select.value)
+                    .filter(val => val !== ""); // 빈 값은 제외
 
-<script>
-    function updateExcludeOptions() {
-        const includeSelects = document.querySelectorAll('.include-number');
-        const excludeSelects = document.querySelectorAll('.exclude-number');
+                excludeSelects.forEach(select => {
+                    const currentValue = select.value;
 
-        // 포함된 값들 수집 (선택된 값만)
-        const includedValues = Array.from(includeSelects)
-            .map(select => select.value)
-            .filter(val => val !== ""); // 빈 값은 제외
+                    // 모든 옵션 초기화
+                    Array.from(select.options).forEach(option => {
+                        option.disabled = false; // 일단 모두 활성화
+                        if (includedValues.includes(option.value) && option.value !== "") {
+                            option.disabled = true; // 포함된 번호는 비활성화
+                        }
+                    });
 
-        excludeSelects.forEach(select => {
-            const currentValue = select.value;
-
-            // 모든 옵션 초기화
-            Array.from(select.options).forEach(option => {
-                option.disabled = false; // 일단 모두 활성화
-                if (includedValues.includes(option.value) && option.value !== "") {
-                    option.disabled = true; // 포함된 번호는 비활성화
-                }
-            });
-
-            // 선택된 값이 비활성화되면 초기화
-            if (includedValues.includes(currentValue)) {
-                select.value = "";
+                    // 선택된 값이 비활성화되면 초기화
+                    if (includedValues.includes(currentValue)) {
+                        select.value = "";
+                    }
+                });
             }
-        });
-    }
 
-    // 모든 포함 select에 이벤트 리스너 추가
-    document.querySelectorAll('.include-number').forEach(select => {
-        select.addEventListener('change', updateExcludeOptions);
-    });
-</script>
+            // 모든 포함 select에 이벤트 리스너 추가
+            document.querySelectorAll('.include-number').forEach(select => {
+                select.addEventListener('change', updateExcludeOptions);
+            });
+        </script>
+    </section>
 </body>
 </html>
