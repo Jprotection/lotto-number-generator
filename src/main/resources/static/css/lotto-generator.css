@@ -1,0 +1,108 @@
+.lotto__generator {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.lotto__generator__title {
+    font-weight: bold;
+    font-size: 1.8rem;
+    padding: 0.6em 0;
+}
+
+.lotto__generator fieldset {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 0.5rem;
+}
+
+.lotto__generator legend {
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+
+.include__set {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.exclude__set {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.lotto__generator label {
+    margin-right: 0.7rem;
+}
+
+.lotto__generator select {
+    height: 1.4rem;
+}
+
+.count__field {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+}
+
+.count__field select {
+    margin-top: 0.2rem;
+    height: 1.6rem;
+}
+
+.lotto__generator button {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-top: 0.7rem;
+}
+
+@media (max-width: 768px) {
+    .lotto__generator legend {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .lotto__generator select {
+        height: 1rem;
+    }
+
+    .lotto__generator__title {
+        padding: 0.2rem 0;
+    }
+
+    .lotto__generator fieldset {
+        margin-bottom: 0.8rem;
+    }
+
+    .count__field {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .count__field select {
+        margin-top: 0.2rem;
+        height: 1.6rem;
+    }
+
+    .lotto__generator button {
+        font-weight: bold;
+        font-size: 1.3rem;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (min-width: 769px) {
+
+}

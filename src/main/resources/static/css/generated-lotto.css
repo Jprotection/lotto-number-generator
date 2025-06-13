@@ -1,0 +1,131 @@
+.lotto__box__container {
+    padding: 2rem;
+    background-color: #1C2333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.lotto__box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.3rem;
+    width: 50vw;
+    background-color: white;
+    border-radius: 20px;
+    margin-bottom: 1.2rem;
+}
+
+.lotto__box__title {
+    color: black;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.3rem;
+}
+
+.lotto__box__container .lotto__balls {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.include__exclude__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.6rem;
+}
+
+.include__exclude__title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-right: 0.6rem;
+}
+
+.include__exclude__number__ball {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: lightpink;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px;
+    border: 2px solid #ccc;
+    transition: transform 0.2s;
+}
+
+.include__exclude__number__ball:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.info {
+    margin-top: 0.8rem;
+    font-size: 1rem;
+}
+
+.home-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .lotto__box__title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .lotto__box {
+        padding: 0.8rem;
+        width: 80vw;
+        margin-bottom: 1.2rem;
+    }
+
+    .lotto__box .lotto__balls {
+        margin-bottom: 0;
+    }
+
+    .home-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 1.4rem;
+    }
+
+    .include__exclude__container {
+        margin-bottom: 0.3rem;
+    }
+
+    .include__exclude__title {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-right: 0.4rem;
+    }
+
+    .include__exclude__number__ball {
+        width: 26px;
+        height: 26px;
+        font-size: 13px;
+    }
+
+    .info {
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 769px) {
+
+}
