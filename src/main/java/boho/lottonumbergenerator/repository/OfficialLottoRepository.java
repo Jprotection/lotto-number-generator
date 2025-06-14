@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
 
-public interface OfficialLottoRepository extends JpaRepository<OfficialLotto, Long> {
+public interface OfficialLottoRepository extends JpaRepository<OfficialLotto, Long>, OfficialLottoCustomRepository {
 	List<OfficialLotto> findTop2ByOrderByDrawDateDesc();
 
 	OfficialLotto findTopByOrderByDrawDateDesc();
