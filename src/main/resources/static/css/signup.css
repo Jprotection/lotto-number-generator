@@ -1,0 +1,12 @@
+.on__preparing {
+    display: block;
+    width: 100%;
+    height: auto; /* 비율 유지 */
+    object-fit: cover; /* 필요 시 꽉 채우기 */
+}
+
+@media (min-width: 769px) {
+    ._2, ._3 {
+        display: none;
+    }
+}

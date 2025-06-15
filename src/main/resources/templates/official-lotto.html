@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{layouts/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>공식 로또 결과</title>
+    <link rel="stylesheet" th:href="@{/css/lotto.css}">
+    <link rel="stylesheet" th:href="@{/css/official-lotto.css}">
+</head>
+<body>
+    <section layout:fragment="content">
+        <div class="official__lotto__background">
+
+            <h1 class="lotto__search__title">공식 로또 결과 검색</h1>
+            <div class="lotto__search__container">
+                <form th:action="@{/official}" method="get" th:object="${searchRequest}" id="lotto__search__form">
+                    <div class="lotto__search__draw__number">
+                        <div class="input__group">
+                            <label for="startDrawNumber">추첨 회차 시작</label>
+                            <input type="number" id="startDrawNumber" min="1" th:max="${latestLotto.drawNumber}" th:field="*{startDrawNumber}">
+                        </div>
+                        <span> ~ </span>
+                        <div class="input__group">
+                            <label for="endDrawNumber">추첨 회차 끝</label>
+                            <input type="number" id="endDrawNumber" min="1" th:max="${latestLotto.drawNumber}" th:field="*{endDrawNumber}">
+                        </div>
+                    </div>
+
+                    <div class="lotto__search__draw__date">
+                        <div class="input__group">
+                            <label for="startDrawDate">추첨 날짜 시작</label>
+                            <input type="date" id="startDrawDate" min="2002-12-01" th:max="${latestLotto.drawDate}" th:field="*{startDrawDate}">
+                        </div>
+                        <span> ~ </span>
+                        <div class="input__group">
+                            <label for="endDrawDate">추첨 날짜 끝</label>
+                            <input type="date" id="endDrawDate" min="2002-12-01" th:max="${latestLotto.drawDate}" th:field="*{endDrawDate}">
+                        </div>
+                    </div>
+
+                    <div class="lotto__search__numbers">
+                        <div class="select__group">
+                            <label for="firstIncludeNumber">포함할 번호 1</label>
+                            <select id="firstIncludeNumber" th:field="*{firstIncludeNumber}">
+                                <option value="">선택 안함</option>
+                                <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                        th:value="${i}"
+                                        th:text="${i}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="select__group">
+                            <label for="secondIncludeNumber">포함할 번호 2</label>
+                            <select id="secondIncludeNumber" th:field="*{secondIncludeNumber}">
+                                <option value="">선택 안함</option>
+                                <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                        th:value="${i}"
+                                        th:text="${i}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="select__group">
+                            <label for="thirdIncludeNumber">포함할 번호 3</label>
+                            <select id="thirdIncludeNumber" th:field="*{thirdIncludeNumber}">
+                                <option value="">선택 안함</option>
+                                <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                        th:value="${i}"
+                                        th:text="${i}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="lotto__search__options">
+                        <div class="select__group">
+                            <label for="bonusNumber">보너스 번호</label>
+                            <select id="bonusNumber" th:field="*{bonusNumber}">
+                                <option value="">선택 안함</option>
+                                <option th:each="i : ${#numbers.sequence(1, 45)}"
+                                        th:value="${i}"
+                                        th:text="${i}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="select__group">
+                            <label for="size">개수</label>
+                            <select id="size" name="size">
+                                <option value="10" th:selected="${pageable.pageSize == 10}">10개씩</option>
+                                <option value="20" th:selected="${pageable.pageSize == 20}">20개씩</option>
+                                <option value="30" th:selected="${pageable.pageSize == 30}">30개씩</option>
+                            </select>
+                        </div>
+                        <div class="select__group">
+                            <label for="sort">정렬</label>
+                            <select id="sort" name="sort">
+                                <option value="drawNumber,desc" th:selected="${#strings.contains(pageable.sort.toString(), 'drawNumber: DESC')}">최신 순</option>
+                                <option value="drawNumber,asc" th:selected="${#strings.contains(pageable.sort.toString(), 'drawNumber: ASC')}">오래된 순</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button type="submit" form="lotto__search__form">해당 조건으로 검색</button>
+
+            <!-- 검색된 결과가 없을 때 표시 -->
+            <div th:if="${lotto.totalElements == 0}" class="no__result">
+                검색된 로또가 존재하지 않습니다.
+            </div>
+
+            <div th:if="${lotto.totalElements > 0}" class="lotto__result__container">
+                <div class="lotto__box" th:each="content : ${lotto.content}" th:object="${content}">
+                    <h1 class="lotto__box__title" th:text="|🏆 *{drawDate} *{drawNumber}회차 결과 🏆|"></h1>
+                    <div class="lotto__balls">
+                        <div class="lotto__ball _1" th:text="*{firstNumber}"></div>
+                        <div class="lotto__ball _2" th:text="*{secondNumber}"></div>
+                        <div class="lotto__ball _3" th:text="*{thirdNumber}"></div>
+                        <div class="lotto__ball _4" th:text="*{fourthNumber}"></div>
+                        <div class="lotto__ball _5" th:text="*{fifthNumber}"></div>
+                        <div class="lotto__ball _6" th:text="*{sixthNumber}"></div>
+                        <p class="plus"> + </p>
+                        <div class="lotto__ball _bonus" th:text="*{bonusNumber}"></div>
+                    </div>
+                    <div class="lotto__information">
+                        <div th:text="|1등 당첨자 수 : *{firstPrizeWinnerCount}명|"></div>
+                            <div th:text="${content.firstPrizeAmount == 0} ?
+                            '1등 당첨 금액 : 0원' : '1등 당첨 금액 : ' + ${#numbers.formatInteger(content.firstPrizeAmount, 3, 'COMMA')} + '원'"></div>
+                        <div th:text="|총 판매 금액 : ${#numbers.formatInteger(content.totalSalesAmount, 3, 'COMMA')}원|"></div>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <ul class="pagination__list">
+
+                        <!-- 이전 버튼 -->
+                        <li th:if="${lotto.hasPrevious()}" class="pagination__item">
+                            <a th:href="@{${pageUrl}(
+                                page=${lotto.number - 1},
+                                size=${lotto.size},
+                                startDrawNumber=${searchRequest.startDrawNumber},
+                                endDrawNumber=${searchRequest.endDrawNumber},
+                                startDrawDate=${searchRequest.startDrawDate},
+                                endDrawDate=${searchRequest.endDrawDate},
+                                firstIncludeNumber=${searchRequest.firstIncludeNumber},
+                                secondIncludeNumber=${searchRequest.secondIncludeNumber},
+                                thirdIncludeNumber=${searchRequest.thirdIncludeNumber},
+                                bonusNumber=${searchRequest.bonusNumber},
+                                sort=${#strings.replace(pageable.sort.toString(), ': ', ',')})}">이전</a>
+                        </li>
+
+                        <!-- 페이지 번호 버튼 -->
+                        <li th:each="i : ${#numbers.sequence(
+                            T(java.lang.Math).max(0, lotto.number - 1),
+                            T(java.lang.Math).min(lotto.totalPages - 1, lotto.number + 1))}"
+                            th:classappend="${i == lotto.number} ? 'active'" class="pagination__item">
+
+                            <a th:href="@{${pageUrl}(
+                                page=${i},
+                                size=${lotto.size},
+                                startDrawNumber=${searchRequest.startDrawNumber},
+                                endDrawNumber=${searchRequest.endDrawNumber},
+                                startDrawDate=${searchRequest.startDrawDate},
+                                endDrawDate=${searchRequest.endDrawDate},
+                                firstIncludeNumber=${searchRequest.firstIncludeNumber},
+                                secondIncludeNumber=${searchRequest.secondIncludeNumber},
+                                thirdIncludeNumber=${searchRequest.thirdIncludeNumber},
+                                bonusNumber=${searchRequest.bonusNumber},
+                                sort=${#strings.replace(pageable.sort.toString(), ': ', ',')})}"
+                               th:text="${i + 1}">1</a>
+                        </li>
+
+                        <!-- 다음 버튼 -->
+                        <li th:if="${lotto.hasNext()}" class="pagination__item">
+                            <a th:href="@{${pageUrl}(
+                                page=${lotto.number + 1},
+                                size=${lotto.size},
+                                startDrawNumber=${searchRequest.startDrawNumber},
+                                endDrawNumber=${searchRequest.endDrawNumber},
+                                startDrawDate=${searchRequest.startDrawDate},
+                                endDrawDate=${searchRequest.endDrawDate},
+                                firstIncludeNumber=${searchRequest.firstIncludeNumber},
+                                secondIncludeNumber=${searchRequest.secondIncludeNumber},
+                                thirdIncludeNumber=${searchRequest.thirdIncludeNumber},
+                                bonusNumber=${searchRequest.bonusNumber},
+                                sort=${#strings.replace(pageable.sort.toString(), ': ', ',')})}">다음</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</body>
+</html>

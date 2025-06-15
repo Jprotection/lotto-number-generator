@@ -24,7 +24,7 @@ public class LottoController {
 
 	@PostMapping("/lotto")
 	public String generateLotto(Model model,
-		@RequestParam(defaultValue = "1") @Max(10) Integer count,
+		@RequestParam(defaultValue = "2") @Max(10) Integer count,
 		@ModelAttribute @Validated IncludeNumberRequest includeNumberRequest,
 		@ModelAttribute @Validated ExcludeNumberRequest excludeNumberRequest) {
 
