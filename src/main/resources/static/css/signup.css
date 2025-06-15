@@ -6,7 +6,7 @@
 }
 
 @media (min-width: 769px) {
-    ._2, ._3 {
+    ._3 {
         display: none;
     }
 }
