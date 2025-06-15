@@ -3,28 +3,34 @@ package boho.lottonumbergenerator.repository;
 import static boho.lottonumbergenerator.entity.lotto.QOfficialLotto.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import boho.lottonumbergenerator.dro.OfficialLottoSearchRequest;
 import boho.lottonumbergenerator.dro.OfficialLottoSearchResponse;
+import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class OfficialLottoCustomRepositoryImpl implements OfficialLottoCustomRepository {
 
 	// 터무니없이 큰 페이지 사이즈 요청에 대해 서버를 보호하기 위한 maxPageSize 설정
-	private static final int MAX_PAGE_SIZE = 10;
+	private static final int MAX_PAGE_SIZE = 30;
 	private final JPAQueryFactory queryFactory;
 
 	@Override
@@ -32,7 +38,7 @@ public class OfficialLottoCustomRepositoryImpl implements OfficialLottoCustomRep
 		OfficialLottoSearchRequest request, Pageable pageable) {
 
 		int validPageSize = Math.min(pageable.getPageSize(), MAX_PAGE_SIZE);
-		Pageable validPageable = PageRequest.of(pageable.getPageNumber(), validPageSize);
+		Pageable validPageable = PageRequest.of(pageable.getPageNumber(), validPageSize, pageable.getSort());
 
 		List<OfficialLottoSearchResponse> content = queryFactory
 			.select(Projections.constructor(OfficialLottoSearchResponse.class,
@@ -40,6 +46,7 @@ public class OfficialLottoCustomRepositoryImpl implements OfficialLottoCustomRep
 				officialLotto.drawDate,
 				officialLotto.firstPrizeWinnerCount,
 				officialLotto.firstPrizeAmount,
+				officialLotto.totalSalesAmount,
 				officialLotto.firstNumber,
 				officialLotto.secondNumber,
 				officialLotto.thirdNumber,
@@ -57,6 +64,7 @@ public class OfficialLottoCustomRepositoryImpl implements OfficialLottoCustomRep
 				secondIncludeNumberEquals(request.secondIncludeNumber()),
 				thirdIncludeNumberEquals(request.thirdIncludeNumber()),
 				bonusNumberEquals(request.bonusNumber()))
+			.orderBy(getOrderSpecifier(validPageable.getSort()))
 			.offset(validPageable.getOffset())
 			.limit(validPageable.getPageSize())
 			.fetch();
@@ -75,7 +83,20 @@ public class OfficialLottoCustomRepositoryImpl implements OfficialLottoCustomRep
 				bonusNumberEquals(request.bonusNumber()));
 
 		return PageableExecutionUtils.getPage(content, validPageable, countQuery::fetchOne);
+	}
 
+	// 정렬 정보 추출
+	private OrderSpecifier<?>[] getOrderSpecifier(Sort sort) {
+		List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
+		for (Sort.Order order : sort) {
+			PathBuilder<?> entityPath = new PathBuilder<>(OfficialLotto.class, "officialLotto");
+			OrderSpecifier<?> orderSpecifier = new OrderSpecifier<>(
+				order.isAscending() ? Order.ASC : Order.DESC,
+				entityPath.getComparable(order.getProperty(), Comparable.class)
+			);
+			orderSpecifiers.add(orderSpecifier);
+		}
+		return orderSpecifiers.toArray(new OrderSpecifier[0]);
 	}
 
 	// 동적 쿼리 메서드 목록

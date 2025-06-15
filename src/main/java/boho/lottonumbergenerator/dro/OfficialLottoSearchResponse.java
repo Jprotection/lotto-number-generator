@@ -3,10 +3,11 @@ package boho.lottonumbergenerator.dro;
 import java.time.LocalDate;
 
 public record OfficialLottoSearchResponse(
-	Long DrawNumber,
-	LocalDate DrawDate,
+	Long drawNumber,
+	LocalDate drawDate,
 	Integer firstPrizeWinnerCount,
 	Long firstPrizeAmount,
+	Long totalSalesAmount,
 	Integer firstNumber,
 	Integer secondNumber,
 	Integer thirdNumber,
