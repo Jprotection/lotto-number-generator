@@ -1,6 +1,8 @@
 ## 프로젝트 소개
 
 - 로또 조합 생성기
+- 포함할 번호와 제외할 번호를 지정하여 조합을 커스텀하게 생성
+- 다양한 검색 조건으로 공식 로또 결과 조회
 - 배포 URL : [boholotto.store](https://boholotto.store)
 
 <br>
@@ -14,15 +16,23 @@
   - Spring Boot: 3.4.4
   - Spring Data
     - Spring Data JPA
+  - Spring WebFlux
   - JPA
     - QueryDSL
+  - Cache
+    - Caffeine
 - 데이터베이스
   - MySQL
+- UI
+  - HTML5
+  - CSS
+  - Thymeleaf
 - ERD
   - ERDCloud
 - AWS
   - EC2
-    - Docker Compose
+    - Docker
+    - nginx
   - ECR
 
 <br>
