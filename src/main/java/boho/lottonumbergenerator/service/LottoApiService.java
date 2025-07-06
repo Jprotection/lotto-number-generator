@@ -16,9 +16,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import boho.lottonumbergenerator.dro.LottoApiResponse;
-import boho.lottonumbergenerator.dro.OfficialLottoSearchRequest;
-import boho.lottonumbergenerator.dro.OfficialLottoSearchResponse;
+import boho.lottonumbergenerator.dto.LottoApiResponse;
+import boho.lottonumbergenerator.dto.OfficialLottoSearchRequest;
+import boho.lottonumbergenerator.dto.OfficialLottoSearchResponse;
 import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
 import boho.lottonumbergenerator.repository.OfficialLottoRepository;
 import lombok.RequiredArgsConstructor;

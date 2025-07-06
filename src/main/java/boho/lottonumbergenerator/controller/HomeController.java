@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import boho.lottonumbergenerator.dro.WinningLottoListResponse;
+import boho.lottonumbergenerator.dto.WinningLottoListResponse;
 import boho.lottonumbergenerator.service.LottoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

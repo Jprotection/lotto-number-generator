@@ -14,12 +14,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import boho.lottonumbergenerator.dro.ExcludeNumberRequest;
-import boho.lottonumbergenerator.dro.IncludeNumberRequest;
-import boho.lottonumbergenerator.dro.LottoGenerateResponse;
-import boho.lottonumbergenerator.dro.LottoListResponse;
-import boho.lottonumbergenerator.dro.OfficialLottoResponse;
-import boho.lottonumbergenerator.dro.WinningLottoListResponse;
+import boho.lottonumbergenerator.dto.ExcludeNumberRequest;
+import boho.lottonumbergenerator.dto.IncludeNumberRequest;
+import boho.lottonumbergenerator.dto.LottoGenerateResponse;
+import boho.lottonumbergenerator.dto.LottoListResponse;
+import boho.lottonumbergenerator.dto.OfficialLottoResponse;
+import boho.lottonumbergenerator.dto.WinningLottoListResponse;
 import boho.lottonumbergenerator.entity.lotto.GeneratedLotto;
 import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
 import boho.lottonumbergenerator.repository.GeneratedLottoRepository;

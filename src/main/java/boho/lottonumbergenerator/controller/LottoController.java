@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import boho.lottonumbergenerator.dro.ExcludeNumberRequest;
-import boho.lottonumbergenerator.dro.IncludeNumberRequest;
+import boho.lottonumbergenerator.dto.ExcludeNumberRequest;
+import boho.lottonumbergenerator.dto.IncludeNumberRequest;
 import boho.lottonumbergenerator.service.LottoService;
 import jakarta.validation.constraints.Max;
 import lombok.RequiredArgsConstructor;

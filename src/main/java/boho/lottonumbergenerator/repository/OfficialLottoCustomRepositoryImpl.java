@@ -21,8 +21,8 @@ import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-import boho.lottonumbergenerator.dro.OfficialLottoSearchRequest;
-import boho.lottonumbergenerator.dro.OfficialLottoSearchResponse;
+import boho.lottonumbergenerator.dto.OfficialLottoSearchRequest;
+import boho.lottonumbergenerator.dto.OfficialLottoSearchResponse;
 import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
 import lombok.RequiredArgsConstructor;
 

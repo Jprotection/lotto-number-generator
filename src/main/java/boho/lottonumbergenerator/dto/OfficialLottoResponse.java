@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.dro;
+package boho.lottonumbergenerator.dto;
 
 import java.time.LocalDate;
 
@@ -6,30 +6,21 @@ import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
 import lombok.Builder;
 
 @Builder
-public record OfficialLottoListResponse(
+public record OfficialLottoResponse(
 	Long drawNumber,
 	LocalDate drawDate,
-	Long totalSalesAmount,
-	Integer firstPrizeWinnerCount,
-	Long firstPrizeAmount,
-	Long totalFirstPrizeAmount,
 	Integer firstNumber,
 	Integer secondNumber,
 	Integer thirdNumber,
 	Integer fourthNumber,
 	Integer fifthNumber,
 	Integer sixthNumber,
-	Integer bonusNumber
-) {
+	Integer bonusNumber) {
 
-	public static OfficialLottoListResponse of(OfficialLotto lotto) {
-		return OfficialLottoListResponse.builder()
+	public static OfficialLottoResponse of(OfficialLotto lotto) {
+		return OfficialLottoResponse.builder()
 			.drawNumber(lotto.getDrawNumber())
 			.drawDate(lotto.getDrawDate())
-			.totalSalesAmount(lotto.getTotalSalesAmount())
-			.firstPrizeWinnerCount(lotto.getFirstPrizeWinnerCount())
-			.firstPrizeAmount(lotto.getFirstPrizeAmount())
-			.totalFirstPrizeAmount(lotto.getTotalFirstPrizeAmount())
 			.firstNumber(lotto.getFirstNumber())
 			.secondNumber(lotto.getSecondNumber())
 			.thirdNumber(lotto.getThirdNumber())

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import boho.lottonumbergenerator.dro.OfficialLottoSearchRequest;
+import boho.lottonumbergenerator.dto.OfficialLottoSearchRequest;
 import boho.lottonumbergenerator.service.LottoApiService;
 import boho.lottonumbergenerator.service.LottoService;
 import lombok.RequiredArgsConstructor;

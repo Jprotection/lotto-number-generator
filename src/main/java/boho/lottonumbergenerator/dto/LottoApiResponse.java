@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.dro;
+package boho.lottonumbergenerator.dto;
 
 import java.time.LocalDate;
 

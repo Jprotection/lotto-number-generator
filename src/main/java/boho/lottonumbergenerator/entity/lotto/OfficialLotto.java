@@ -3,7 +3,7 @@ package boho.lottonumbergenerator.entity.lotto;
 import java.time.LocalDate;
 import java.util.Set;
 
-import boho.lottonumbergenerator.dro.LottoApiResponse;
+import boho.lottonumbergenerator.dto.LottoApiResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
