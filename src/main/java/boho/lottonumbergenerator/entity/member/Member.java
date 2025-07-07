@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import boho.lottonumbergenerator.dto.MemberRegisterRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -59,4 +60,12 @@ public class Member {
 
 	@Column(columnDefinition = "TIMESTAMP(6)")
 	private LocalDateTime withdrawDate;
+
+	public static Member from(MemberRegisterRequest request) {
+		return Member.builder()
+			.username(request.username())
+			.password(request.password())
+			.gender(request.gender())
+			.build();
+	}
 }

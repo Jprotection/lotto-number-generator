@@ -1,12 +1,120 @@
-.on__preparing {
-    display: block;
+.signup__background {
+    padding: 3rem;
+    color: white;
+    font-weight: bold;
+    background-color: #1C2333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup__container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 30vw;
+    padding: 2rem;
+    border: 2px solid white;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}
+
+.signup__container__title {
+    display: inline-block;
+    margin: -1rem 0 1.5rem;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+/*.authentication__failed {*/
+/*    width: 96%;*/
+/*    height: 2rem;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    font-size: 1.5rem;*/
+/*    background: lightpink;*/
+/*    color: red;*/
+/*    padding-left: 0.5rem;*/
+/*    margin-bottom: 1rem;*/
+/*    border: 2px solid lightpink;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+.signup__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: inherit;
+    gap: 1.5rem;
+}
+
+.signup__form__username, .signup__form__password, .signup__form__gender {
     width: 100%;
-    height: auto; /* 비율 유지 */
-    object-fit: cover; /* 필요 시 꽉 채우기 */
+}
+
+.signup__form label {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+}
+
+.signup__form input {
+    display: block;
+    width: 96%;
+    height: 2rem;
+    border-radius: 5px;
+    padding-left: 0.5rem;
+    margin-left: -2px;
+}
+
+.signup__form__gender {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup__form__gender span {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+}
+
+.signup__form__gender__radio {
+    display: flex;
+    align-items: center;
+}
+
+.signup__form__gender__radio label {
+    margin: 0;
+}
+
+.signup__form__gender__radio input {
+    height: 1rem;
+    width: 2rem;
+    margin-right: 3rem;
+}
+
+.signup__form button {
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .signup__container {
+        width: 70vw;
+        padding: 1.2rem;
+    }
+
+    .signup__container__title {
+        margin: -0.6rem 0 1.5rem;
+    }
+
+    .signup__form__gender__radio input {
+        margin-right: 1.5rem;
+    }
 }
 
 @media (min-width: 769px) {
-    ._3 {
-        display: none;
-    }
+
 }

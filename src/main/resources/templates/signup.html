@@ -6,8 +6,37 @@
 </head>
 <body>
     <section layout:fragment="content">
-        <img th:src="@{/images/on-preparing.png}" alt="on-preparing image" class="on__preparing _1">
-        <img th:src="@{/images/on-preparing.png}" alt="on-preparing image" class="on__preparing _2">
-        <img th:src="@{/images/on-preparing.png}" alt="on-preparing image" class="on__preparing _3">
+        <div class="signup__background">
+            <div class="signup__container">
+                <h1 class="signup__container__title">회원가입</h1>
+                <div th:if="${param.error}" class="authentication__failed">
+                    <span th:text="${exception}?: '잘못된 아이디 혹은 비밀번호입니다!'"></span>
+                </div>
+
+                <form class="signup__form" th:action="@{/signup}" method="post">
+                    <div class="signup__form__username">
+                        <label for="username">아이디</label>
+                        <input type="text" id="username" name="username" placeholder="아이디는 8자 이하입니다." maxlength="8" required>
+                    </div>
+                    <div class="signup__form__password">
+                        <label for="password">비밀번호</label>
+                        <input type="password" id="password" name="password" placeholder="비밀번호는 8자 이상입니다." minlength="8" required>
+                    </div>
+                    <div class="signup__form__gender">
+                        <span>성별</span>
+                        <div class="signup__form__gender__radio">
+                            <label for="male">남성</label>
+                            <input type="radio" id="male" name="gender" value="MALE" checked>
+                            <label for="female">여성</label>
+                            <input type="radio" id="female" name="gender" value="FEMALE">
+                            <label for="other">기타</label>
+                            <input type="radio" id="other" name="gender" value="OTHER">
+                        </div>
+                    </div>
+                    <button type="submit">회원가입</button>
+                </form>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
