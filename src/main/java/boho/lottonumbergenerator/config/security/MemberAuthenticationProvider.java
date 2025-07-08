@@ -28,8 +28,7 @@ public class MemberAuthenticationProvider implements AuthenticationProvider {
 			throw new BadCredentialsException("Invalid password with username: " + username);
 		}
 
-		return new UsernamePasswordAuthenticationToken(memberDetails.getPrincipal(), null,
-			memberDetails.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
 	}
 
 	@Override

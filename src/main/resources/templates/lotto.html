@@ -33,6 +33,7 @@
 
                 <div class="info">
                     <p th:text="|ID : ${lotto.id}|"></p>
+                    <p th:text="|생성자 : ${lotto.creatorUsername}|"></p>
                     <p th:text="|생성일 : ${#temporals.format(lotto.createDate, 'yyyy-MM-dd HH:mm:ss')}|"></p>
                 </div>
             </div>

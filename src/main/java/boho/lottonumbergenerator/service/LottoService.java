@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +43,9 @@ public class LottoService {
 	// 6개의 번호로 된 랜덤 로또 조합 생성
 	@Transactional
 	public List<LottoGenerateResponse> generateLotto(
-		Integer count, IncludeNumberRequest includeNumberRequest, ExcludeNumberRequest excludeNumberRequest) {
+		Integer count, IncludeNumberRequest includeNumberRequest, ExcludeNumberRequest excludeNumberRequest, Authentication authentication) {
+
+		String creatorUsername = identifyCreatorUsername(authentication);
 
 		List<Integer> includeNumbers = includeNumberRequest.toIncludeNumberList();
 		List<Integer> excludeNumbers = excludeNumberRequest.toExcludeNumberList();
@@ -65,11 +69,11 @@ public class LottoService {
 				.sorted()
 				.toList();
 
-			GeneratedLotto generatedLotto = GeneratedLotto.from(numbers, includeNumbers, excludeNumbers);
+			GeneratedLotto generatedLotto = GeneratedLotto.from(numbers, includeNumbers, excludeNumbers, creatorUsername);
 			lottos.add(LottoGenerateResponse.of(generatedLottoRepository.save(generatedLotto)));
 
-			log.info("New lotto numbers generated: {} | ID: [{}] | Include numbers: {} | Exclude numbers: {}",
-				generatedLotto.toNumberList(), generatedLotto.getId(), includeNumbers, excludeNumbers);
+			log.info("New lotto numbers generated: {} | ID: [{}] | creatorUsername: [{}] | Include numbers: {} | Exclude numbers: {}",
+				generatedLotto.toNumberList(), generatedLotto.getId(), creatorUsername, includeNumbers, excludeNumbers);
 		}
 
 		return lottos;
@@ -148,6 +152,13 @@ public class LottoService {
 	@Cacheable(cacheNames = "winning_lotto", key = "#root.methodName")
 	public OfficialLottoResponse findLatestOfficialLotto() {
 		return OfficialLottoResponse.of(officialLottoRepository.findTopByOrderByDrawDateDesc());
+	}
+
+	private String identifyCreatorUsername(Authentication authentication) {
+		if (authentication instanceof AnonymousAuthenticationToken) {
+			return "WhoAmI";
+		}
+		return authentication.getName();
 	}
 
 	// predicate에 따라 각 등수에 당첨된 로또를 탐색

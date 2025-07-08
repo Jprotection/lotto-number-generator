@@ -11,26 +11,32 @@ import lombok.Getter;
 @Getter
 public class MemberDetails implements UserDetails {
 
-	private final MemberLoginProcessingPrincipal principal;
+	private final String username;
+	private final String password;
 	private final List<GrantedAuthority> authorities;
+	// private final boolean accountNonExpired;
+	// private final boolean accountNonLocked;
+	// private final boolean credentialsNonExpired;
+	// private final boolean enabled;
 
-	public MemberDetails(MemberLoginProcessingPrincipal principal, List<GrantedAuthority> authorities) {
-		this.principal = principal;
+	public MemberDetails(String username, String password, List<GrantedAuthority> authorities) {
+		this.username = username;
+		this.password = password;
 		this.authorities = authorities;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
+		return this.authorities;
 	}
 
 	@Override
 	public String getPassword() {
-		return principal.password();
+		return this.password;
 	}
 
 	@Override
 	public String getUsername() {
-		return principal.username();
+		return this.username;
 	}
 }

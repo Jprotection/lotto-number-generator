@@ -28,6 +28,6 @@ public class MemberDetailsService implements UserDetailsService {
 		List<GrantedAuthority> authorities =
 			List.of(new SimpleGrantedAuthority(member.getAuthority().name()));
 
-		return new MemberDetails(MemberLoginProcessingPrincipal.of(member), authorities);
+		return new MemberDetails(member.getUsername(), member.getPassword(), authorities);
 	}
 }

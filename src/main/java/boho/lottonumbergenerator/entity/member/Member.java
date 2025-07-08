@@ -42,7 +42,7 @@ public class Member {
 	private GenderType gender;
 
 	@Builder.Default
-	@Column(nullable = false, columnDefinition = "VARCHAR(20) DEFAULT 'MEMBER'")
+	@Column(nullable = false, columnDefinition = "VARCHAR(20) DEFAULT 'ROLE_MEMBER'")
 	@Enumerated(EnumType.STRING)
 	private AuthorityType authority = AuthorityType.ROLE_MEMBER;
 

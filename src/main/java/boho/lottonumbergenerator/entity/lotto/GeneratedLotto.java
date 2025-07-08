@@ -33,6 +33,9 @@ public class GeneratedLotto extends BaseLottoEntity {
 	@Column(name = "generated_lotto_id")
 	private Long id;
 
+	@Column(nullable = false, columnDefinition = "VARCHAR(10)")
+	private String creatorUsername;
+
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP(6)")
 	private LocalDateTime createDate;
@@ -54,9 +57,10 @@ public class GeneratedLotto extends BaseLottoEntity {
 	private List<Integer> excludeNumbers;
 
 	public static GeneratedLotto from(
-		List<Integer> numbers, List<Integer> includeNumbers, List<Integer> excludeNumbers) {
+		List<Integer> numbers, List<Integer> includeNumbers, List<Integer> excludeNumbers, String creatorUsername) {
 
 		return GeneratedLotto.builder()
+			.creatorUsername(creatorUsername)
 			.firstNumber(numbers.getFirst())
 			.secondNumber(numbers.get(1))
 			.thirdNumber(numbers.get(2))

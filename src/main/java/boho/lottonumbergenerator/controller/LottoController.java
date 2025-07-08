@@ -1,5 +1,8 @@
 package boho.lottonumbergenerator.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -26,10 +29,12 @@ public class LottoController {
 	public String generateLotto(Model model,
 		@RequestParam(defaultValue = "2") @Max(10) Integer count,
 		@ModelAttribute @Validated IncludeNumberRequest includeNumberRequest,
-		@ModelAttribute @Validated ExcludeNumberRequest excludeNumberRequest) {
+		@ModelAttribute @Validated ExcludeNumberRequest excludeNumberRequest,
+		@CurrentSecurityContext SecurityContext securityContext) {
 
+		Authentication authentication = securityContext.getAuthentication();
 		model.addAttribute("lotto",
-			lottoService.generateLotto(count, includeNumberRequest, excludeNumberRequest));
+			lottoService.generateLotto(count, includeNumberRequest, excludeNumberRequest, authentication));
 
 		return "lotto";
 	}

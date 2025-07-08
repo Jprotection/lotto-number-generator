@@ -9,6 +9,7 @@ import lombok.Builder;
 @Builder
 public record LottoListResponse(
 	Long id,
+	String creatorUsername,
 	LocalDateTime createDate,
 	Integer firstNumber,
 	Integer secondNumber,
@@ -22,6 +23,7 @@ public record LottoListResponse(
 	public static LottoListResponse of(GeneratedLotto generatedLotto) {
 		return LottoListResponse.builder()
 			.id(generatedLotto.getId())
+			.creatorUsername(generatedLotto.getCreatorUsername())
 			.createDate(generatedLotto.getCreateDate())
 			.firstNumber(generatedLotto.getFirstNumber())
 			.secondNumber(generatedLotto.getSecondNumber())
