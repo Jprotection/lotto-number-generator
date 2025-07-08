@@ -49,6 +49,15 @@
     gap: 1.5rem;
 }
 
+.field__error {
+    border: 3px solid red;
+}
+
+.error__message {
+    display: inline-block;
+    margin-top: 0.1rem;
+}
+
 .signup__form__username, .signup__form__password, .signup__form__gender {
     width: 100%;
 }
@@ -101,6 +110,10 @@
 }
 
 @media (max-width: 768px) {
+    .signup__background {
+        padding: 3rem 3rem 6rem;
+    }
+
     .signup__container {
         width: 70vw;
         padding: 1.2rem;

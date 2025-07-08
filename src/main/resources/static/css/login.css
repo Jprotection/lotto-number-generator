@@ -9,6 +9,11 @@
     justify-content: center;
 }
 
+.welcome__login {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
 .login__container {
     display: flex;
     flex-direction: column;
@@ -84,13 +89,22 @@
 }
 
 @media (max-width: 768px) {
+    .login__background {
+        padding: 3rem 3rem 14rem;
+    }
+
+    .welcome__login {
+        font-size: 1.3rem;
+        margin: -1rem 0 1.5rem;
+    }
+
     .login__container {
         width: 70vw;
         padding: 1.2rem;
     }
 
     .login__container__title {
-        margin: -0.6rem 0 1.5rem;
+        margin: -0.6rem 0 1rem;
     }
 
     .authentication__failed {

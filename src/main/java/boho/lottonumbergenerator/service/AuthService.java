@@ -22,7 +22,7 @@ public class AuthService {
 
 		memberRepository.findByUsername(request.username())
 			.ifPresent(member -> {
-				throw new UsernameDuplicateException("Member Already Exists with username: " + member.getUsername());
+				throw new UsernameDuplicateException(member.getUsername() + "은(는) 이미 존재하는 아이디입니다!");
 			});
 
 		Member member = memberRepository.save(Member.from(request));
