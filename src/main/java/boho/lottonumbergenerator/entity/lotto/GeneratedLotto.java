@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import boho.lottonumbergenerator.entity.member.Member;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -15,6 +16,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,8 +35,9 @@ public class GeneratedLotto extends BaseLottoEntity {
 	@Column(name = "generated_lotto_id")
 	private Long id;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(10)")
-	private String creatorUsername;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk-generated_lottos-members"))
+	private Member member;
 
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP(6)")
@@ -57,10 +60,10 @@ public class GeneratedLotto extends BaseLottoEntity {
 	private List<Integer> excludeNumbers;
 
 	public static GeneratedLotto from(
-		List<Integer> numbers, List<Integer> includeNumbers, List<Integer> excludeNumbers, String creatorUsername) {
+		List<Integer> numbers, List<Integer> includeNumbers, List<Integer> excludeNumbers, Member creator) {
 
 		return GeneratedLotto.builder()
-			.creatorUsername(creatorUsername)
+			.member(creator)
 			.firstNumber(numbers.getFirst())
 			.secondNumber(numbers.get(1))
 			.thirdNumber(numbers.get(2))

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +25,9 @@ import boho.lottonumbergenerator.dto.OfficialLottoResponse;
 import boho.lottonumbergenerator.dto.WinningLottoListResponse;
 import boho.lottonumbergenerator.entity.lotto.GeneratedLotto;
 import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
+import boho.lottonumbergenerator.entity.member.Member;
 import boho.lottonumbergenerator.repository.GeneratedLottoRepository;
+import boho.lottonumbergenerator.repository.MemberRepository;
 import boho.lottonumbergenerator.repository.OfficialLottoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,13 +42,14 @@ public class LottoService {
 
 	private final GeneratedLottoRepository generatedLottoRepository;
 	private final OfficialLottoRepository officialLottoRepository;
+	private final MemberRepository memberRepository;
 
 	// 6개의 번호로 된 랜덤 로또 조합 생성
 	@Transactional
 	public List<LottoGenerateResponse> generateLotto(
 		Integer count, IncludeNumberRequest includeNumberRequest, ExcludeNumberRequest excludeNumberRequest, Authentication authentication) {
 
-		String creatorUsername = identifyCreatorUsername(authentication);
+		Member creator = identifyCreator(authentication);
 
 		List<Integer> includeNumbers = includeNumberRequest.toIncludeNumberList();
 		List<Integer> excludeNumbers = excludeNumberRequest.toExcludeNumberList();
@@ -69,11 +73,11 @@ public class LottoService {
 				.sorted()
 				.toList();
 
-			GeneratedLotto generatedLotto = GeneratedLotto.from(numbers, includeNumbers, excludeNumbers, creatorUsername);
+			GeneratedLotto generatedLotto = GeneratedLotto.from(numbers, includeNumbers, excludeNumbers, creator);
 			lottos.add(LottoGenerateResponse.of(generatedLottoRepository.save(generatedLotto)));
 
 			log.info("New lotto numbers generated: {} | ID: [{}] | creatorUsername: [{}] | Include numbers: {} | Exclude numbers: {}",
-				generatedLotto.toNumberList(), generatedLotto.getId(), creatorUsername, includeNumbers, excludeNumbers);
+				generatedLotto.toNumberList(), generatedLotto.getId(), creator != null ? creator.getUsername() : "WhoAmI", includeNumbers, excludeNumbers);
 		}
 
 		return lottos;
@@ -154,11 +158,12 @@ public class LottoService {
 		return OfficialLottoResponse.of(officialLottoRepository.findTopByOrderByDrawDateDesc());
 	}
 
-	private String identifyCreatorUsername(Authentication authentication) {
+	private Member identifyCreator(Authentication authentication) {
 		if (authentication instanceof AnonymousAuthenticationToken) {
-			return "WhoAmI";
+			return null;
 		}
-		return authentication.getName();
+		return memberRepository.findByUsername(authentication.getName())
+			.orElseThrow(() -> new UsernameNotFoundException("No Member found with username: " + authentication.getName()));
 	}
 
 	// predicate에 따라 각 등수에 당첨된 로또를 탐색
