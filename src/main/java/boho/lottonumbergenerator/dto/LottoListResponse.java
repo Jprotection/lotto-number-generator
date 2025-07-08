@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import boho.lottonumbergenerator.entity.lotto.GeneratedLotto;
+import boho.lottonumbergenerator.entity.member.Member;
 import lombok.Builder;
 
 @Builder
 public record LottoListResponse(
 	Long id,
+	Member creator,
 	LocalDateTime createDate,
 	Integer firstNumber,
 	Integer secondNumber,
@@ -22,6 +24,7 @@ public record LottoListResponse(
 	public static LottoListResponse of(GeneratedLotto generatedLotto) {
 		return LottoListResponse.builder()
 			.id(generatedLotto.getId())
+			.creator(generatedLotto.getMember())
 			.createDate(generatedLotto.getCreateDate())
 			.firstNumber(generatedLotto.getFirstNumber())
 			.secondNumber(generatedLotto.getSecondNumber())

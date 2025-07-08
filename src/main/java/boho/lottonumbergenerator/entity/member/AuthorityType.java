@@ -2,5 +2,5 @@ package boho.lottonumbergenerator.entity.member;
 
 public enum AuthorityType {
 
-	MEMBER, ADMIN
+	ROLE_MEMBER, ROLE_ADMIN
 }

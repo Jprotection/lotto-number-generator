@@ -11,8 +11,4 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberController {
 
-	@GetMapping("/signup")
-	public String signup() {
-		return "signup";
-	}
 }

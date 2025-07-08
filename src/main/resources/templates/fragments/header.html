@@ -1,3 +1,5 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <div th:fragment="header" class="header">
     <div class="header__homelink">
         <a href="/">Home</a>
@@ -6,8 +8,11 @@
         <div>
             <a th:href="@{/official}">로또검색</a>
         </div>
-        <div>
-            <a th:href="@{/member/signup}">회원가입</a>
+        <div sec:authorize="isAnonymous()" >
+            <a th:href="@{/login}">로그인</a>
+        </div>
+        <div sec:authorize="isAuthenticated()" >
+            <a th:href="@{/logout}">로그아웃</a>
         </div>
     </div>
 </div>

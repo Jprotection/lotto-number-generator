@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layouts/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title>로그인</title>
+  <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+  <section layout:fragment="content">
+    <div class="login__background">
+      <div th:if="${param.welcome}" class="welcome__login">
+        🎉 회원가입이 완료되었습니다! 🎉
+      </div>
+      <div class="login__container">
+        <h1 class="login__container__title">로그인</h1>
+        <div th:if="${param.error}" class="authentication__failed">
+          <span th:text="${exception}?: '잘못된 아이디 혹은 비밀번호입니다!'"></span>
+        </div>
+
+        <form class="login__form" th:action="@{/login}" method="post">
+          <div class="login__form__username">
+            <label for="username">아이디</label>
+            <input type="text" id="username" name="username" placeholder="아이디는 8자 이하입니다." maxlength="8" required>
+          </div>
+          <div class="login__form__password">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" placeholder="비밀번호는 8자 이상입니다." minlength="8" required>
+          </div>
+          <button type="submit">로그인</button>
+        </form>
+      </div>
+
+      <div class="signup__recommendation">
+        <span>아직 회원이 아니신가요?</span>
+        <a th:href="@{/signup}">
+          회원가입
+        </a>
+      </div>
+
+    </div>
+  </section>
+</body>
+</html>

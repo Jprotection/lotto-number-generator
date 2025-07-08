@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import boho.lottonumbergenerator.dto.MemberRegisterRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -41,9 +42,9 @@ public class Member {
 	private GenderType gender;
 
 	@Builder.Default
-	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'MEMBER'")
+	@Column(nullable = false, columnDefinition = "VARCHAR(20) DEFAULT 'ROLE_MEMBER'")
 	@Enumerated(EnumType.STRING)
-	private AuthorityType authority = AuthorityType.MEMBER;
+	private AuthorityType authority = AuthorityType.ROLE_MEMBER;
 
 	@Builder.Default
 	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'ACTIVE'")
@@ -59,4 +60,12 @@ public class Member {
 
 	@Column(columnDefinition = "TIMESTAMP(6)")
 	private LocalDateTime withdrawDate;
+
+	public static Member from(MemberRegisterRequest request) {
+		return Member.builder()
+			.username(request.username())
+			.password(request.password())
+			.gender(request.gender())
+			.build();
+	}
 }
