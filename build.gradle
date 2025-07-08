@@ -42,6 +42,9 @@ dependencies {
 	// 타임리프 layout 기능 사용
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
+	// 타임리프에서 Spring Security 보안 표현식 사용
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.3.RELEASE'
+
 	// queryDSL
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"

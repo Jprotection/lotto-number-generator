@@ -42,9 +42,9 @@ public class Member {
 	private GenderType gender;
 
 	@Builder.Default
-	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'MEMBER'")
+	@Column(nullable = false, columnDefinition = "VARCHAR(20) DEFAULT 'MEMBER'")
 	@Enumerated(EnumType.STRING)
-	private AuthorityType authority = AuthorityType.MEMBER;
+	private AuthorityType authority = AuthorityType.ROLE_MEMBER;
 
 	@Builder.Default
 	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'ACTIVE'")
