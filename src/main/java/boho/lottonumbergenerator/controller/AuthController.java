@@ -41,7 +41,7 @@ public class AuthController {
 		BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
-			return "/signup";
+			return "signup";
 		}
 
 		MemberRegisterRequest PasswordEncodedRequest =
@@ -51,7 +51,7 @@ public class AuthController {
 			authService.registerMember(PasswordEncodedRequest);
 		} catch (UsernameDuplicateException e) {
 			bindingResult.rejectValue("username", "duplicate", e.getMessage());
-			return "/signup";
+			return "signup";
 		}
 
 		return "redirect:/login?welcome";
