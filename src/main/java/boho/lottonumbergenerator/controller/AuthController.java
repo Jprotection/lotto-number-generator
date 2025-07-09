@@ -1,6 +1,10 @@
 package boho.lottonumbergenerator.controller;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +36,16 @@ public class AuthController {
 
 	/* 로그인 view 호출 */
 	@GetMapping("/login")
-	public String loginView(@SessionAttribute(value = "authError", required = false) String authError, Model model) {
+	public String loginView(@SessionAttribute(value = "authError", required = false) String authError,
+		@CurrentSecurityContext SecurityContext securityContext, Model model) {
+
+		Authentication authentication = securityContext.getAuthentication();
+
+		// 로그인 상태에서 다시 로그인 호출하면 로그아웃 화면으로 리다이렉트
+		if (!(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
+			return "redirect:/logout";
+		}
+
 		model.addAttribute("authError", authError);
 		return "login";
 	}
