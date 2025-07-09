@@ -1,10 +1,7 @@
 package boho.lottonumbergenerator.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,11 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import boho.lottonumbergenerator.config.security.MemberDetails;
 import boho.lottonumbergenerator.config.security.UsernameDuplicateException;
 import boho.lottonumbergenerator.dto.MemberRegisterRequest;
 import boho.lottonumbergenerator.service.AuthService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -28,17 +24,26 @@ public class AuthController {
 	private final PasswordEncoder passwordEncoder;
 	private final AuthService authService;
 
+	/* 회원가입 view 호출 */
 	@GetMapping("/signup")
 	public String signupView(@ModelAttribute("registerRequest") MemberRegisterRequest request) {
 		return "signup";
 	}
 
+	/* 로그인 view 호출 */
 	@GetMapping("/login")
 	public String loginView(@SessionAttribute(value = "authError", required = false) String authError, Model model) {
 		model.addAttribute("authError", authError);
 		return "login";
 	}
 
+	/* 로그아웃 view 호출 */
+	@GetMapping("/logout")
+	public String logoutView() {
+		return "logout";
+	}
+
+	/* 회원가입 실행 */
 	@PostMapping("/signup")
 	public String signup(@ModelAttribute("registerRequest") @Validated MemberRegisterRequest request,
 		BindingResult bindingResult) {
@@ -60,16 +65,14 @@ public class AuthController {
 		return "redirect:/login?welcome";
 	}
 
-	@GetMapping("/logout")
-	public String logout(
-		HttpServletRequest request, HttpServletResponse response,
-		@CurrentSecurityContext SecurityContext securityContext) {
-		// Authentication authentication = SecurityContextHolder.getContextHolderStrategy().getContext().getAuthentication();
-		Authentication authentication = securityContext.getAuthentication();
-		if (authentication != null) {
-			new SecurityContextLogoutHandler().logout(request, response, authentication);
-		}
+	/* 로그인은 했지만 접근 권한이 없을 때 호출 */
+	@GetMapping("/denied")
+	public String accessDenied(@SessionAttribute(value = "accessError", required = false) String accessError,
+		@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
 
-		return "redirect:/login";
+		model.addAttribute("username", memberDetails.getUsername());
+		model.addAttribute("accessError", accessError);
+
+		return "denied";
 	}
 }

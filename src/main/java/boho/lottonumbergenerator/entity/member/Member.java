@@ -68,4 +68,8 @@ public class Member {
 			.gender(request.gender())
 			.build();
 	}
+
+	public void updateLastLoginDate() {
+		this.lastLoginDate = LocalDateTime.now();
+	}
 }

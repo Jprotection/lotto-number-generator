@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layouts/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>접근 거부</title>
+    <link rel="stylesheet" th:href="@{/css/denied.css}">
+</head>
+<body>
+    <section layout:fragment="content">
+        <div class="denied__background">
+            <div class="denied__container">
+                <h1 class="denied__container__title">웹페이지를 불러올 수 없음</h1>
+                <span th:text="|${username}님은 해당 페이지에 접근할 권한이 없습니다.|"></span>
+                <span th:text="${accessError}"></span>
+                <span>이 문제에 대한 도움을 받을 수 있도록 관리자에게 문의해주세요.</span>
+            </div>
+            <a th:href="@{/}" class="home-button">🏠 홈으로</a>
+        </div>
+    </section>
+</body>
+</html>

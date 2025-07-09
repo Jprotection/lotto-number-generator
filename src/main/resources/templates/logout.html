@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layouts/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>로그아웃</title>
+    <link rel="stylesheet" th:href="@{/css/logout.css}">
+</head>
+<body>
+    <section layout:fragment="content">
+        <div class="logout__background">
+            <div class="logout__container">
+                <h1>정말로 로그아웃 하시겠습니까?</h1>
+                <form class="logout__form" th:action="@{/logout}" method="post">
+                    <button type="submit">로그아웃</button>
+                </form>
+            </div>
+            <a th:href="@{/}" class="home-button">🏠 홈으로</a>
+        </div>
+    </section>
+</body>
+</html>

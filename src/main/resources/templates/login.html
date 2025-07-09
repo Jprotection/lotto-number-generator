@@ -10,6 +10,9 @@
       <div th:if="${param.welcome}" class="welcome__login">
         🎉 회원가입이 완료되었습니다! 🎉
       </div>
+      <div th:if="${param.logout}" class="logout__success">
+        로그아웃이 완료되었습니다!
+      </div>
       <div class="login__container">
         <h1 class="login__container__title">로그인</h1>
         <div th:if="${param.error}" class="authentication__failed">

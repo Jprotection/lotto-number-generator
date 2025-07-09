@@ -1,0 +1,66 @@
+.logout__background {
+    padding: 3rem;
+    color: white;
+    font-weight: bold;
+    background-color: #1C2333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout__container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5rem;
+    width: 50vw;
+    padding: 2rem 2.5rem 2.5rem;
+    margin-bottom: 2rem;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+
+.logout__container h1 {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.logout__form button {
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 5px;
+}
+
+.home-button {
+    padding: 0.5rem 1rem;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .logout__background {
+        padding: 3rem 3rem 20rem;
+    }
+
+    .logout__container {
+        width: 70vw;
+        gap: 4rem;
+        padding: 1.1rem 1.5rem 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .logout__container h1 {
+        font-size: 1.3rem;
+    }
+
+    .home-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 769px) {
+
+}

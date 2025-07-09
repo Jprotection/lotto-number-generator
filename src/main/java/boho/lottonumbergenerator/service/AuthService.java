@@ -28,4 +28,10 @@ public class AuthService {
 		Member member = memberRepository.save(Member.from(request));
 		log.info("New Member Registered - ID: [{}] | username: [{}]", member.getId(), member.getUsername());
 	}
+
+	@Transactional
+	public void updateLastLoginDate(String username) {
+		memberRepository.findByUsername(username)
+			.ifPresent(Member::updateLastLoginDate);
+	}
 }
