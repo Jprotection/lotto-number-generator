@@ -13,7 +13,7 @@
       <div class="login__container">
         <h1 class="login__container__title">로그인</h1>
         <div th:if="${param.error}" class="authentication__failed">
-          <span th:text="${exception}?: '잘못된 아이디 혹은 비밀번호입니다!'"></span>
+          <span th:text="${authError}"></span>
         </div>
 
         <form class="login__form" th:action="@{/login}" method="post">
