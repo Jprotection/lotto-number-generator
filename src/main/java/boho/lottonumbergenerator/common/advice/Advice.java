@@ -16,7 +16,7 @@ public class Advice {
 	}
 
 	@ExceptionHandler(RuntimeException.class)
-	public String handleJsonProcessingException(RuntimeException e, Model model) {
+	public String handleRuntimeException(RuntimeException e, Model model) {
 		model.addAttribute("message", e.getMessage());
 		return "error/500";
 	}

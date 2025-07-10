@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import boho.lottonumbergenerator.config.security.MemberDetails;
-import boho.lottonumbergenerator.dto.MemberInfoRequest;
+import boho.lottonumbergenerator.dto.MemberInfoResponse;
 import boho.lottonumbergenerator.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/member")
+@RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberController {
 
@@ -20,7 +20,7 @@ public class MemberController {
 
 	@GetMapping("/mypage")
 	public String myPage(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-		MemberInfoRequest memberInfo = memberService.getMemberInfo(memberDetails.getUsername());
+		MemberInfoResponse memberInfo = memberService.getMemberInfo(memberDetails.getUsername());
 		model.addAttribute("memberInfo", memberInfo);
 		return "my-page";
 	}

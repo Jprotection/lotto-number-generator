@@ -12,6 +12,10 @@
             <span th:text="|권한: *{authority.displayName}|"></span>
             <span th:text="|가입 일시: ${#temporals.format(memberInfo.createDate, 'yyyy-MM-dd HH:mm:ss')}|"></span>
             <span th:text="|최근 로그인 일시: ${#temporals.format(memberInfo.lastLoginDate, 'yyyy-MM-dd HH:mm:ss')}|"></span>
+            <div class="title__container">
+                <span>칭호 목록</span>
+                <span th:each="title : *{titles}" th:text="|✨ ${title} ✨|"></span>
+            </div>
         </div>
     </div>
 </body>

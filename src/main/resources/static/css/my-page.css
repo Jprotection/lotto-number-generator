@@ -26,6 +26,12 @@
     font-size: 1.5rem;
 }
 
+.title__container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 @media (max-width: 768px) {
     .my__page__background {
         justify-content: flex-start;

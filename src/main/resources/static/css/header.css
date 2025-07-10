@@ -24,6 +24,10 @@
 
         font-size: 1em;
     }
+
+    .header__items {
+        gap: 1rem;
+    }
 }
 
 @media (min-width: 769px) {

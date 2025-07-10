@@ -30,7 +30,7 @@ public class TitleService {
 			log.info("Default title added: [{}]", defaultTitleName);
 		}
 
-		log.info("Title list: {}", titleRepository.findAll().stream()
+		log.info("생성된 칭호 목록: {}", titleRepository.findAll().stream()
 			.map(Title::getName)
 			.toList());
 	}
