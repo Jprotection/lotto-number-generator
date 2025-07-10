@@ -1,6 +1,7 @@
 @import url('./intro.css');
 @import url('./header.css');
 @import url('./footer.css');
+@import url('./sidebar.css');
 
 /* 구글 웹폰트 */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');

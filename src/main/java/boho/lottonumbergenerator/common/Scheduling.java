@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.config;
+package boho.lottonumbergenerator.common;
 
 import java.util.Optional;
 
@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import boho.lottonumbergenerator.config.cache.CacheType;
+import boho.lottonumbergenerator.common.cache.CacheType;
 import boho.lottonumbergenerator.repository.GeneratedLottoRepository;
 import boho.lottonumbergenerator.service.LottoApiService;
 import lombok.RequiredArgsConstructor;

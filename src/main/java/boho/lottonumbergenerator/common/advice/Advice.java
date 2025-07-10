@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.config.advice;
+package boho.lottonumbergenerator.common.advice;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

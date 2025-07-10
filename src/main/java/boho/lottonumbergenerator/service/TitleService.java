@@ -1,5 +1,6 @@
 package boho.lottonumbergenerator.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class TitleService {
 
+	@Value("${title.default.name}")
+	private String defaultTitleName;
+
 	private final TitleRepository titleRepository;
 
 	@Transactional
@@ -22,12 +26,18 @@ public class TitleService {
 	public void initializeDefaultTitle() {
 
 		if (!titleRepository.existsByIdIsNotNull()) {
-			titleRepository.save(new Title("로또 탐구자"));
-			log.info("Default title added: 로또 탐구자");
+			titleRepository.save(new Title(defaultTitleName));
+			log.info("Default title added: [{}]", defaultTitleName);
 		}
 
 		log.info("Title list: {}", titleRepository.findAll().stream()
 			.map(Title::getName)
 			.toList());
+	}
+
+	@Transactional
+	public void createTitle(Integer drawNumber, Integer prizeRank) {
+		Title title = titleRepository.save(new Title(drawNumber + "회차 " + prizeRank + "등 당첨자"));
+		log.info("New title created: [{}]", title.getName());
 	}
 }

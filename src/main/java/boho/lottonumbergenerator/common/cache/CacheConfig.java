@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.config.cache;
+package boho.lottonumbergenerator.common.cache;
 
 import java.util.Arrays;
 import java.util.List;

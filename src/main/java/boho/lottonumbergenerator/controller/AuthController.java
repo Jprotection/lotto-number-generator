@@ -30,7 +30,14 @@ public class AuthController {
 
 	/* 회원가입 view 호출 */
 	@GetMapping("/signup")
-	public String signupView(@ModelAttribute("registerRequest") MemberRegisterRequest request) {
+	public String signupView(@ModelAttribute("registerRequest") MemberRegisterRequest request,
+		@CurrentSecurityContext SecurityContext securityContext) {
+
+		// 로그인 상태에서 회원가입 호출하면 로그아웃 화면으로 리다이렉트
+		if (isLoginNow(securityContext)) {
+			return "redirect:/logout";
+		}
+
 		return "signup";
 	}
 
@@ -39,10 +46,8 @@ public class AuthController {
 	public String loginView(@SessionAttribute(value = "authError", required = false) String authError,
 		@CurrentSecurityContext SecurityContext securityContext, Model model) {
 
-		Authentication authentication = securityContext.getAuthentication();
-
 		// 로그인 상태에서 다시 로그인 호출하면 로그아웃 화면으로 리다이렉트
-		if (!(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
+		if (isLoginNow(securityContext)) {
 			return "redirect:/logout";
 		}
 
@@ -87,5 +92,11 @@ public class AuthController {
 		model.addAttribute("accessError", accessError);
 
 		return "denied";
+	}
+
+	/* 현재 로그인 상태인지 확인 */
+	private boolean isLoginNow(SecurityContext securityContext) {
+		Authentication authentication = securityContext.getAuthentication();
+		return (!(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated());
 	}
 }

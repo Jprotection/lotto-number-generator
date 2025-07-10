@@ -24,6 +24,10 @@ lotto:
     delete-time: "0 0 0 1 * ?" # 매월 1일 자정
   purchase:
     cutoff-time: "20:00:00"
+
+title:
+  default:
+    name: 로또 탐구자
 ---
 spring:
   config:

@@ -1,0 +1,47 @@
+.my__page__background {
+    flex: 1;
+    padding: 3rem;
+    color: white;
+    font-weight: bold;
+    background-color: #1C2333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.my__info__container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 50vw;
+    padding: 1.5rem;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+
+.my__info__container span {
+    display: inline-block;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .my__page__background {
+        justify-content: flex-start;
+    }
+
+    .my__info__container {
+        gap: 1.5rem;
+        width: 70vw;
+        padding: 1.5rem;
+    }
+
+    .my__info__container span {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 769px) {
+
+}
