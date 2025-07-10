@@ -29,7 +29,7 @@ public class SecurityConfig {
 				// 정적 자원 접근 허용
 				// CSS("/css/**"), JAVA_SCRIPT("/js/**"), IMAGES("/images/**"), WEB_JARS("/webjars/**"), FAVICON("/favicon.*", "/*/icon-*")
 				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-				.requestMatchers("/member/**").authenticated()
+				.requestMatchers("/members/**").authenticated()
 				.requestMatchers("/logout","/denied").authenticated()
 				.anyRequest().permitAll())
 			.formLogin(form -> form
