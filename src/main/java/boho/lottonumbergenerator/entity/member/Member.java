@@ -72,4 +72,9 @@ public class Member {
 	public void updateLastLoginDate() {
 		this.lastLoginDate = LocalDateTime.now();
 	}
+
+	public void withdraw() {
+		this.status = StatusType.WITHDRAWN;
+		this.withdrawDate = LocalDateTime.now();
+	}
 }

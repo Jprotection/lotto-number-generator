@@ -11,18 +11,21 @@ import lombok.Getter;
 @Getter
 public class MemberDetails implements UserDetails {
 
+	private final Long id;
 	private final String username;
 	private final String password;
 	private final List<GrantedAuthority> authorities;
 	// private final boolean accountNonExpired;
 	// private final boolean accountNonLocked;
 	// private final boolean credentialsNonExpired;
-	// private final boolean enabled;
+	private final boolean enabled;
 
-	public MemberDetails(String username, String password, List<GrantedAuthority> authorities) {
+	public MemberDetails(Long id, String username, String password, List<GrantedAuthority> authorities, boolean enabled) {
+		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.authorities = authorities;
+		this.enabled = enabled;
 	}
 
 	@Override
@@ -38,5 +41,10 @@ public class MemberDetails implements UserDetails {
 	@Override
 	public String getUsername() {
 		return this.username;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return this.enabled;
 	}
 }

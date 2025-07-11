@@ -19,6 +19,11 @@
     margin-bottom: 2rem;
 }
 
+.withdraw__success {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
 .login__container {
     display: flex;
     flex-direction: column;
@@ -104,6 +109,11 @@
     }
 
     .logout__success {
+        font-size: 1.3rem;
+        margin: -1rem 0 1.5rem;
+    }
+
+    .withdraw__success {
         font-size: 1.3rem;
         margin: -1rem 0 1.5rem;
     }

@@ -1,0 +1,67 @@
+.goodbye__background {
+    flex: 1;
+    padding: 3rem;
+    color: white;
+    font-weight: bold;
+    background-color: #1C2333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.goodbye__container {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    width: 50vw;
+    padding: 2rem 2.5rem 2.5rem;
+    margin-bottom: 2rem;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+
+.goodbye__container__title {
+    display: flex;
+    flex-direction: column;
+}
+
+.goodbye__container__title h1 {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.goodbye__container span {
+    font-size: 1.5rem;
+}
+
+.goodbye__form button {
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .goodbye__container {
+        width: 70vw;
+        gap: 3rem;
+        padding: 1rem 1.2rem 1.2rem;
+    }
+
+    .goodbye__container__title h1 {
+        font-size: 1.4rem;
+    }
+
+    .goodbye__container span {
+        font-size: 1.1rem;
+    }
+
+    .goodbye__form button {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 769px) {
+
+}
+

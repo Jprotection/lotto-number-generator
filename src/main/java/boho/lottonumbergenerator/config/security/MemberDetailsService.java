@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import boho.lottonumbergenerator.entity.member.Member;
+import boho.lottonumbergenerator.entity.member.StatusType;
 import boho.lottonumbergenerator.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,11 @@ public class MemberDetailsService implements UserDetailsService {
 		List<GrantedAuthority> authorities =
 			List.of(new SimpleGrantedAuthority(member.getAuthority().name()));
 
-		return new MemberDetails(member.getUsername(), member.getPassword(), authorities);
+		return new MemberDetails(
+			member.getId(),
+			member.getUsername(),
+			member.getPassword(),
+			authorities,
+			member.getStatus() != StatusType.WITHDRAWN);
 	}
 }

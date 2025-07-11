@@ -2,6 +2,7 @@ package boho.lottonumbergenerator.config.security;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -23,6 +24,10 @@ public class MemberAuthenticationProvider implements AuthenticationProvider {
 		String username = authentication.getName();
 		String password = (String)authentication.getCredentials();
 		MemberDetails memberDetails = (MemberDetails)userDetailsService.loadUserByUsername(username);
+
+		if (!memberDetails.isEnabled()) {
+			throw new DisabledException("탈퇴 처리된 계정입니다!");
+		}
 
 		if (!passwordEncoder.matches(password, memberDetails.getPassword())) {
 			throw new BadCredentialsException("Invalid password with username: " + username);

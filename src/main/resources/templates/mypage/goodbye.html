@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{layouts/member-layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>회원 탈퇴</title>
+    <link rel="stylesheet" th:href="@{/css/goodbye.css}">
+</head>
+<body>
+    <div layout:fragment="content" class="goodbye__background">
+        <div class="goodbye__container">
+            <div class="goodbye__container__title">
+                <h1 th:text="|${#authentication.principal.username}님|"></h1>
+                <h1>정말로 회원탈퇴 하시겠습니까? 😥</h1>
+            </div>
+            <span>⚠️ 탈퇴하면 해당 계정은 영구적으로 삭제되어 복구할 수 없습니다. ⚠️</span>
+            <form class="goodbye__form"
+                  th:action="@{/members/{id}(id=${#authentication.principal.id})}" method="post">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit">회원 탈퇴</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
