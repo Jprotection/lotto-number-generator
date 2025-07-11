@@ -1,6 +1,6 @@
 <div th:fragment="sidebar" class="sidebar">
     <a th:href="@{/members/mypage}" class="sidebar__menu">내 정보</a>
-    <a th:href="@{/members/mypage}" class="sidebar__menu">My 로또</a>
+    <a th:href="@{/members/lottos/{id}(id=${#authentication.principal.id})}" class="sidebar__menu">My 로또</a>
     <a th:href="@{/members/mypage}" class="sidebar__menu">비밀번호 변경</a>
     <a th:href="@{/members/goodbye}" class="sidebar__menu">회원탈퇴</a>
 </div>

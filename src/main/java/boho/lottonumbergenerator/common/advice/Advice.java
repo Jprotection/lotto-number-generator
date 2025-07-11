@@ -4,20 +4,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import boho.lottonumbergenerator.config.security.UsernameDuplicateException;
-
 @ControllerAdvice
 public class Advice {
 
-	@ExceptionHandler(UsernameDuplicateException.class)
-	public String handleJsonProcessingException(UsernameDuplicateException e, Model model) {
-		model.addAttribute("message", e.getMessage());
-		return "redirect:/signup";
-	}
-
-	@ExceptionHandler(RuntimeException.class)
-	public String handleRuntimeException(RuntimeException e, Model model) {
-		model.addAttribute("message", e.getMessage());
+	@ExceptionHandler(Exception.class)
+	public String handleRuntimeException(Exception e, Model model) {
+		model.addAttribute("message", "죄송합니다 유효하지 않은 요청입니다.");
+		e.printStackTrace();
 		return "error/500";
 	}
 }

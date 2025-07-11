@@ -1,5 +1,8 @@
 package boho.lottonumbergenerator.controller;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,11 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import boho.lottonumbergenerator.config.security.MemberDetails;
 import boho.lottonumbergenerator.dto.MemberInfoResponse;
+import boho.lottonumbergenerator.dto.MemberLottoSearchRequest;
 import boho.lottonumbergenerator.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +37,21 @@ public class MemberController {
 		MemberInfoResponse memberInfo = memberService.getMemberInfo(memberDetails.getUsername());
 		model.addAttribute("memberInfo", memberInfo);
 		return "mypage/my-page";
+	}
+
+	@GetMapping("/lottos/{id}")
+	public String myLotto(@PathVariable Long id,
+		@ModelAttribute("searchRequest") MemberLottoSearchRequest request,
+		@PageableDefault(sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable,
+		@CurrentSecurityContext SecurityContext securityContext,
+		Model model) {
+		if (!isMemberIdMatching(id, securityContext)) {
+			throw new AccessDeniedException("유효하지 않은 접근입니다!");
+		}
+
+		model.addAttribute("memberLotto", memberService.findMemberLotto(id, request, pageable));
+		model.addAttribute("pageable", pageable);
+		return "mypage/my-lotto";
 	}
 
 	@GetMapping("/goodbye")

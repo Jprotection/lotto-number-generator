@@ -31,6 +31,7 @@ public class SecurityConfig {
 				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 				.requestMatchers("/members/**").authenticated()
 				.requestMatchers("/logout","/denied").authenticated()
+				.requestMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().permitAll())
 			.formLogin(form -> form
 				.loginPage("/login")
