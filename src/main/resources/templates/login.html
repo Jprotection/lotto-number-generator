@@ -25,11 +25,11 @@
         <form class="login__form" th:action="@{/login}" method="post">
           <div class="login__form__username">
             <label for="username">아이디</label>
-            <input type="text" id="username" name="username" placeholder="아이디는 8자 이하입니다." maxlength="8" required>
+            <input type="text" id="username" name="username" placeholder="아이디는 4자 이상 8자 이하입니다." minlength="4" maxlength="8" required>
           </div>
           <div class="login__form__password">
             <label for="password">비밀번호</label>
-            <input type="password" id="password" name="password" placeholder="비밀번호는 8자 이상입니다." minlength="8" required>
+            <input type="password" id="password" name="password" placeholder="비밀번호는 8자 이상 12자 이하입니다." minlength="8" maxlength="12" required>
           </div>
           <button type="submit">로그인</button>
         </form>

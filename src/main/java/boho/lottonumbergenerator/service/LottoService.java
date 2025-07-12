@@ -57,11 +57,11 @@ public class LottoService {
 		List<Integer> includeNumbers = includeNumberRequest.toIncludeNumberList();
 		List<Integer> excludeNumbers = excludeNumberRequest.toExcludeNumberList();
 
+		OfficialLotto latestOfficialLotto = findLatestOfficialLotto();
 		// 생성된 로또가 적용될 추첨 회차
-		Integer drawNumber = findLatestOfficialLotto().getDrawNumber() + 1;
-
+		Integer drawNumber = calculateDrawNumber(latestOfficialLotto);
 		// 생성된 로또가 적용될 추첨 날짜
-		LocalDate drawDate = findLatestOfficialLotto().getDrawDate().plusWeeks(1);
+		LocalDate drawDate = calculateDrawDate(latestOfficialLotto);
 
 		List<LottoGenerateResponse> generatedLottoList = new ArrayList<>();
 
@@ -151,6 +151,24 @@ public class LottoService {
 		);
 	}
 
+	// 미당첨 로또를 찾는 메서드
+	@Transactional
+	@Cacheable(cacheNames = "winning_lotto", key = "#root.methodName")
+	public void fetchNotWinningLotto() {
+
+		if (!isOfficialLottoLoaded()) {
+			log.warn("공식 로또 데이터가 존재하지 않습니다.");
+			return;
+		}
+
+		LocalDateTime latestCutoffTime = findLatestOfficialLotto().getDrawDate().atTime(cutoffTime);
+
+		generatedLottoRepository.findByCreateDateBetween(latestCutoffTime.minusWeeks(1), latestCutoffTime)
+			.stream()
+			.filter(generatedLotto -> isNotWinningLotto(generatedLotto, findLatestOfficialLotto()))
+			.forEach(GeneratedLotto::markAsChecked);
+	}
+
 	public boolean isOfficialLottoLoaded() {
 		return officialLottoRepository.existsByDrawNumberIsNotNull();
 	}
@@ -174,6 +192,32 @@ public class LottoService {
 				() -> new UsernameNotFoundException("No Member found with username: " + authentication.getName()));
 	}
 
+	private Integer calculateDrawNumber(OfficialLotto latestOfficialLotto) {
+
+		if (enableThisWeek(latestOfficialLotto)) {
+			return latestOfficialLotto.getDrawNumber() + 1;
+		}
+
+		return latestOfficialLotto.getDrawNumber() + 2;
+	}
+
+	private LocalDate calculateDrawDate(OfficialLotto latestOfficialLotto) {
+
+		if (enableThisWeek(latestOfficialLotto)) {
+			return latestOfficialLotto.getDrawDate().plusWeeks(1);
+		}
+
+		return latestOfficialLotto.getDrawDate().plusWeeks(2);
+	}
+
+	private boolean enableThisWeek(OfficialLotto latestOfficialLotto) {
+		LocalDate nextDrawDate = latestOfficialLotto.getDrawDate().plusWeeks(1);
+		LocalDateTime nextCutoffTime = nextDrawDate.atTime(cutoffTime);
+
+		return !(LocalDateTime.now().isAfter(nextCutoffTime) &&
+			LocalDateTime.now().isBefore(nextCutoffTime.plusHours(1)));
+	}
+
 	// predicate에 따라 각 등수에 당첨된 로또를 탐색
 	private List<WinningLottoListResponse> findWinningLotto(Predicate<GeneratedLotto> predicate, Integer prizeRank) {
 
@@ -182,9 +226,9 @@ public class LottoService {
 			return List.of();
 		}
 
-		LocalDateTime latestDrawDate = findLatestOfficialLotto().getDrawDate().atTime(cutoffTime);
+		LocalDateTime latestCutoffTime = findLatestOfficialLotto().getDrawDate().atTime(cutoffTime);
 
-		return generatedLottoRepository.findByCreateDateBetween(latestDrawDate.minusWeeks(1), latestDrawDate)
+		return generatedLottoRepository.findByCreateDateBetween(latestCutoffTime.minusWeeks(1), latestCutoffTime)
 			.stream()
 			.filter(predicate)
 			.peek(lotto -> lotto.updatePrizeRank(prizeRank))
@@ -222,6 +266,12 @@ public class LottoService {
 	private boolean isFifthPrizeLotto(GeneratedLotto generatedLotto, OfficialLotto officialLotto) {
 		// 5등 조건 확인 (3개의 숫자 일치)
 		return getNumberMatchedCount(generatedLotto, officialLotto) == 3;
+	}
+
+	// 미당첨: 2개 이하의 숫자가 일치
+	private boolean isNotWinningLotto(GeneratedLotto generatedLotto, OfficialLotto officialLotto) {
+
+		return getNumberMatchedCount(generatedLotto, officialLotto) <= 2;
 	}
 
 	// GeneratedLotto와 OfficialLotto의 각 숫자 일치 비교

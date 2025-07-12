@@ -3,6 +3,7 @@ package boho.lottonumbergenerator.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import boho.lottonumbergenerator.common.util.LottoUtils;
 import boho.lottonumbergenerator.entity.lotto.GeneratedLotto;
 import boho.lottonumbergenerator.entity.member.Member;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.Builder;
 @Builder
 public record LottoGenerateResponse(
 
+	String summary,
 	Long id,
 	Member creator,
 	LocalDateTime createDate,
@@ -24,6 +26,7 @@ public record LottoGenerateResponse(
 
 	public static LottoGenerateResponse of(GeneratedLotto generatedLotto) {
 		return LottoGenerateResponse.builder()
+			.summary(LottoUtils.getSummary(generatedLotto))
 			.id(generatedLotto.getId())
 			.creator(generatedLotto.getMember())
 			.createDate(generatedLotto.getCreateDate())

@@ -48,6 +48,10 @@ public class GeneratedLotto extends BaseLottoEntity {
 	@Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
 	private Integer prizeRank = 0;
 
+	@Builder.Default
+	@Column(nullable = false)
+	private boolean isChecked = false;
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "include_numbers", joinColumns = @JoinColumn(name = "generated_lotto_id"),
 		foreignKey = @ForeignKey(name = "fk-generated_lottos-include_numbers"))
@@ -91,5 +95,10 @@ public class GeneratedLotto extends BaseLottoEntity {
 
 	public void updatePrizeRank(Integer prizeRank) {
 		this.prizeRank = prizeRank;
+		markAsChecked();
+	}
+
+	public void markAsChecked() {
+		this.isChecked = true;
 	}
 }

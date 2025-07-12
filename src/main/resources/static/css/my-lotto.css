@@ -84,21 +84,17 @@
     justify-content: center;
     align-items: center;
     padding: 1.3rem;
-    width: 40vw;
+    width: 50vw;
     background-color: white;
     color: black;
     border-radius: 20px;
     margin-bottom: 1.2rem;
 }
 
-
 .lotto__box__title {
     font-weight: bold;
-}
-
-.lotto__box h1 {
     color: black;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     margin-bottom: 0.8rem;
 }
 
@@ -200,16 +196,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 1.2rem;
     gap: 0.2rem;
+    margin-top: 0.4rem;
 }
 
 /* === 페이지네이션 === */
 .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
 }
 
 .pagination__list {
@@ -241,34 +237,25 @@
         padding: 0.8rem 1.2rem;
     }
 
+    .lotto__search__title {
+        font-size: 1.6rem;
+    }
+
     #lotto__search__form {
-        display: flex;
-        flex-direction: column;
+        gap: 0;
     }
 
-    #lotto__search__form span {
-        display: none;
-    }
-
-    .lotto__search__draw__number,
-    .lotto__search__draw__date,
     .lotto__search__numbers {
-        display: flex;
         flex-direction: column;
-        padding-bottom: 0.6rem;
+        padding-bottom: 1rem;
         border-bottom: 2px solid white;
-        margin-bottom: 0.6rem;
-        gap: 0.5rem;
-    }
-
-    .lotto__search__numbers,
-    .lotto__search__options {
+        margin-bottom: 0.8rem;
         gap: 0.5rem;
     }
 
     .lotto__search__options {
-        display: flex;
         flex-direction: column;
+        gap: 0.5rem;
     }
 
     .lotto__search__container ~ button {
@@ -283,36 +270,36 @@
 
     .lotto__box {
         padding: 0.8rem;
-        width: auto;
+        width: 80vw;
         margin-bottom: 1.2rem;
     }
 
-    .lotto__box .lotto__box__title {
+    .lotto__box__title {
         font-size: 1.3rem;
-        margin-bottom: 1rem;
     }
 
-    .lotto__box .lotto__balls {
+    .lotto__balls {
         margin-bottom: 0;
     }
 
     .lotto__ball {
-        margin: 2px;
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
     }
 
-    .lotto__balls p {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin: 0;
+    .include__exclude__title {
+        font-size: 1rem;
+    }
+
+    .include__exclude__number__ball {
+        width: 26px;
+        height: 26px;
+        font-size: 13px;
     }
 
     .lotto__information {
-        font-size: 0.8rem;
-        gap: 0.1rem;
-    }
-
-    .pagination {
-        margin-top: 1rem;
+        font-size: 1rem;
     }
 }
 

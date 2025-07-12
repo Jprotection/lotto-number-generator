@@ -32,6 +32,7 @@ public class HomeController {
 		List<WinningLottoListResponse> thirdPrizeLotto = lottoService.findAllThirdPrizeLotto();
 		List<WinningLottoListResponse> fourthPrizeLotto = lottoService.findAllFourthPrizeLotto();
 		List<WinningLottoListResponse> fifthPrizeLotto = lottoService.findAllFifthPrizeLotto();
+		lottoService.fetchNotWinningLotto();
 
 		if (lottoService.isOfficialLottoLoaded()
 			&& firstPrizeLotto.isEmpty()

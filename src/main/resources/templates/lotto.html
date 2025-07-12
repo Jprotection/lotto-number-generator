@@ -2,14 +2,14 @@
 <html lang="ko" layout:decorate="~{layouts/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>로또 조합 생성</title>
-    <link rel="stylesheet" th:href="@{/css/generated-lotto.css}">
     <link rel="stylesheet" th:href="@{/css/lotto.css}">
+    <link rel="stylesheet" th:href="@{/css/generated-lotto.css}">
 </head>
 <body>
     <section layout:fragment="content">
         <div class="lotto__box__container">
             <div class="lotto__box" th:each="lotto : ${lotto}" th:with="includeList=${lotto.includeNumbers}, excludeList=${lotto.excludeNumbers}">
-                <h1 class="lotto__box__title">🏆 생성된 조합 🏆</h1>
+                <h1 class="lotto__box__title" th:text="${lotto.summary}"></h1>
                 <div class="lotto__balls">
                     <div class="lotto__ball _1" th:text="${lotto.firstNumber}"></div>
                     <div class="lotto__ball _2" th:text="${lotto.secondNumber}"></div>
