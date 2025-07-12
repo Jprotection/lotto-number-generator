@@ -20,7 +20,7 @@ logging:
 
 lotto:
   schedule:
-    update-time: "0 30 21 ? * SAT" # 토요일 21:30
+    update-time: "0 0 21 ? * SAT" # 토요일 21:00
     delete-time: "0 0 0 1 * ?" # 매월 1일 자정
   purchase:
     cutoff-time: "20:00:00"
@@ -44,7 +44,7 @@ spring:
     # 이 설정 안하면 spring Error executing DDL "alter table faq drop foreign key if exists" 오류 발생
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:

@@ -1,5 +1,6 @@
 package boho.lottonumbergenerator.entity.lotto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -60,9 +61,11 @@ public class GeneratedLotto extends BaseLottoEntity {
 	private List<Integer> excludeNumbers;
 
 	public static GeneratedLotto from(
-		List<Integer> numbers, List<Integer> includeNumbers, List<Integer> excludeNumbers, Member creator) {
+		Integer drawNumber, LocalDate drawDate, List<Integer> numbers, List<Integer> includeNumbers, List<Integer> excludeNumbers, Member creator) {
 
 		return GeneratedLotto.builder()
+			.drawNumber(drawNumber)
+			.drawDate(drawDate)
 			.member(creator)
 			.firstNumber(numbers.getFirst())
 			.secondNumber(numbers.get(1))

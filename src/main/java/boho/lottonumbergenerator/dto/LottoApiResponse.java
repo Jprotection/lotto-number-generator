@@ -11,7 +11,7 @@ import lombok.Builder;
 public record LottoApiResponse(
 
 	@JsonProperty("drwNo") // 회차 번호
-	Long drawNumber,
+	Integer drawNumber,
 
 	@JsonProperty("drwNoDate") // 추첨일 (yyyy-MM-dd)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

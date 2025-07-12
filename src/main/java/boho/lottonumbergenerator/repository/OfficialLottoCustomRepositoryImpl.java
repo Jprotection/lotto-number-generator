@@ -100,11 +100,11 @@ public class OfficialLottoCustomRepositoryImpl implements OfficialLottoCustomRep
 	}
 
 	// 동적 쿼리 메서드 목록
-	private BooleanExpression drawNumberGoe(Long drawNumber) {
+	private BooleanExpression drawNumberGoe(Integer drawNumber) {
 		return drawNumber != null ? officialLotto.drawNumber.goe(drawNumber) : null;
 	}
 
-	private BooleanExpression drawNumberLoe(Long drawNumber) {
+	private BooleanExpression drawNumberLoe(Integer drawNumber) {
 		return drawNumber != null ? officialLotto.drawNumber.loe(drawNumber) : null;
 	}
 

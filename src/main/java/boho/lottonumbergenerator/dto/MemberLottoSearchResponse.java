@@ -1,13 +1,18 @@
 package boho.lottonumbergenerator.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import boho.lottonumbergenerator.common.util.LottoUtils;
 import boho.lottonumbergenerator.entity.lotto.GeneratedLotto;
 import lombok.Builder;
 
 @Builder
 public record MemberLottoSearchResponse(
+	String summary,
+	Integer drawNumber,
+	LocalDate drawDate,
 	LocalDateTime createDate,
 	Integer prizeRank,
 	Integer firstNumber,
@@ -21,6 +26,9 @@ public record MemberLottoSearchResponse(
 
 	public static MemberLottoSearchResponse of(GeneratedLotto generatedLotto) {
 		return MemberLottoSearchResponse.builder()
+			.summary(LottoUtils.getSummary(generatedLotto))
+			.drawNumber(generatedLotto.getDrawNumber())
+			.drawDate(generatedLotto.getDrawDate())
 			.createDate(generatedLotto.getCreateDate())
 			.prizeRank(generatedLotto.getPrizeRank())
 			.firstNumber(generatedLotto.getFirstNumber())

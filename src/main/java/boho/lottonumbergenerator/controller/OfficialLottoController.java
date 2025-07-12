@@ -27,7 +27,7 @@ public class OfficialLottoController {
 		@ModelAttribute("searchRequest") OfficialLottoSearchRequest request,
 		@PageableDefault(sort = "drawNumber", direction = Sort.Direction.DESC) Pageable pageable,
 		Model model) {
-		model.addAttribute("latestLotto", lottoService.findLatestOfficialLotto());
+		model.addAttribute("latestLotto", lottoService.getLatestOfficialLottoInfo());
 		model.addAttribute("pageable", pageable);
 		model.addAttribute("lotto", lottoApiService.findOfficialLotto(request, pageable));
 		return "official-lotto";

@@ -1,11 +1,12 @@
 package boho.lottonumbergenerator.entity.lotto;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 import boho.lottonumbergenerator.dto.LottoApiResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -20,10 +21,9 @@ import lombok.experimental.SuperBuilder;
 public class OfficialLotto extends BaseLottoEntity {
 
 	@Id
-	private Long drawNumber; // 회차 번호
-
-	@Column(nullable = false)
-	private LocalDate drawDate; // 추첨일 (yyyy-MM-dd)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "official_lotto_id")
+	private Long id;
 
 	@Column(nullable = false)
 	private Long totalSalesAmount; // 총 판매 금액

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import boho.lottonumbergenerator.config.security.MemberDetails;
-import boho.lottonumbergenerator.config.security.UsernameDuplicateException;
+import boho.lottonumbergenerator.common.security.MemberDetails;
+import boho.lottonumbergenerator.common.security.UsernameDuplicateException;
 import boho.lottonumbergenerator.dto.MemberRegisterRequest;
 import boho.lottonumbergenerator.service.AuthService;
 import lombok.RequiredArgsConstructor;

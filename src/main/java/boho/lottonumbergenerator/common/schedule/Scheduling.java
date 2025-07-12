@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.common;
+package boho.lottonumbergenerator.common.schedule;
 
 import java.util.Optional;
 

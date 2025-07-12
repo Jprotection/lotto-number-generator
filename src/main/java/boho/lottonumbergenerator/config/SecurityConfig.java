@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.config.security;
+package boho.lottonumbergenerator.config;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import boho.lottonumbergenerator.common.security.MemberAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 
 @Configuration

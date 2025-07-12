@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @Builder
 public record OfficialLottoResponse(
-	Long drawNumber,
+	Integer drawNumber,
 	LocalDate drawDate,
 	Integer firstNumber,
 	Integer secondNumber,

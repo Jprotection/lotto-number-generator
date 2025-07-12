@@ -1,11 +1,13 @@
 package boho.lottonumbergenerator.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -47,14 +49,21 @@ public class LottoService {
 	// 6개의 번호로 된 랜덤 로또 조합 생성
 	@Transactional
 	public List<LottoGenerateResponse> generateLotto(
-		Integer count, IncludeNumberRequest includeNumberRequest, ExcludeNumberRequest excludeNumberRequest, Authentication authentication) {
+		Integer count, IncludeNumberRequest includeNumberRequest, ExcludeNumberRequest excludeNumberRequest,
+		Authentication authentication) {
 
 		Member creator = identifyCreator(authentication);
 
 		List<Integer> includeNumbers = includeNumberRequest.toIncludeNumberList();
 		List<Integer> excludeNumbers = excludeNumberRequest.toExcludeNumberList();
 
-		List<LottoGenerateResponse> lottos = new ArrayList<>();
+		// 생성된 로또가 적용될 추첨 회차
+		Integer drawNumber = findLatestOfficialLotto().getDrawNumber() + 1;
+
+		// 생성된 로또가 적용될 추첨 날짜
+		LocalDate drawDate = findLatestOfficialLotto().getDrawDate().plusWeeks(1);
+
+		List<LottoGenerateResponse> generatedLottoList = new ArrayList<>();
 
 		for (int i = 0; i < count; i++) {
 			List<Integer> generatedNumbers = new Random().ints()
@@ -73,14 +82,17 @@ public class LottoService {
 				.sorted()
 				.toList();
 
-			GeneratedLotto generatedLotto = GeneratedLotto.from(numbers, includeNumbers, excludeNumbers, creator);
-			lottos.add(LottoGenerateResponse.of(generatedLottoRepository.save(generatedLotto)));
+			GeneratedLotto generatedLotto = GeneratedLotto.from(
+				drawNumber, drawDate, numbers, includeNumbers, excludeNumbers, creator);
+			generatedLottoList.add(LottoGenerateResponse.of(generatedLottoRepository.save(generatedLotto)));
 
-			log.info("New lotto numbers generated: {} | ID: [{}] | creatorUsername: [{}] | Include numbers: {} | Exclude numbers: {}",
-				generatedLotto.toNumberList(), generatedLotto.getId(), creator != null ? creator.getUsername() : "WhoAmI", includeNumbers, excludeNumbers);
+			log.info(
+				"New lotto numbers generated: {} | ID: [{}] | creatorUsername: [{}] | Include numbers: {} | Exclude numbers: {}",
+				generatedLotto.toNumberList(), generatedLotto.getId(),
+				creator != null ? creator.getUsername() : "WhoAmI", includeNumbers, excludeNumbers);
 		}
 
-		return lottos;
+		return generatedLottoList;
 	}
 
 	public List<LottoListResponse> getAllGeneratedLotto() {
@@ -95,9 +107,7 @@ public class LottoService {
 	public List<WinningLottoListResponse> findAllFirstPrizeLotto() {
 
 		return findWinningLotto(
-			generatedLotto -> isFirstPrizeLotto(
-				generatedLotto, officialLottoRepository.findTop2ByOrderByDrawDateDesc().getFirst()),
-			generatedLotto -> generatedLotto.updatePrizeRank(1)
+			generatedLotto -> isFirstPrizeLotto(generatedLotto, findLatestOfficialLotto()), 1
 		);
 	}
 
@@ -107,9 +117,7 @@ public class LottoService {
 	public List<WinningLottoListResponse> findAllSecondPrizeLotto() {
 
 		return findWinningLotto(
-			generatedLotto -> isSecondPrizeLotto(
-				generatedLotto, officialLottoRepository.findTop2ByOrderByDrawDateDesc().getFirst()),
-			generatedLotto -> generatedLotto.updatePrizeRank(2)
+			generatedLotto -> isSecondPrizeLotto(generatedLotto, findLatestOfficialLotto()), 2
 		);
 	}
 
@@ -119,9 +127,7 @@ public class LottoService {
 	public List<WinningLottoListResponse> findAllThirdPrizeLotto() {
 
 		return findWinningLotto(
-			generatedLotto -> isThirdPrizeLotto(
-				generatedLotto, officialLottoRepository.findTop2ByOrderByDrawDateDesc().getFirst()),
-			generatedLotto -> generatedLotto.updatePrizeRank(3)
+			generatedLotto -> isThirdPrizeLotto(generatedLotto, findLatestOfficialLotto()), 3
 		);
 	}
 
@@ -131,9 +137,7 @@ public class LottoService {
 	public List<WinningLottoListResponse> findAllFourthPrizeLotto() {
 
 		return findWinningLotto(
-			generatedLotto -> isFourthPrizeLotto(
-				generatedLotto, officialLottoRepository.findTop2ByOrderByDrawDateDesc().getFirst()),
-			generatedLotto -> generatedLotto.updatePrizeRank(4)
+			generatedLotto -> isFourthPrizeLotto(generatedLotto, findLatestOfficialLotto()), 4
 		);
 	}
 
@@ -143,9 +147,7 @@ public class LottoService {
 	public List<WinningLottoListResponse> findAllFifthPrizeLotto() {
 
 		return findWinningLotto(
-			generatedLotto -> isFifthPrizeLotto(
-				generatedLotto, officialLottoRepository.findTop2ByOrderByDrawDateDesc().getFirst()),
-			generatedLotto -> generatedLotto.updatePrizeRank(5)
+			generatedLotto -> isFifthPrizeLotto(generatedLotto, findLatestOfficialLotto()), 5
 		);
 	}
 
@@ -154,8 +156,13 @@ public class LottoService {
 	}
 
 	@Cacheable(cacheNames = "winning_lotto", key = "#root.methodName")
-	public OfficialLottoResponse findLatestOfficialLotto() {
-		return OfficialLottoResponse.of(officialLottoRepository.findTopByOrderByDrawDateDesc());
+	public OfficialLottoResponse getLatestOfficialLottoInfo() {
+		return OfficialLottoResponse.of(findLatestOfficialLotto());
+	}
+
+	private OfficialLotto findLatestOfficialLotto() {
+		return officialLottoRepository.findTopByOrderByDrawDateDesc()
+			.orElseThrow(() -> new NoSuchElementException("로또 정보가 아직 로딩중입니다!"));
 	}
 
 	private Member identifyCreator(Authentication authentication) {
@@ -163,43 +170,31 @@ public class LottoService {
 			return null;
 		}
 		return memberRepository.findByUsername(authentication.getName())
-			.orElseThrow(() -> new UsernameNotFoundException("No Member found with username: " + authentication.getName()));
+			.orElseThrow(
+				() -> new UsernameNotFoundException("No Member found with username: " + authentication.getName()));
 	}
 
 	// predicate에 따라 각 등수에 당첨된 로또를 탐색
-	// consumer에 따라 각 등수에 맞게 GeneratedLotto의 prizeRank 업데이트
-	private List<WinningLottoListResponse> findWinningLotto(Predicate<GeneratedLotto> predicate,
-		Consumer<GeneratedLotto> consumer) {
+	private List<WinningLottoListResponse> findWinningLotto(Predicate<GeneratedLotto> predicate, Integer prizeRank) {
+
 		if (!isOfficialLottoLoaded()) {
 			log.warn("공식 로또 데이터가 존재하지 않습니다.");
 			return List.of();
 		}
 
-		return generatedLottoRepository.findByCreateDateBetween(
-				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 두 번째로 최신의 로또
-					.get(1)
-					.getDrawDate()
-					.atTime(cutoffTime),
-				officialLottoRepository.findTop2ByOrderByDrawDateDesc() // 가장 최신의 로또
-					.getFirst()
-					.getDrawDate()
-					.atTime(cutoffTime)
-			)
+		LocalDateTime latestDrawDate = findLatestOfficialLotto().getDrawDate().atTime(cutoffTime);
+
+		return generatedLottoRepository.findByCreateDateBetween(latestDrawDate.minusWeeks(1), latestDrawDate)
 			.stream()
 			.filter(predicate)
-			.peek(consumer)
+			.peek(lotto -> lotto.updatePrizeRank(prizeRank))
 			.map(WinningLottoListResponse::of)
 			.toList();
 	}
 
 	// 1등 당첨 조건: 6개의 숫자가 모두 일치해야 함
 	private boolean isFirstPrizeLotto(GeneratedLotto generatedLotto, OfficialLotto officialLotto) {
-		return (generatedLotto.getFirstNumber().equals(officialLotto.getFirstNumber()) &&
-			generatedLotto.getSecondNumber().equals(officialLotto.getSecondNumber()) &&
-			generatedLotto.getThirdNumber().equals(officialLotto.getThirdNumber()) &&
-			generatedLotto.getFourthNumber().equals(officialLotto.getFourthNumber()) &&
-			generatedLotto.getFifthNumber().equals(officialLotto.getFifthNumber()) &&
-			generatedLotto.getSixthNumber().equals(officialLotto.getSixthNumber()));
+		return getNumberMatchedCount(generatedLotto, officialLotto) == 6;
 	}
 
 	// 2등 당첨 조건: 5개의 숫자와 보너스 숫자가 일치해야 함

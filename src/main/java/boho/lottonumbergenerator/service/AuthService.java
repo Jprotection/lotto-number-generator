@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import boho.lottonumbergenerator.common.event.MemberRegisterSuccessEvent;
-import boho.lottonumbergenerator.config.security.UsernameDuplicateException;
+import boho.lottonumbergenerator.common.security.UsernameDuplicateException;
 import boho.lottonumbergenerator.dto.MemberRegisterRequest;
 import boho.lottonumbergenerator.entity.member.Member;
 import boho.lottonumbergenerator.repository.MemberRepository;

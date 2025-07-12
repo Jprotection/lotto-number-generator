@@ -1,5 +1,7 @@
 package boho.lottonumbergenerator.entity.lotto;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -11,6 +13,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 public abstract class BaseLottoEntity {
+
+	@Column(nullable = false)
+	protected Integer drawNumber; // 추첨 회차
+
+	@Column(nullable = false)
+	protected LocalDate drawDate; // 추첨일 (yyyy-MM-dd)
 
 	@Column(nullable = false)
 	protected Integer firstNumber;

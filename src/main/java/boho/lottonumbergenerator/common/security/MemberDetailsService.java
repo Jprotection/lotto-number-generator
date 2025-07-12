@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.config.security;
+package boho.lottonumbergenerator.common.security;
 
 import java.util.List;
 

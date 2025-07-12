@@ -1,4 +1,4 @@
-package boho.lottonumbergenerator.config.security;
+package boho.lottonumbergenerator.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
