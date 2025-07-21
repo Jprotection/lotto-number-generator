@@ -1,14 +1,13 @@
 package boho.lottonumbergenerator.controller;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import boho.lottonumbergenerator.dto.WinningLottoListResponse;
-import boho.lottonumbergenerator.service.LottoService;
+import boho.lottonumbergenerator.domain.dto.WinningLottoRankGroupResponse;
+import boho.lottonumbergenerator.service.GeneratedLottoService;
+import boho.lottonumbergenerator.service.OfficialLottoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,37 +17,23 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class HomeController {
 
-	private final LottoService lottoService;
+	private final OfficialLottoService officialLottoService;
+	private final GeneratedLottoService generatedLottoService;
 
 	@GetMapping
 	public String findWinningLotto(Model model) {
-		if (!lottoService.isOfficialLottoLoaded()) {
+		if (officialLottoService.isOfficialLottoNotLoaded()) {
 			model.addAttribute("message", "로또 데이터를 로딩 중입니다.");
 			return "home";
 		}
 
-		List<WinningLottoListResponse> firstPrizeLotto = lottoService.findAllFirstPrizeLotto();
-		List<WinningLottoListResponse> secondPrizeLotto = lottoService.findAllSecondPrizeLotto();
-		List<WinningLottoListResponse> thirdPrizeLotto = lottoService.findAllThirdPrizeLotto();
-		List<WinningLottoListResponse> fourthPrizeLotto = lottoService.findAllFourthPrizeLotto();
-		List<WinningLottoListResponse> fifthPrizeLotto = lottoService.findAllFifthPrizeLotto();
-		lottoService.fetchNotWinningLotto();
-
-		if (lottoService.isOfficialLottoLoaded()
-			&& firstPrizeLotto.isEmpty()
-			&& secondPrizeLotto.isEmpty()
-			&& thirdPrizeLotto.isEmpty()
-			&& fourthPrizeLotto.isEmpty()
-			&& fifthPrizeLotto.isEmpty()) {
+		WinningLottoRankGroupResponse winningLotto = generatedLottoService.fetchAllWinningLotto();
+		if (winningLotto.isEmptyAll()) {
 			model.addAttribute("message", "최신 회차의 당첨자가 없습니다.");
 		}
 
-		model.addAttribute("firstPrizeLotto", firstPrizeLotto);
-		model.addAttribute("secondPrizeLotto", secondPrizeLotto);
-		model.addAttribute("thirdPrizeLotto", thirdPrizeLotto);
-		model.addAttribute("fourthPrizeLotto", fourthPrizeLotto);
-		model.addAttribute("fifthPrizeLotto", fifthPrizeLotto);
-		model.addAttribute("latestLotto", lottoService.getLatestOfficialLottoInfo());
+		model.addAttribute("winningLotto", winningLotto);
+		model.addAttribute("latestLotto", officialLottoService.getLatestOfficialLotto());
 
 		return "home";
 	}

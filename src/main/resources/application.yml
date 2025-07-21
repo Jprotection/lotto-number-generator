@@ -21,7 +21,6 @@ logging:
 lotto:
   schedule:
     update-time: "0 0 21 ? * SAT" # 토요일 21:00
-    delete-time: "0 0 0 1 * ?" # 매월 1일 자정
   purchase:
     cutoff-time: "20:00:00"
 

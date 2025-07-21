@@ -9,7 +9,10 @@
         <div class="my__info__container" th:object="${memberInfo}">
             <span th:text="|아이디: *{username}|"></span>
             <span th:text="|성별: *{gender.displayName}|"></span>
-            <span th:text="|권한: *{authority.displayName}|"></span>
+            <div class="role__container">
+                <span>권한</span>
+                <span th:each="role : *{roles}" th:text="|✨ ${role} ✨|"></span>
+            </div>
             <span th:text="|가입 일시: ${#temporals.format(memberInfo.createDate, 'yyyy-MM-dd HH:mm:ss')}|"></span>
             <span th:text="|최근 로그인 일시: ${#temporals.format(memberInfo.lastLoginDate, 'yyyy-MM-dd HH:mm:ss')}|"></span>
             <div class="title__container">

@@ -1,6 +1,6 @@
 package boho.lottonumbergenerator.common.util;
 
-import boho.lottonumbergenerator.entity.lotto.GeneratedLotto;
+import boho.lottonumbergenerator.domain.entity.lotto.GeneratedLotto;
 
 public abstract class LottoUtils {
 

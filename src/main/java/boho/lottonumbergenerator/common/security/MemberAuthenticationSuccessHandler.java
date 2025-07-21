@@ -12,7 +12,6 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import boho.lottonumbergenerator.service.AuthService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class MemberAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-		Authentication authentication) throws IOException, ServletException {
+		Authentication authentication) throws IOException {
 
 		authService.updateLastLoginDate(authentication.getName());
 

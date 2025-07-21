@@ -25,6 +25,10 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+		// todo
+		// 1. SetupDataLoader
+		// 2. Role, Resource 엔티티 추가
+		// 3. MemberDetailsService 권한 로직 수정
 		http
 			.authorizeHttpRequests(auth -> auth
 				// 정적 자원 접근 허용

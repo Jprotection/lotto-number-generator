@@ -3,9 +3,9 @@ package boho.lottonumbergenerator.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import boho.lottonumbergenerator.dto.MemberInfoResponse;
-import boho.lottonumbergenerator.dto.MemberLottoSearchRequest;
-import boho.lottonumbergenerator.dto.MemberLottoSearchResponse;
+import boho.lottonumbergenerator.domain.dto.MemberInfoResponse;
+import boho.lottonumbergenerator.domain.dto.MemberLottoSearchRequest;
+import boho.lottonumbergenerator.domain.dto.MemberLottoSearchResponse;
 
 public interface MemberCustomRepository {
 

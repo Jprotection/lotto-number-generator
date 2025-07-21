@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import boho.lottonumbergenerator.dto.OfficialLottoSearchRequest;
-import boho.lottonumbergenerator.service.LottoApiService;
-import boho.lottonumbergenerator.service.LottoService;
+import boho.lottonumbergenerator.domain.dto.OfficialLottoSearchRequest;
+import boho.lottonumbergenerator.service.OfficialLottoService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -19,17 +18,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OfficialLottoController {
 
-	private final LottoApiService lottoApiService;
-	private final LottoService lottoService;
+	private final OfficialLottoService officialLottoService;
 
 	@GetMapping
 	public String findOfficialLotto(
 		@ModelAttribute("searchRequest") OfficialLottoSearchRequest request,
 		@PageableDefault(sort = "drawNumber", direction = Sort.Direction.DESC) Pageable pageable,
 		Model model) {
-		model.addAttribute("latestLotto", lottoService.getLatestOfficialLottoInfo());
+		model.addAttribute("latestLotto", officialLottoService.getLatestOfficialLotto());
 		model.addAttribute("pageable", pageable);
-		model.addAttribute("lotto", lottoApiService.findOfficialLotto(request, pageable));
+		model.addAttribute("lotto", officialLottoService.findOfficialLottoWithPaging(request, pageable));
 		return "official-lotto";
 	}
 }

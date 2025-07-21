@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import boho.lottonumbergenerator.common.security.MemberDetails;
-import boho.lottonumbergenerator.dto.MemberInfoResponse;
-import boho.lottonumbergenerator.dto.MemberLottoSearchRequest;
+import boho.lottonumbergenerator.domain.dto.MemberInfoResponse;
+import boho.lottonumbergenerator.domain.dto.MemberLottoSearchRequest;
 import boho.lottonumbergenerator.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

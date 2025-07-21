@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import boho.lottonumbergenerator.entity.member.Member;
+import boho.lottonumbergenerator.domain.entity.member.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long>, MemberCustomRepository {
 

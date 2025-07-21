@@ -1,6 +1,6 @@
 package boho.lottonumbergenerator.repository;
 
-import static boho.lottonumbergenerator.entity.lotto.QOfficialLotto.*;
+import static boho.lottonumbergenerator.domain.entity.lotto.QOfficialLotto.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,9 +21,9 @@ import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-import boho.lottonumbergenerator.dto.OfficialLottoSearchRequest;
-import boho.lottonumbergenerator.dto.OfficialLottoSearchResponse;
-import boho.lottonumbergenerator.entity.lotto.OfficialLotto;
+import boho.lottonumbergenerator.domain.dto.OfficialLottoSearchRequest;
+import boho.lottonumbergenerator.domain.dto.OfficialLottoSearchResponse;
+import boho.lottonumbergenerator.domain.entity.lotto.OfficialLotto;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

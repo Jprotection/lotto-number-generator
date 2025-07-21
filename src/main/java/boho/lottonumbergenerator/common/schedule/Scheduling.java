@@ -9,8 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import boho.lottonumbergenerator.common.cache.CacheType;
-import boho.lottonumbergenerator.repository.GeneratedLottoRepository;
-import boho.lottonumbergenerator.service.LottoApiService;
+import boho.lottonumbergenerator.service.OfficialLottoService;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -19,22 +18,15 @@ import lombok.RequiredArgsConstructor;
 public class Scheduling {
 
 	private final CacheManager cacheManager;
-	private final LottoApiService lottoApiService;
-	private final GeneratedLottoRepository generatedLottoRepository;
+	private final OfficialLottoService officialLottoService;
 
 	@Scheduled(cron = "${lotto.schedule.update-time}")
-	public void fetchLatestOfficialLotto() {
-		lottoApiService.fetchLatestOfficialLotto();
-	}
+	public void fetchOfficialLottoAndClearCache() {
+		// 최신 회차의 로또 결과 로딩
+		officialLottoService.fetchLatestOfficialLotto();
 
-	@Scheduled(cron = "${lotto.schedule.update-time}")
-	public void clearWinningLottoCache() {
+		// 캐시 삭제
 		Optional.ofNullable(cacheManager.getCache(CacheType.WINNING_LOTTO.getCacheName()))
 			.ifPresent(Cache::clear);
-	}
-
-	@Scheduled(cron = "${lotto.schedule.delete-time}")
-	public void deleteNonWinningLotto() {
-		generatedLottoRepository.deleteAll(generatedLottoRepository.findByPrizeRank(0));
 	}
 }

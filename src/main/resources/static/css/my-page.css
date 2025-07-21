@@ -26,6 +26,12 @@
     font-size: 1.5rem;
 }
 
+.role__container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .title__container {
     display: flex;
     flex-direction: column;
