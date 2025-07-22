@@ -9,4 +9,6 @@ public interface RoleService {
 	Role getAdminRole();
 
 	Role getMemberRole();
+
+	String buildRoleHierarchy();
 }

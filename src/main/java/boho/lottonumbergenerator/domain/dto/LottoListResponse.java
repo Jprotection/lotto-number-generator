@@ -3,12 +3,15 @@ package boho.lottonumbergenerator.domain.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import boho.lottonumbergenerator.common.util.LottoUtils;
 import boho.lottonumbergenerator.domain.entity.lotto.GeneratedLotto;
 import boho.lottonumbergenerator.domain.entity.member.Member;
 import lombok.Builder;
 
 @Builder
 public record LottoListResponse(
+
+	String summary,
 	Long id,
 	Member creator,
 	LocalDateTime createDate,
@@ -23,6 +26,7 @@ public record LottoListResponse(
 
 	public static LottoListResponse of(GeneratedLotto generatedLotto) {
 		return LottoListResponse.builder()
+			.summary(LottoUtils.getSummary(generatedLotto))
 			.id(generatedLotto.getId())
 			.creator(generatedLotto.getMember())
 			.createDate(generatedLotto.getCreateDate())

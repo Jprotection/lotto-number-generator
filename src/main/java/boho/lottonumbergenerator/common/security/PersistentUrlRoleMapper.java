@@ -1,7 +1,7 @@
 package boho.lottonumbergenerator.common.security;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -15,12 +15,11 @@ public class PersistentUrlRoleMapper {
 	private final RoleResourceRepository roleResourceRepository;
 
 	public Map<String, String> getUrlRoleMappings() {
-		Map<String, String> urlRoleMappings = new HashMap<>();
-
-		roleResourceRepository.findAll()
-			.forEach(roleResource ->  urlRoleMappings.put(
-				roleResource.getResource().getResourceUrl(), roleResource.getRole().getRoleName()));
-
-		return urlRoleMappings;
+		return roleResourceRepository.findAll()
+			.stream()
+			.collect(Collectors.toMap(
+				roleResource -> roleResource.getResource().getResourceUrl(),
+				roleResource -> roleResource.getRole().getRoleName()
+			));
 	}
 }

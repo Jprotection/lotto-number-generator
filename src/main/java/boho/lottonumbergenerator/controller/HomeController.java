@@ -21,7 +21,7 @@ public class HomeController {
 	private final GeneratedLottoService generatedLottoService;
 
 	@GetMapping
-	public String findWinningLotto(Model model) {
+	public String home(Model model) {
 		if (officialLottoService.isOfficialLottoNotLoaded()) {
 			model.addAttribute("message", "로또 데이터를 로딩 중입니다.");
 			return "home";

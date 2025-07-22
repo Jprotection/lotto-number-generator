@@ -28,16 +28,6 @@ public record WinningLottoRankGroupResponse(
 			.build();
 	}
 
-	public static WinningLottoRankGroupResponse empty() {
-		return WinningLottoRankGroupResponse.builder()
-			.firstPrizes(List.of())
-			.secondPrizes(List.of())
-			.thirdPrizes(List.of())
-			.fourthPrizes(List.of())
-			.fifthPrizes(List.of())
-			.build();
-	}
-
 	public boolean isEmptyAll() {
 		return firstPrizes.isEmpty()
 			&& secondPrizes.isEmpty()

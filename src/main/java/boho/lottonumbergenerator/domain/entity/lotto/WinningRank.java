@@ -25,6 +25,13 @@ public enum WinningRank {
 		this.matchCondition = matchCondition;
 	}
 
+	public static WinningRank valueOfRank(Integer rank) {
+		return Arrays.stream(values())
+			.filter(WinningRank -> WinningRank.rank.equals(rank))
+			.findFirst()
+			.orElse(NOTHING);
+	}
+
 	public static WinningRank from(GeneratedLotto generatedLotto, OfficialLotto officialLotto) {
 		return Arrays.stream(values())
 			.filter(rank -> rank.matchCondition.test(generatedLotto, officialLotto))

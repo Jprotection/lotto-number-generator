@@ -54,7 +54,7 @@
                 </div>
             </div>
 
-            <div th:if="${!#lists.isEmpty(winningLotto.thirdPrizes())}">
+            <div th:if="${!#lists.isEmpty(winningLotto.thirdPrizes)}">
                 <h2>3등 당첨</h2>
                 <div class="lotto__balls" th:each="lotto : ${winningLotto.thirdPrizes}">
                     <div class="lotto__ball _1" th:text="${lotto.firstNumber}"></div>

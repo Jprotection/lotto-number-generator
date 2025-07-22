@@ -54,7 +54,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 				Projections.constructor(MemberInfoResponse.class,
 					member.username,
 					member.gender,
-					list(role.description),
+					set(role.description),
 					member.createDate,
 					member.lastLoginDate,
 					// title이 없어도 빈 리스트로 들어감

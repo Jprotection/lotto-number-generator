@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.authorization.AuthorizationResult;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.access.expression.DefaultHttpSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
@@ -24,10 +26,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DynamicAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
 
-	private static final AuthorizationDecision DENY = new AuthorizationDecision(false);
+	private static final AuthorizationDecision ACCESS = new AuthorizationDecision(true);
 	private final List<RequestMatcherEntry<AuthorizationManager<RequestAuthorizationContext>>> mappings = new ArrayList<>();
-	private final HandlerMappingIntrospector handlerMappingIntrospector;
 	private final PersistentUrlRoleMapper urlRoleMapper;
+	private final HandlerMappingIntrospector handlerMappingIntrospector;
+	private final RoleHierarchy roleHierarchy;
 
 	@PostConstruct
 	public void setMappings() {
@@ -47,8 +50,7 @@ public class DynamicAuthorizationManager implements AuthorizationManager<Request
 	@Override
 	public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
 		AuthorizationResult result = authorize(authentication, context);
-		return (result != null && result.isGranted()) ? new AuthorizationDecision(true) :
-			new AuthorizationDecision(false);
+		return (result != null && result.isGranted()) ? ACCESS : new AuthorizationDecision(false);
 	}
 
 	@Override
@@ -63,13 +65,21 @@ public class DynamicAuthorizationManager implements AuthorizationManager<Request
 					new RequestAuthorizationContext(context.getRequest(), matchResult.getVariables()));
 			}
 		}
-		return DENY;
+		return ACCESS;
 	}
 
 	private AuthorizationManager<RequestAuthorizationContext> selectAuthorizationManager(String role) {
 		if (role.startsWith("ROLE_")) {
-			return AuthorityAuthorizationManager.hasAuthority(role);
+			AuthorityAuthorizationManager<RequestAuthorizationContext> authorizationManager
+				= AuthorityAuthorizationManager.hasAuthority(role);
+			authorizationManager.setRoleHierarchy(roleHierarchy);
+			return authorizationManager;
 		}
-		return new WebExpressionAuthorizationManager(role);
+
+		DefaultHttpSecurityExpressionHandler handler = new DefaultHttpSecurityExpressionHandler();
+		handler.setRoleHierarchy(roleHierarchy);
+		WebExpressionAuthorizationManager authorizationManager = new WebExpressionAuthorizationManager(role);
+		authorizationManager.setExpressionHandler(handler);
+		return authorizationManager;
 	}
 }
