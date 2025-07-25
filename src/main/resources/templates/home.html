@@ -27,7 +27,7 @@
 
             <h1 class="winning__lotto__title" th:text="${message} ?: '최신 회차의 당첨자'"></h1>
 
-            <div class="winning__lotto__container" th:if="${winningLotto}">
+            <div class="winning__lotto__container" th:if="${!#lists.isEmpty(winningLotto.firstPrizes)}">
                 <h2 class="winning__prize__title">🎉 1등 당첨 🎉</h2>
                 <div class="lotto__box" th:each="lotto : ${winningLotto.firstPrizes}" th:object="${lotto}">
                     <span class="winning__username" th:text="(*{member?.username} ?: 'WhoAmI') + '님'"></span>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="winning__lotto__container" th:if="${winningLotto}">
+            <div class="winning__lotto__container" th:if="${!#lists.isEmpty(winningLotto.secondPrizes)}">
                 <h2 class="winning__prize__title">🎉 2등 당첨 🎉</h2>
                 <div class="lotto__box" th:each="lotto : ${winningLotto.secondPrizes}" th:object="${lotto}">
                     <span class="winning__username" th:text="(*{member?.username} ?: 'WhoAmI') + '님'"></span>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="winning__lotto__container" th:if="${winningLotto}">
+            <div class="winning__lotto__container" th:if="${!#lists.isEmpty(winningLotto.thirdPrizes)}">
                 <h2 class="winning__prize__title">🎉 3등 당첨 🎉</h2>
                 <div class="lotto__box" th:each="lotto : ${winningLotto.thirdPrizes}" th:object="${lotto}">
                     <span class="winning__username" th:text="(*{member?.username} ?: 'WhoAmI') + '님'"></span>
@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="winning__lotto__container" th:if="${winningLotto}">
+            <div class="winning__lotto__container" th:if="${!#lists.isEmpty(winningLotto.fourthPrizes)}">
                 <h2 class="winning__prize__title">🎉 4등 당첨 🎉</h2>
                 <div class="lotto__box" th:each="lotto : ${winningLotto.fourthPrizes}" th:object="${lotto}">
                     <span class="winning__username" th:text="(*{member?.username} ?: 'WhoAmI') + '님'"></span>
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div class="winning__lotto__container" th:if="${winningLotto}">
+            <div class="winning__lotto__container" th:if="${!#lists.isEmpty(winningLotto.fifthPrizes)}">
                 <h2 class="winning__prize__title">🎉 5등 당첨 🎉</h2>
                 <div class="lotto__box" th:each="lotto : ${winningLotto.fifthPrizes}" th:object="${lotto}">
                     <span class="winning__username" th:text="(*{member?.username} ?: 'WhoAmI') + '님'"></span>
