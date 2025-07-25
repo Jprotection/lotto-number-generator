@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import boho.lottonumbergenerator.domain.dto.WinningLottoRankGroupResponse;
 import boho.lottonumbergenerator.service.GeneratedLottoService;
 import boho.lottonumbergenerator.service.OfficialLottoService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,13 +22,15 @@ public class HomeController {
 	private final GeneratedLottoService generatedLottoService;
 
 	@GetMapping
-	public String home(Model model) {
+	public String home(HttpServletRequest request, Model model) {
+		request.getSession();
+
 		if (officialLottoService.isOfficialLottoNotLoaded()) {
 			model.addAttribute("message", "로또 데이터를 로딩 중입니다.");
 			return "home";
 		}
 
-		WinningLottoRankGroupResponse winningLotto = generatedLottoService.fetchAllWinningLotto();
+		WinningLottoRankGroupResponse winningLotto = generatedLottoService.getAllWinningLotto();
 		if (winningLotto.isEmptyAll()) {
 			model.addAttribute("message", "최신 회차의 당첨자가 없습니다.");
 		}

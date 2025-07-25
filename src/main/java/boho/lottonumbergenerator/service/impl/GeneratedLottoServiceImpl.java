@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -57,20 +56,16 @@ public class GeneratedLottoServiceImpl implements GeneratedLottoService {
 	public List<LottoGenerateResponse> generateLotto(LottoGenerateRequest request, Authentication authentication) {
 
 		Member creator = identifyCreator(authentication);
-
 		List<Integer> includeNumbers = request.getIncludeNumbers();
 		List<Integer> excludeNumbers = request.getExcludeNumbers();
-
-		OfficialLotto latestOfficialLotto = getLatestOfficialLotto();
-		// 생성된 로또가 적용될 추첨 회차
-		Integer drawNumber = calculateDrawNumber(latestOfficialLotto);
-		// 생성된 로또가 적용될 추첨 날짜
-		LocalDate drawDate = calculateDrawDate(latestOfficialLotto);
+		Integer drawNumber = getNextDrawNumber();
+		LocalDate drawDate = getNextDrawDate();
+		Random random = new Random();
 
 		List<LottoGenerateResponse> generatedLottoList = new ArrayList<>();
 		for (int i = 0; i < request.count(); i++) {
 			List<Integer> numbers = Stream.concat(
-					Stream.generate(() -> new Random().nextInt(45) + 1)
+					Stream.generate(() -> random.nextInt(45) + 1)
 						.filter(n -> !excludeNumbers.contains(n))
 						.filter(n -> !includeNumbers.contains(n))
 						.distinct()
@@ -94,6 +89,24 @@ public class GeneratedLottoServiceImpl implements GeneratedLottoService {
 	}
 
 	@Override
+	public Integer getNextDrawNumber() {
+		OfficialLotto latestOfficialLotto = getLatestOfficialLotto();
+		if (enableThisWeek(latestOfficialLotto)) {
+			return latestOfficialLotto.getDrawNumber() + 1;
+		}
+		return latestOfficialLotto.getDrawNumber() + 2;
+	}
+
+	@Override
+	public LocalDate getNextDrawDate() {
+		OfficialLotto latestOfficialLotto = getLatestOfficialLotto();
+		if (enableThisWeek(latestOfficialLotto)) {
+			return latestOfficialLotto.getDrawDate().plusWeeks(1);
+		}
+		return latestOfficialLotto.getDrawDate().plusWeeks(2);
+	}
+
+	@Override
 	public List<LottoListResponse> getAllGeneratedLotto() {
 		return generatedLottoRepository.findAll().stream()
 			.map(LottoListResponse::of)
@@ -101,9 +114,8 @@ public class GeneratedLottoServiceImpl implements GeneratedLottoService {
 	}
 
 	@Override
-	@Transactional
 	@Cacheable(cacheNames = "winning_lotto", key = "#root.methodName")
-	public WinningLottoRankGroupResponse fetchAllWinningLotto() {
+	public WinningLottoRankGroupResponse getAllWinningLotto() {
 
 		OfficialLotto latestOfficialLotto = getLatestOfficialLotto();
 		LocalDateTime latestCutoffTime = latestOfficialLotto.getDrawDate().atTime(cutoffTime);
@@ -111,7 +123,7 @@ public class GeneratedLottoServiceImpl implements GeneratedLottoService {
 		List<GeneratedLotto> allGeneratedLotto = generatedLottoRepository.findByCreateDateBetween(
 			latestCutoffTime.minusWeeks(1), latestCutoffTime);
 
-		// 이미 check 된 로또는 등수별로 그룹핑
+		// check 된 로또를 등수별로 그룹핑
 		Map<WinningRank, List<WinningLottoListResponse>> checkedMap = allGeneratedLotto
 			.stream()
 			.filter(GeneratedLotto::isChecked)
@@ -120,7 +132,19 @@ public class GeneratedLottoServiceImpl implements GeneratedLottoService {
 				Collectors.mapping(WinningLottoListResponse::of, Collectors.toList())
 			));
 
-		// check 되지 않은 로또는 당첨 등수 업데이트 및 check
+		return WinningLottoRankGroupResponse.of(checkedMap);
+	}
+
+	@Override
+	@Transactional
+	public void fetchAllWinningLotto() {
+		OfficialLotto latestOfficialLotto = getLatestOfficialLotto();
+		LocalDateTime latestCutoffTime = latestOfficialLotto.getDrawDate().atTime(cutoffTime);
+
+		List<GeneratedLotto> allGeneratedLotto = generatedLottoRepository.findByCreateDateBetween(
+			latestCutoffTime.minusWeeks(1), latestCutoffTime);
+
+		// check 되지 않은 로또의 당첨 등수 확인 및 업데이트
 		Map<WinningRank, List<WinningLottoListResponse>> newlyRankedMap = allGeneratedLotto
 			.stream()
 			.filter(generatedLotto -> !generatedLotto.isChecked())
@@ -137,33 +161,12 @@ public class GeneratedLottoServiceImpl implements GeneratedLottoService {
 		if (hasAnyWinners(newlyRankedMap)) {
 			eventPublisher.publishEvent(new WinningLottoDetectedEvent(this, newlyRankedMap));
 		}
-
-		// checkedMap 과 newlyRankedMap 병합
-		Map<WinningRank, List<WinningLottoListResponse>> resultMap = new EnumMap<>(checkedMap);
-		newlyRankedMap.forEach((rank, list) ->
-			resultMap.merge(rank, list, (existing, replacement) -> {
-				existing.addAll(replacement);
-				return existing;
-			}));
-
-		return WinningLottoRankGroupResponse.builder()
-			.firstPrizes(resultMap.getOrDefault(WinningRank.FIRST, List.of()))
-			.secondPrizes(resultMap.getOrDefault(WinningRank.SECOND, List.of()))
-			.thirdPrizes(resultMap.getOrDefault(WinningRank.THIRD, List.of()))
-			.fourthPrizes(resultMap.getOrDefault(WinningRank.FOURTH, List.of()))
-			.fifthPrizes(resultMap.getOrDefault(WinningRank.FIFTH, List.of()))
-			.build();
 	}
 
 	private boolean hasAnyWinners(Map<WinningRank, List<WinningLottoListResponse>> resultMap) {
 		return resultMap.keySet()
 			.stream()
 			.anyMatch(winningRank -> winningRank != WinningRank.NOTHING && !resultMap.get(winningRank).isEmpty());
-	}
-
-	private OfficialLotto getLatestOfficialLotto() {
-		return officialLottoRepository.findTopByOrderByDrawDateDesc()
-			.orElseThrow(() -> new EntityNotFoundException("Official lotto results not found"));
 	}
 
 	private Member identifyCreator(Authentication authentication) {
@@ -175,22 +178,9 @@ public class GeneratedLottoServiceImpl implements GeneratedLottoService {
 				() -> new UsernameNotFoundException("No Member found with username: " + authentication.getName()));
 	}
 
-	private Integer calculateDrawNumber(OfficialLotto latestOfficialLotto) {
-
-		if (enableThisWeek(latestOfficialLotto)) {
-			return latestOfficialLotto.getDrawNumber() + 1;
-		}
-
-		return latestOfficialLotto.getDrawNumber() + 2;
-	}
-
-	private LocalDate calculateDrawDate(OfficialLotto latestOfficialLotto) {
-
-		if (enableThisWeek(latestOfficialLotto)) {
-			return latestOfficialLotto.getDrawDate().plusWeeks(1);
-		}
-
-		return latestOfficialLotto.getDrawDate().plusWeeks(2);
+	private OfficialLotto getLatestOfficialLotto() {
+		return officialLottoRepository.findTopByOrderByDrawDateDesc()
+			.orElseThrow(() -> new EntityNotFoundException("Official lotto results not found"));
 	}
 
 	private boolean enableThisWeek(OfficialLotto latestOfficialLotto) {

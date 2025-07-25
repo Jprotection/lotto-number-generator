@@ -17,7 +17,7 @@ public class AuthConfig {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
-	@Bean
+	// @Bean
 	public RoleHierarchyImpl roleHierarchy(RoleService roleService) {
 		return RoleHierarchyImpl.fromHierarchy(roleService.buildRoleHierarchy());
 	}

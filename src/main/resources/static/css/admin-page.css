@@ -1,0 +1,80 @@
+.admin__page__background {
+    flex: 1;
+    padding: 3rem;
+    color: white;
+    font-weight: bold;
+    background-color: #1C2333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.lotto__generate__title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.lotto__generate__container {
+    border: 2px solid white;
+    width: 40vw;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+}
+
+#lotto__generate__form {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    gap: 2rem;
+}
+
+.lotto__generate__option__radio {
+    margin-top: 0.5rem;
+}
+
+#lotto__generate__form label {
+    margin-right: 0.3rem;
+}
+
+#lotto__generate__form select {
+    vertical-align: 0.14rem;
+}
+
+#lotto__generate__form input {
+    margin-right: 3rem;
+    vertical-align: 0.14rem;
+}
+
+.lotto__generate__container ~ button {
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+    .admin__page__background {
+        justify-content: flex-start;
+    }
+
+    .lotto__generate__title {
+        font-size: 1.5rem;
+    }
+
+    .lotto__generate__container {
+        width: 70vw;
+    }
+
+    .lotto__generate__container ~ button {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 769px) {
+
+}

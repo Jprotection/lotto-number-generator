@@ -1,5 +1,6 @@
 package boho.lottonumbergenerator.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
+	@Value("${ADMIN_PASSWORD}")
+	private String password;
+
 	private static final String ADMIN = "admin";
 	private final RoleService roleService;
 	private final MemberRepository memberRepository;
@@ -38,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
 			.ifPresentOrElse(this::logMemberAlreadyExists,
 				() -> logMemberRegistered(
 					memberRepository.save(
-						Member.createDefaultMember(ADMIN, passwordEncoder.encode("admin123")))));
+						Member.createDefaultMember(ADMIN, passwordEncoder.encode(password)))));
 
 		Member admin = getAdmin();
 		Role adminRole = roleService.getAdminRole();

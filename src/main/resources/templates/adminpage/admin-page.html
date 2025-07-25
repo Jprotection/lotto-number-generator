@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{layouts/admin-layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>관리자 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/admin-page.css}">
+</head>
+<body>
+<div layout:fragment="content" class="admin__page__background">
+    <h1 class="lotto__generate__title">회원에게 로또 조합 부여</h1>
+    <div class="lotto__generate__container">
+        <form th:action="@{/admin/lotto}" method="post"
+              th:object="${generateRequest}" id="lotto__generate__form">
+            <div class="lotto__generate__member__role">
+                <label for="roleSelect">권한</label>
+                <select id="roleSelect" name="roleDescription">
+                    <option th:each="role : ${roles}"
+                            th:value="${role}"
+                            th:text="${role}">
+                    </option>
+                </select>
+            </div>
+            <div class="lotto__generate__option">
+                <span>랜덤 생성 옵션</span>
+                <div class="lotto__generate__option__radio">
+                    <label for="randomOption1">모두</label>
+                    <input type="radio" id="randomOption1" name="randomOption" value="ALL" checked>
+                    <label for="randomOption2">포함 숫자만</label>
+                    <input type="radio" id="randomOption2" name="randomOption" value="INCLUDE_ONLY">
+                    <label for="randomOption3">제외 숫자만</label>
+                    <input type="radio" id="randomOption3" name="randomOption" value="EXCLUDE_ONLY">
+                </div>
+            </div>
+            <div class="lotto__generate__count">
+                <label for="count">생성 개수</label>
+                <input type="number" id="count" name="count" min="5" max="500">
+            </div>
+        </form>
+    </div>
+    <button type="submit" form="lotto__generate__form">해당 조건으로 생성</button>
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package boho.lottonumbergenerator.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -13,7 +14,13 @@ public interface GeneratedLottoService {
 
 	List<LottoGenerateResponse> generateLotto(LottoGenerateRequest request, Authentication authentication);
 
+	Integer getNextDrawNumber();
+
+	LocalDate getNextDrawDate();
+
 	List<LottoListResponse> getAllGeneratedLotto();
 
-	WinningLottoRankGroupResponse fetchAllWinningLotto();
+	WinningLottoRankGroupResponse getAllWinningLotto();
+
+	void fetchAllWinningLotto();
 }

@@ -9,4 +9,6 @@ import boho.lottonumbergenerator.domain.entity.member.Role;
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	Optional<Role> findByRoleName(String roleName);
+
+	Optional<Role> findByDescription(String description);
 }

@@ -1,5 +1,6 @@
 package boho.lottonumbergenerator.service.impl;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -44,6 +45,14 @@ public class RoleServiceImpl implements RoleService {
 	public Role getMemberRole() {
 		return roleRepository.findByRoleName(ROLE_MEMBER)
 			.orElseThrow(() -> new EntityNotFoundException("[" + ROLE_MEMBER + "] role not found"));
+	}
+
+	@Override
+	public List<String> getAllRoleDescriptions() {
+		return roleRepository.findAll()
+			.stream()
+			.map(Role::getDescription)
+			.toList();
 	}
 
 	@Override

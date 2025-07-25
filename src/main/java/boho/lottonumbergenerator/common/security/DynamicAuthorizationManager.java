@@ -22,7 +22,7 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
-@Component
+// @Component
 @RequiredArgsConstructor
 public class DynamicAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
 

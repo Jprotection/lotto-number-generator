@@ -1,0 +1,54 @@
+h1.winning__lotto__title {
+    margin: 1rem 0 -0.5rem;
+}
+
+.winning__lotto__container {
+    color: white;
+}
+
+.winning__prize__title {
+    margin-top: 1.5rem;
+}
+
+.winning__username {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.winning__lotto.lotto__balls {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0;
+}
+
+.winning__lotto.lotto__ball {
+    width: 42px;
+    height: 42px;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    h1.winning__lotto__title {
+        margin: 0;
+    }
+
+    h2.winning__prize__title {
+        margin-top: 1rem;
+        font-size: 1rem;
+    }
+
+    .winning__username {
+        margin-right: 0.2rem;
+        font-size: 0.8rem;
+    }
+
+    .winning__lotto.lotto__ball {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 769px) {
+
+}

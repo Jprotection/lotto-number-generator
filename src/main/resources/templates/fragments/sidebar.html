@@ -1,6 +1,19 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <div th:fragment="sidebar" class="sidebar">
-    <a th:href="@{/members/mypage}" class="sidebar__menu">내 정보</a>
-    <a th:href="@{/members/lottos/{id}(id=${#authentication.principal.id})}" class="sidebar__menu">My 로또</a>
-    <a th:href="@{/members/mypage}" class="sidebar__menu">비밀번호 변경</a>
-    <a th:href="@{/members/goodbye}" class="sidebar__menu">회원탈퇴</a>
+    <div class="sidebar__menu">
+        <a th:href="@{/members/mypage}">내 정보</a>
+    </div>
+    <div class="sidebar__menu" sec:authorize="isAuthenticated()" >
+        <a th:href="@{/members/lottos/{id}(id=${#authentication.principal.id})}">My 로또</a>
+    </div>
+    <div class="sidebar__menu" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/admin/lotto}">회원 로또 생성</a>
+    </div>
+    <div class="sidebar__menu" sec:authorize="hasRole('MEMBER')" >
+        <a th:href="@{/members/mypage}">비밀번호 변경</a>
+    </div>
+    <div class="sidebar__menu" sec:authorize="hasRole('MEMBER')" >
+        <a th:href="@{/members/goodbye}">회원탈퇴</a>
+    </div>
 </div>

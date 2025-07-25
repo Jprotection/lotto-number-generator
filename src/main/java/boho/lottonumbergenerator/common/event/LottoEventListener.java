@@ -51,9 +51,10 @@ public class LottoEventListener {
 
 				// 각 member 에게 등수별 칭호 생성 및 저장
 				uniqueByMember.forEach((member, response) -> {
-					Title title = titleRepository.findByName(generateTitleNameFrom(response))
+					String titleName = generateTitleNameFrom(response);
+					Title title = titleRepository.findByName(titleName)
 						.orElseGet(() -> {
-							Title created = titleRepository.save(new Title(generateTitleNameFrom(response)));
+							Title created = titleRepository.save(new Title(titleName));
 							log.info("New [{}] title created", created.getName());
 							return created;
 						});
