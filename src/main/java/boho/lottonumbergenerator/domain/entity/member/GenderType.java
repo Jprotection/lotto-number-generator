@@ -1,5 +1,7 @@
 package boho.lottonumbergenerator.domain.entity.member;
 
+import java.util.Random;
+
 import lombok.Getter;
 
 @Getter
@@ -11,5 +13,9 @@ public enum GenderType {
 
 	GenderType(String displayName) {
 		this.displayName = displayName;
+	}
+
+	public static GenderType random() {
+		return values()[new Random().nextInt(values().length)];
 	}
 }

@@ -3,22 +3,28 @@ package boho.lottonumbergenerator.service.impl;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import boho.lottonumbergenerator.domain.dto.AdminLottoGenerateRequest;
 import boho.lottonumbergenerator.domain.dto.LottoRandomOption;
+import boho.lottonumbergenerator.domain.dto.MemberRegisterRequest;
 import boho.lottonumbergenerator.domain.entity.lotto.GeneratedLotto;
+import boho.lottonumbergenerator.domain.entity.member.GenderType;
 import boho.lottonumbergenerator.domain.entity.member.Member;
 import boho.lottonumbergenerator.domain.entity.member.MemberRole;
 import boho.lottonumbergenerator.domain.entity.member.Role;
+import boho.lottonumbergenerator.domain.entity.member.StatusType;
 import boho.lottonumbergenerator.repository.GeneratedLottoRepository;
 import boho.lottonumbergenerator.repository.MemberRoleRepository;
 import boho.lottonumbergenerator.repository.RoleRepository;
 import boho.lottonumbergenerator.service.AdminService;
+import boho.lottonumbergenerator.service.AuthService;
 import boho.lottonumbergenerator.service.GeneratedLottoService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +40,8 @@ public class AdminServiceImpl implements AdminService {
 	private final MemberRoleRepository memberRoleRepository;
 	private final GeneratedLottoRepository generatedLottoRepository;
 	private final GeneratedLottoService generatedLottoService;
+	private final AuthService authService;
+	private final PasswordEncoder passwordEncoder;
 
 	@Override
 	@Transactional
@@ -67,6 +75,16 @@ public class AdminServiceImpl implements AdminService {
 				));
 	}
 
+	@Override
+	public void createMembersByAdmin(Integer count) {
+		IntStream.rangeClosed(1, count)
+			.forEach(number -> {
+				String uuid = UUID.randomUUID().toString().substring(0, 8);
+				MemberRegisterRequest request = new MemberRegisterRequest(uuid, passwordEncoder.encode(uuid), GenderType.random());
+				authService.registerMember(request);
+			});
+	}
+
 	private List<Member> getMembers(AdminLottoGenerateRequest request) {
 		Role role = roleRepository.findByDescription(request.roleDescription())
 			.orElseThrow(() -> new EntityNotFoundException("[" + request.roleDescription() + "] role not found"));
@@ -74,6 +92,7 @@ public class AdminServiceImpl implements AdminService {
 		return memberRoleRepository.findByRole(role)
 			.stream()
 			.map(MemberRole::getMember)
+			.filter(member -> member.getStatus() == StatusType.ACTIVE)
 			.toList();
 	}
 

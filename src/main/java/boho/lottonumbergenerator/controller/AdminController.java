@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import boho.lottonumbergenerator.domain.dto.AdminLottoGenerateRequest;
 import boho.lottonumbergenerator.service.AdminService;
@@ -30,6 +31,12 @@ public class AdminController {
 	@PostMapping("/lotto")
 	public String generateLottoByAdmin(@ModelAttribute @Validated AdminLottoGenerateRequest request) {
 		adminService.lottoGenerateByAdmin(request);
+		return "redirect:/admin/lotto";
+	}
+
+	@PostMapping("/member")
+	public String createMembers(@RequestParam Integer memberCreateCount) {
+		adminService.createMembersByAdmin(memberCreateCount);
 		return "redirect:/admin/lotto";
 	}
 }

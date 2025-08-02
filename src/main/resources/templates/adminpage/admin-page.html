@@ -6,6 +6,15 @@
 </head>
 <body>
 <div layout:fragment="content" class="admin__page__background">
+    <h1 class="member__create__title">회원 생성</h1>
+    <div class="member__create__container">
+        <form th:action="@{/admin/member}" method="post" id="member__create__form">
+            <label for="memberCreateCount">회원 수</label>
+            <input type="number" id="memberCreateCount" name="memberCreateCount" min="1" max="100">
+        </form>
+    </div>
+    <button type="submit" form="member__create__form" class="member__create__form__button">해당 조건으로 생성</button>
+
     <h1 class="lotto__generate__title">회원에게 로또 조합 부여</h1>
     <div class="lotto__generate__container">
         <form th:action="@{/admin/lotto}" method="post"

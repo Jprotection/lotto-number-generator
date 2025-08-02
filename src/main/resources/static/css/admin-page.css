@@ -10,6 +10,42 @@
     justify-content: center;
 }
 
+.member__create__title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.member__create__container {
+    border: 2px solid white;
+    width: 40vw;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+}
+
+#member__create__form {
+    font-size: 1.2rem;
+}
+
+#member__create__form label {
+    margin-right: 0.3rem;
+}
+
+#member__create__form input {
+    margin-right: 3rem;
+    vertical-align: 0.14rem;
+}
+
+.member__create__form__button {
+    padding: 0.2rem 0.5rem;
+    margin-bottom: 6rem;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 .lotto__generate__title {
     font-size: 2rem;
     font-weight: bold;
@@ -60,6 +96,19 @@
 @media (max-width: 768px) {
     .admin__page__background {
         justify-content: flex-start;
+    }
+
+    .member__create__title {
+        font-size: 1.5rem;
+    }
+
+    .member__create__container {
+        width: 70vw;
+    }
+
+    .member__create__form__button {
+        font-size: 1.2rem;
+        margin-bottom: 4rem;
     }
 
     .lotto__generate__title {
