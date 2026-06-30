@@ -4,7 +4,7 @@
 - 포함할 번호와 제외할 번호를 지정하여 조합을 커스텀하게 생성
 - 다양한 검색 조건으로 공식 로또 결과 조회
 - 스프링 시큐리티로 인증 인가 프로세스 구축
-- 배포 URL : [boholotto.store](https://boholotto.store)
+- 배포 URL : ~~[boholotto.store](https://boholotto.store)~~ (서비스 종료: 2025.05 ~ 2026.05)
 
 <br>
 
